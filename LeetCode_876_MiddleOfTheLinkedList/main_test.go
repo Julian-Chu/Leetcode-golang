@@ -29,3 +29,22 @@ func TestMiddleNode_TwoNodes(t *testing.T) {
 		t.Error("not pass")
 	}
 }
+
+func TestMiddleNode_ThreeNodes(t *testing.T) {
+
+	node3 := ListNode{
+		3, nil,
+	}
+	node2 := ListNode{
+		2, &node3,
+	}
+	node1 := ListNode{
+		1, &node2,
+	}
+
+	adr := middleNode(&node1)
+
+	if (*adr).Val != 2 {
+		t.Error("not pass")
+	}
+}
