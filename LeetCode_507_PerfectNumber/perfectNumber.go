@@ -1,11 +1,7 @@
 package perfectNumber
 
-import (
-	"fmt"
-)
-
 func checkPerfectNumber(num int) bool {
-	if num%2 != 0 {
+	if num%2 != 0 || num == 0 {
 		return false
 	}
 
@@ -27,7 +23,6 @@ func checkPerfectNumber(num int) bool {
 		}
 	}
 
-	fmt.Println(sum)
 	if sum == num {
 		return true
 	} else {
