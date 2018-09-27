@@ -1,4 +1,4 @@
-package perfectNumber
+package perfectnumber
 
 import (
 	"math"
