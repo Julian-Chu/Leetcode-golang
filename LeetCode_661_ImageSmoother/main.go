@@ -10,7 +10,7 @@ func main() {
 		{0, 1},
 		{1, 1},
 	}
-
+	fmt.Print(len(m))
 	fmt.Println(imageSmoother(m))
 }
 
@@ -24,22 +24,23 @@ func imageSmoother(M [][]int) [][]int {
 		colMax := len(M[0])
 		for colIndex, _ := range row {
 			rowBegin := rowIndex - 1
-			rowEnd := rowIndex + 1
-			colBegin := colIndex - 1
-			colEnd := colIndex + 1
 			if rowIndex == 0 {
 				rowBegin = 0
 			}
-			if rowIndex == rowMax {
+			rowEnd := rowIndex + 1 + 1
+			if rowIndex == rowMax-1 {
 				rowEnd = rowMax
 			}
+			colBegin := colIndex - 1
 			if colIndex == 0 {
 				colBegin = 0
 			}
-			if colIndex == colMax {
+			colEnd := colIndex + 1 + 1
+			if colIndex == colMax-1 {
 				colEnd = colMax
 			}
 			subSlice := M[rowBegin:rowEnd][colBegin:colEnd]
+			fmt.Println(subSlice)
 			count := 0
 			sum := 0
 			for _, row := range subSlice {

@@ -12,6 +12,9 @@ var tests = []struct {
 }{
 	{[][]int{{0, 1}, {1, 1}}, [][]int{{0, 0}, {0, 0}}},
 	{[][]int{{1, 1}, {1, 1}}, [][]int{{1, 1}, {1, 1}}},
+	{[][]int{{1, 2}, {2, 2}}, [][]int{{1, 1}, {1, 1}}},
+	{[][]int{{1, 3}, {1, 3}}, [][]int{{2, 2}, {2, 2}}},
+	{[][]int{{6, 2}, {2, 2}}, [][]int{{3, 3}, {3, 3}}},
 }
 
 func TestImageSmoother(t *testing.T) {
@@ -22,6 +25,8 @@ func TestImageSmoother(t *testing.T) {
 		res := imageSmoother(matrix)
 		target := testcase.expect
 		if !reflect.DeepEqual(res, target) {
+			fmt.Println("res", res)
+			fmt.Println("target", target)
 			t.Error("Failed")
 		}
 	}
