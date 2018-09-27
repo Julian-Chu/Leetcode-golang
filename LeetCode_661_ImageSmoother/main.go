@@ -7,7 +7,7 @@ import (
 
 func main() {
 	m := [][]int{
-		{1, 1},
+		{0, 1},
 		{1, 1},
 	}
 
@@ -22,7 +22,7 @@ func imageSmoother(M [][]int) [][]int {
 		avgs := make([]int, 0)
 		rowMax := len(M)
 		colMax := len(M[0])
-		for colIndex, col := range row {
+		for colIndex, _ := range row {
 			rowBegin := rowIndex - 1
 			rowEnd := rowIndex + 1
 			colBegin := colIndex - 1
@@ -40,7 +40,6 @@ func imageSmoother(M [][]int) [][]int {
 				colEnd = colMax
 			}
 			subSlice := M[rowBegin:rowEnd][colBegin:colEnd]
-			fmt.Println(subSlice)
 			count := 0
 			sum := 0
 			for _, row := range subSlice {
@@ -49,9 +48,9 @@ func imageSmoother(M [][]int) [][]int {
 					count++
 				}
 			}
-			result := int(math.Floor(float64(sum / count))
+			result := int(math.Floor(float64(sum / count)))
 
-			avgs = append(avgs, subSlice)
+			avgs = append(avgs, result)
 		}
 		res = append(res, avgs)
 	}
