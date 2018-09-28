@@ -16,14 +16,15 @@ func main() {
 
 func imageSmoother(M [][]int) [][]int {
 
-	res := make([][]int, 0)
+	rowLength := len(M)
+	colLength := len(M[0])
+	res := make([][]int, rowLength)
+	for index := range res {
+		res[index] = make([]int, colLength)
+	}
 
 	for rowIndex, row := range M {
-		avgs := make([]int, 0)
-		rowLength := len(M)
-		colLength := len(M[0])
 		for colIndex := range row {
-			// fmt.Println(rowIndex, colIndex)
 			rowBegin := rowIndex - 1
 			if rowIndex == 0 {
 				rowBegin = 0
@@ -49,9 +50,8 @@ func imageSmoother(M [][]int) [][]int {
 				}
 			}
 			result := int(math.Floor(float64(sum / count)))
-			avgs = append(avgs, result)
+			res[rowIndex][colIndex] = result
 		}
-		res = append(res, avgs)
 	}
 	return res
 }
