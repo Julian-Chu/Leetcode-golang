@@ -41,7 +41,6 @@ func TestImageSmoother_First(t *testing.T) {
 	}
 
 	res := imageSmoother(matrix)
-	fmt.Println("res", res)
 	target := [][]int{
 		{0, 0},
 		{0, 0},
