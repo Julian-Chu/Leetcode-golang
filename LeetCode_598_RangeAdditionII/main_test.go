@@ -16,10 +16,9 @@ func maxCount(m int, n int, ops [][]int) int {
 }
 
 func Test_testcase1(t *testing.T) {
-	res := maxCount(3, 3, [][]int{{2, 2}})
+	res := maxCount(2, 2, [][]int{{0, 0}})
 
 	if res != 4 {
 		t.Error("failed")
 	}
-
 }
