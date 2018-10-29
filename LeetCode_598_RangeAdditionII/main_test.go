@@ -22,3 +22,11 @@ func Test_testcase1(t *testing.T) {
 		t.Error("failed")
 	}
 }
+
+func Test_testcase2(t *testing.T) {
+	res := maxCount(2, 2, [][]int{{2, 2}})
+
+	if res != 4 {
+		t.Error("failed")
+	}
+}
