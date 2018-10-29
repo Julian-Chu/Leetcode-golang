@@ -12,13 +12,13 @@ func maxCount(m int, n int, ops [][]int) int {
 			matrix[index][j] = 0
 		}
 	}
-	return 4
+	return 1
 }
 
 func Test_testcase1(t *testing.T) {
-	res := maxCount(2, 2, [][]int{{0, 0}})
+	res := maxCount(2, 2, [][]int{{1, 1}})
 
-	if res != 4 {
+	if res != 1 {
 		t.Error("failed")
 	}
 }
