@@ -5,14 +5,18 @@ import (
 )
 
 func maxCount(m int, n int, ops [][]int) int {
-	matrix := make([][]int, m)
-	for index := range matrix {
-		matrix[index] = make([]int, n)
-		for j := range matrix[index] {
-			matrix[index][j] = 0
+	minRow := m
+	minCol := n
+	for _, row := range ops {
+		if minRow > row[0] {
+			minRow = row[0]
+		}
+		if minCol > row[1] {
+			minCol = row[1]
 		}
 	}
-	return 1
+
+	return minRow * minCol
 }
 
 func Test_testcase1(t *testing.T) {
@@ -25,6 +29,14 @@ func Test_testcase1(t *testing.T) {
 
 func Test_testcase2(t *testing.T) {
 	res := maxCount(2, 2, [][]int{{2, 2}})
+
+	if res != 4 {
+		t.Error("failed")
+	}
+}
+
+func Test_testcase3(t *testing.T) {
+	res := maxCount(3, 3, [][]int{{2, 2}, {3, 3}})
 
 	if res != 4 {
 		t.Error("failed")
