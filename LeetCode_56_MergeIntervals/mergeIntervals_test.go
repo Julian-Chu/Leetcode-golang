@@ -32,6 +32,11 @@ func merge(intervals []Interval) []Interval {
 		mergedInv, err := mergeInterval(compareObj, interval)
 		if err == nil {
 			res[len(res)-1] = mergedInv
+			mergedInv, err = mergeInterval(res[len(res)-2], res[len(res)-1])
+			if err == nil {
+				res = res[:len(res)-1]
+				res[len(res)-1] = mergedInv
+			}
 		} else {
 			res = append(res, interval)
 			length := len(res)
