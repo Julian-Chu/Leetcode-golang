@@ -49,3 +49,25 @@ func TestImageSmoother_First(t *testing.T) {
 		t.Error("Failed")
 	}
 }
+
+func BenchmarkImageSmoother(b *testing.B) {
+	matrix := [][]int{
+		{0, 1},
+		{1, 1},
+	}
+	b.ResetTimer()
+	for i := 0; i < b.N; i++ {
+		imageSmoother(matrix)
+	}
+}
+
+func BenchmarkImageSmootherWithoutSubfunc(b *testing.B) {
+	matrix := [][]int{
+		{0, 1},
+		{1, 1},
+	}
+	b.ResetTimer()
+	for i := 0; i < b.N; i++ {
+		imageSmootherWithoutSubfunc(matrix)
+	}
+}
