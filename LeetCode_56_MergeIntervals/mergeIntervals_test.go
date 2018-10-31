@@ -1,7 +1,6 @@
 package merge_intervals
 
 import (
-	"errors"
 	"fmt"
 	"reflect"
 	"testing"
@@ -25,19 +24,18 @@ func merge(intervals []Interval) []Interval {
 	for _, interval := range intervals {
 		if len(res) == 0 {
 			res = append(res, interval)
+			continue
 		}
-
-		compareObj := res[len(res)-1]
-		mergedInv, err := mergeInterval(compareObj, interval)
-		if err == nil {
-			res[len(res)-1] = mergedInv
-			for i := len(res) - 1; i >= 0; i-- {
-				if len(res) > 1 {
-					mergedInv, err = mergeInterval(res[i-1], res[i])
-					if err == nil {
-						res = res[:i]
-						res[i-1] = mergedInv
+		last := len(res) - 1
+		if !(res[last].End < interval.Start || res[last].Start > interval.End) {
+			res[last] = mergeInterval(res[last], interval)
+			if len(res) > 1 {
+				for i := len(res) - 1; i >= 1; i-- {
+					if res[i-1].End < res[i].Start || res[i-1].Start > res[i].End {
+						continue
 					}
+					res[i-1] = mergeInterval(res[i-1], res[i])
+					res = res[:i]
 				}
 			}
 		} else {
@@ -51,10 +49,7 @@ func merge(intervals []Interval) []Interval {
 	return res
 }
 
-func mergeInterval(src Interval, dst Interval) (Interval, error) {
-	if src.End < dst.Start || src.Start > dst.End {
-		return Interval{}, errors.New("no merge")
-	}
+func mergeInterval(src Interval, dst Interval) Interval {
 	var newStart, newEnd int
 	newStart = dst.Start
 	if src.Start <= dst.Start {
@@ -64,7 +59,7 @@ func mergeInterval(src Interval, dst Interval) (Interval, error) {
 	if src.End >= dst.End {
 		newEnd = src.End
 	}
-	return Interval{newStart, newEnd}, nil
+	return Interval{newStart, newEnd}
 }
 func Test_case1(t *testing.T) {
 	input := []Interval{Interval{1, 4}, Interval{4, 5}}
