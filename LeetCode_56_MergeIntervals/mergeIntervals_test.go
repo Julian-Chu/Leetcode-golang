@@ -124,3 +124,13 @@ func Test_case7(t *testing.T) {
 		t.Error("Failed")
 	}
 }
+
+// [[4,5],[2,4],[4,6],[3,4],[0,0],[1,1],[3,5],[2,2]]
+func Test_case8(t *testing.T) {
+	input := []Interval{{4, 5}, {2, 4}, {4, 6}, {3, 4}, {0, 0}, {1, 1}, {3, 5}, {2, 2}}
+	res := merge(input)
+	fmt.Println(res)
+	if !reflect.DeepEqual(res, []Interval{{0, 0}, {1, 1}, {2, 6}}) {
+		t.Error("Failed")
+	}
+}
