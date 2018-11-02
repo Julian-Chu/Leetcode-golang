@@ -12,6 +12,11 @@ type TreeNode struct {
 }
 
 func findTarget(root *TreeNode, k int) bool {
+	anotherTarget := k - root.Val
+	if anotherTarget != root.Left.Val && anotherTarget != root.Right.Val {
+		return false
+	}
+
 	return true
 }
 
@@ -38,7 +43,7 @@ func Test_Given8_ReturnTrue(t *testing.T) {
 }
 
 func Test_Given14_ReturnTrue(t *testing.T) {
-	res := findTarget(root, 9)
+	res := findTarget(root, 14)
 	if res == true {
 		t.Error("Not Found")
 	}
