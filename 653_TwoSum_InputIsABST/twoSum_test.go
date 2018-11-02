@@ -11,13 +11,62 @@ type TreeNode struct {
 	Right *TreeNode
 }
 
+type HashSet struct {
+	set map[int]bool
+}
+
+func NewHashSet() *HashSet {
+	return &HashSet{make(map[int]bool)}
+}
+
+func (set *HashSet) Add(i int) bool {
+	_, found := set.set[i]
+	set.set[i] = true
+	return !found
+}
+
+func (set *HashSet) Get(i int) bool {
+	_, found := set.set[i]
+	return found
+}
+
+func (set *HashSet) Remove(i int) {
+	delete(set.set, i)
+}
+
 func findTarget(root *TreeNode, k int) bool {
-	anotherTarget := k - root.Val
-	if anotherTarget != root.Left.Val && anotherTarget != root.Right.Val {
-		return false
+	tree := NewHashSet()
+
+	tree.Add(root.Val)
+	if root.Left != nil {
+		AddNodeToHashSet(tree, root.Left)
 	}
 
-	return true
+	if root.Right != nil {
+		AddNodeToHashSet(tree, root.Right)
+	}
+
+	for key := range tree.set {
+		target := k - key
+		if target == key {
+			continue
+		}
+		if tree.Get(target) == true {
+			return true
+		}
+	}
+
+	return false
+}
+
+func AddNodeToHashSet(set *HashSet, newRoot *TreeNode) {
+	set.Add(newRoot.Val)
+	if newRoot.Left != nil {
+		AddNodeToHashSet(set, newRoot.Left)
+	}
+	if newRoot.Right != nil {
+		AddNodeToHashSet(set, newRoot.Right)
+	}
 }
 
 var root *TreeNode
@@ -42,9 +91,39 @@ func Test_Given8_ReturnTrue(t *testing.T) {
 	}
 }
 
-func Test_Given14_ReturnTrue(t *testing.T) {
-	res := findTarget(root, 14)
+func Test_Given28_ReturnFalse(t *testing.T) {
+	res := findTarget(root, 28)
 	if res == true {
 		t.Error("Not Found")
+	}
+}
+
+func Test_Given11_ReturnTrue(t *testing.T) {
+	res := findTarget(root, 11)
+	if res == false {
+		t.Error("Not Found")
+	}
+}
+
+func Test_Given7_ReturnTrue(t *testing.T) {
+	res := findTarget(root, 7)
+	if res == false {
+		t.Error("Not Found")
+	}
+}
+
+func Test_Given1_OnlyOneNode(t *testing.T) {
+	root = &TreeNode{1, nil, nil}
+	res := findTarget(root, 1)
+	if res == true {
+		t.Error("only one node")
+	}
+}
+
+func Test_Given4_ValsInSubNodes(t *testing.T) {
+	root = &TreeNode{2, &TreeNode{1, nil, nil}, &TreeNode{3, nil, nil}}
+	res := findTarget(root, 4)
+	if res == false {
+		t.Error("Should be found!")
 	}
 }
