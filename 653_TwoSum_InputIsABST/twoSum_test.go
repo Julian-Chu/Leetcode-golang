@@ -36,3 +36,10 @@ func Test_Given8_ReturnTrue(t *testing.T) {
 		t.Error("Not Found")
 	}
 }
+
+func Test_Given14_ReturnTrue(t *testing.T) {
+	res := findTarget(root, 9)
+	if res == true {
+		t.Error("Not Found")
+	}
+}
