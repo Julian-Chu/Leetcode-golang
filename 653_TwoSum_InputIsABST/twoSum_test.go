@@ -11,62 +11,27 @@ type TreeNode struct {
 	Right *TreeNode
 }
 
-type HashSet struct {
-	set map[int]bool
-}
-
-func NewHashSet() *HashSet {
-	return &HashSet{make(map[int]bool)}
-}
-
-func (set *HashSet) Add(i int) bool {
-	_, found := set.set[i]
-	set.set[i] = true
-	return !found
-}
-
-func (set *HashSet) Get(i int) bool {
-	_, found := set.set[i]
-	return found
-}
-
-func (set *HashSet) Remove(i int) {
-	delete(set.set, i)
-}
-
 func findTarget(root *TreeNode, k int) bool {
-	tree := NewHashSet()
-
-	tree.Add(root.Val)
-	if root.Left != nil {
-		AddNodeToHashSet(tree, root.Left)
+	target := k - root.Val
+	if root.Left == nil && root.Right == nil {
+		return false
 	}
 
-	if root.Right != nil {
-		AddNodeToHashSet(tree, root.Right)
-	}
-
-	for key := range tree.set {
-		target := k - key
-		if target == key {
-			continue
-		}
-		if tree.Get(target) == true {
-			return true
-		}
-	}
-
-	return false
+	return (root.Val*2 != k && findNode(root, target)) || (root.Left.Val == target || root.Right.Val == target) ||
+		findNode(root.Left, k-root.Left.Val) || findNode(root.Right, k-root.Right.Val)
 }
 
-func AddNodeToHashSet(set *HashSet, newRoot *TreeNode) {
-	set.Add(newRoot.Val)
-	if newRoot.Left != nil {
-		AddNodeToHashSet(set, newRoot.Left)
+func findNode(root *TreeNode, target int) bool {
+	if root == nil {
+		return false
 	}
-	if newRoot.Right != nil {
-		AddNodeToHashSet(set, newRoot.Right)
+	if root.Val == target {
+		return true
 	}
+	if root.Val < target {
+		return findNode(root.Right, target)
+	}
+	return findNode(root.Left, target)
 }
 
 var root *TreeNode
