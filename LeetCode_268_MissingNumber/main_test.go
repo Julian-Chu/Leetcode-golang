@@ -1,19 +1,38 @@
 package LeetCode_268_MissingNumber
 
 import (
-	"sort"
 	"testing"
 )
 
 func missingNumber(nums []int) int {
-	sort.Ints(nums)
-	n := nums[len(nums)-1]
-	for i := 0; i < n; i++ {
-		if nums[i] != i {
-			return i
-		}
+	/// 1st
+	//sort.Ints(nums)
+	//n := nums[len(nums)-1]
+	//for i := 0; i < n; i++ {
+	//	if nums[i] != i {
+	//		return i
+	//	}
+	//}
+	//return n + 1
+
+	///2nd
+	//xor := 0
+	//for i := 0; i < len(nums); i++ {
+	//	xor ^= i
+	//}
+	//
+	//for i := 0; i < len(nums); i++ {
+	//	xor ^= nums[i]
+	//}
+	//return xor ^ len(nums)
+
+	///3rd
+	xor := 0
+	for i := 0; i < len(nums); i++ {
+		xor ^= i ^ len(nums)
 	}
-	return n + 1
+	return xor ^ len(nums)
+
 }
 
 var cases = []struct {
