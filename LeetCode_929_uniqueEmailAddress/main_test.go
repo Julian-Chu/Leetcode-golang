@@ -6,19 +6,32 @@ import (
 )
 
 func numUniqueEmails(emails []string) int {
+	//emailsMap := make(map[string]bool)
+	//for _, email := range emails {
+	//	splitEmail := strings.Split(email, "@")
+	//	localName := splitEmail[0]
+	//	domainName := splitEmail[1]
+	//	localName = strings.Split(localName, "+")[0]
+	//	localName = strings.Replace(localName, ".", "", -1)
+	//	uniqueEmail := localName + "@" + domainName
+	//	if emailsMap[uniqueEmail] == false {
+	//		emailsMap[uniqueEmail] = true
+	//	}
+	//}
+	//
+	//return len(emailsMap)
+
 	emailsMap := make(map[string]bool)
 	for _, email := range emails {
-		splitEmail := strings.Split(email, "@")
-		localName := splitEmail[0]
-		domainName := splitEmail[1]
-		localName = strings.Split(localName, "+")[0]
-		localName = strings.Replace(localName, ".", "", -1)
-		uniqueEmail := localName + "@" + domainName
-		if emailsMap[uniqueEmail] == false {
-			emailsMap[uniqueEmail] = true
+		indexOfAt := strings.IndexByte(email, '@')
+		localName, domainName := email[:indexOfAt], email[indexOfAt:]
+		indexOfPlus := strings.IndexByte(localName, '+')
+		if indexOfPlus != -1 {
+			localName = localName[:indexOfPlus]
 		}
+		localName = strings.Replace(localName, ".", "", -1)
+		emailsMap[localName+domainName] = true
 	}
-
 	return len(emailsMap)
 
 }
