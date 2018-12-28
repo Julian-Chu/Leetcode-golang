@@ -32,12 +32,43 @@ func Test_Case1(t *testing.T) {
 		t.Error("Not match")
 	}
 }
+
 func Test_Case2(t *testing.T) {
 	input := []string{"test.email@leetcode.com"}
 
 	res := numUniqueEmails(input)
 
 	if res != 1 {
+		t.Error("Not match")
+	}
+}
+
+func Test_Case3(t *testing.T) {
+	input := []string{"test.email+1@leetcode.com"}
+
+	res := numUniqueEmails(input)
+
+	if res != 1 {
+		t.Error("Not match")
+	}
+}
+
+func Test_Case4(t *testing.T) {
+	input := []string{"test.email+1@leetcode.com", "test.e.mail+bob.cathy@leetcode.com"}
+
+	res := numUniqueEmails(input)
+
+	if res != 1 {
+		t.Error("Not match")
+	}
+}
+
+func Test_Case5(t *testing.T) {
+	input := []string{"test.email+alex@leetcode.com", "test.e.mail+bob.cathy@leetcode.com", "testemail+david@lee.tcode.com"}
+
+	res := numUniqueEmails(input)
+
+	if res != 2 {
 		t.Error("Not match")
 	}
 }

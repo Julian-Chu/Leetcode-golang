@@ -2,34 +2,20 @@ package main
 
 import (
 	"fmt"
+	"time"
 )
 
+func init() {
+}
 func main() {
-
-	issue := Issue{1, "test"}
-	issues := make([]*Issue, 0)
-	issues = append(issues, &issue)
-
-	var items []Issue
-	items = append(items, issue)
-	fmt.Println(issue)
-	fmt.Println(issues)
-	fmt.Println(items)
-
-	issueSearchResult := IssueSearchResult{1, nil, nil}
-	issueSearchResult.ItemPointers = issues
-
-	fmt.Println(cap(issues))
-
-}
-
-type IssueSearchResult struct {
-	TotalCount   int `json:"total_count"`
-	ItemPointers []*Issue
-	Items        []Issue
-}
-
-type Issue struct {
-	Number int
-	Title  string
+	for i := 0; i < 1000000; i++ {
+		go func(input int) {
+			t := 1000000 - input
+			time.Sleep(time.Duration(t) * time.Millisecond)
+			fmt.Printf("ABCDEFGIJKLMNOPQRSTZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZ\n")
+		}(i)
+	}
+	var str string
+	fmt.Println("-------")
+	fmt.Scanln(&str)
 }
