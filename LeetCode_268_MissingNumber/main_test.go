@@ -13,7 +13,7 @@ func missingNumber(nums []int) int {
 			return i
 		}
 	}
-	return -1
+	return n + 1
 }
 
 var cases = []struct {
@@ -22,6 +22,14 @@ var cases = []struct {
 }{
 	{[]int{3, 0, 1},
 		2,
+	},
+	{
+		[]int{9, 6, 4, 2, 3, 5, 7, 0, 1},
+		8,
+	},
+	{
+		[]int{0},
+		1,
 	},
 }
 
