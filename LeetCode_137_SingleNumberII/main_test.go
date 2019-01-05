@@ -1,23 +1,38 @@
 package LeetCode_137_SingleNumberII
 
-import "testing"
+import (
+	"testing"
+)
 
 func singleNumber(nums []int) int {
-	singleNumber := 0
-	for i := 0; i < 32; i++ {
+	//singleNumber := 0
+	//for i := 0; i < 32; i++ {
+	//
+	//	bit := 1 << uint(i)
+	//	count := 0
+	//	for j := 0; j < len(nums); j++ {
+	//		if nums[j]&bit != 0 {
+	//			count++
+	//		}
+	//	}
+	//	if count%3 != 0 {
+	//		singleNumber |= bit
+	//	}
+	//}
+	//return singleNumber
 
-		bit := 1 << uint(i)
-		count := 0
-		for j := 0; j < len(nums); j++ {
-			if nums[j]&bit != 0 {
-				count++
-			}
-		}
-		if count%3 != 0 {
-			singleNumber |= bit
-		}
+	ones := 0
+	twos := 0
+	threes := 0
+	for _, n := range nums {
+		twos |= ones & n
+		ones ^= n
+		threes = ones & twos
+		ones &= ^threes
+		twos &= ^threes
 	}
-	return singleNumber
+	return ones
+
 }
 
 var testcases = []struct {
@@ -38,7 +53,9 @@ func Test_Cases(t *testing.T) {
 }
 
 func Benchmark_SingleNumberII(b *testing.B) {
-	for _, c := range testcases {
-		singleNumber(c.input)
+	for i := 0; i < b.N; i++ {
+		for _, c := range testcases {
+			singleNumber(c.input)
+		}
 	}
 }
