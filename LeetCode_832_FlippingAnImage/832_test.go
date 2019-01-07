@@ -1,4 +1,4 @@
-package leetcode839
+package leetcode832
 
 import (
 	"reflect"
@@ -15,8 +15,11 @@ func Test_flipAndInvertImage(t *testing.T) {
 		want [][]int
 	}{
 		{"Case1",
-			args{[][]int{{1, 1, 0}}},
-			[][]int{{1, 0, 0}}},
+			args{[][]int{{1, 0}, {0, 1}}},
+			[][]int{{1, 0}, {0, 1}}},
+		{"Case2",
+			args{[][]int{{1, 1, 0}, {1, 0, 1}, {0, 0, 0}}},
+			[][]int{{1, 0, 0}, {0, 1, 0}, {1, 1, 1}}},
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
