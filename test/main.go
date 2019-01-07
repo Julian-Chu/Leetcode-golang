@@ -1,6 +1,7 @@
 package main
 
 import (
+	"Leetcode-golang/test/book"
 	"bytes"
 	"fmt"
 	"strconv"
@@ -63,6 +64,22 @@ func main() {
 	close(c)
 	// var str string
 	// fmt.Scanln(&str)
+
+	var b NextPage = &Book1{Book: &book.Book{Name: "test"}}
+	fmt.Println(b.GotoNextPage())
+}
+
+type NextPage interface {
+	GotoNextPage() int
+}
+
+type Book1 struct {
+	*book.Book
+}
+
+func (b *Book1) GotoNextPage() int {
+
+	return len(b.Name)
 }
 
 func Count() (res string) {
