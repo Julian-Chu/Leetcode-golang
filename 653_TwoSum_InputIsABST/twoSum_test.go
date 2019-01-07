@@ -12,13 +12,15 @@ type TreeNode struct {
 }
 
 func findTarget(root *TreeNode, k int) bool {
-	target := k - root.Val
 	if root.Left == nil && root.Right == nil {
 		return false
 	}
 
-	return (root.Val*2 != k && findNode(root, target)) || (root.Left.Val == target || root.Right.Val == target) ||
-		findNode(root.Left, k-root.Left.Val) || findNode(root.Right, k-root.Right.Val)
+	return (root.Val*2 != k && findNode(root, k-root.Val)) || (root.Left != nil && iterateNode(root, root.Left, k)) || (root.Right != nil && iterateNode(root, root.Right, k))
+}
+
+func iterateNode(root *TreeNode, newRoot *TreeNode, k int) bool {
+	return (newRoot.Val*2 != k && findNode(root, k-newRoot.Val)) || (newRoot.Left != nil && iterateNode(root, newRoot.Left, k)) || (newRoot.Right != nil && iterateNode(root, newRoot.Right, k))
 }
 
 func findNode(root *TreeNode, target int) bool {
@@ -86,8 +88,8 @@ func Test_Given1_OnlyOneNode(t *testing.T) {
 }
 
 func Test_Given4_ValsInSubNodes(t *testing.T) {
-	root = &TreeNode{2, &TreeNode{1, nil, nil}, &TreeNode{3, nil, nil}}
-	res := findTarget(root, 4)
+	root1 := &TreeNode{2, &TreeNode{1, nil, nil}, &TreeNode{3, nil, nil}}
+	res := findTarget(root1, 4)
 	if res == false {
 		t.Error("Should be found!")
 	}

@@ -1,7 +1,6 @@
 package merge_intervals
 
 import (
-	"fmt"
 	"reflect"
 	"testing"
 )
@@ -19,9 +18,10 @@ type Interval struct {
 	End   int
 }
 
+// {2, 3},  {8, 9}, {1, 10}
+// {1, 10}
 func merge(intervals []Interval) []Interval {
 	res := sort(intervals)
-
 	last := len(res) - 1
 	for i := last; i > 0; i-- {
 		if res[i-1].End < res[i].Start || res[i-1].Start > res[i].End {
@@ -38,10 +38,30 @@ func merge(intervals []Interval) []Interval {
 			newEnd = res[i-1].End
 		}
 		res[i-1] = Interval{newStart, newEnd}
+
 		res = append(res[:i], res[(i+1):]...)
 
 	}
-	fmt.Println(res)
+	i := 1
+	for i < len(res) {
+		if res[i-1].End < res[i].Start || res[i-1].Start > res[i].End {
+			i++
+			continue
+		}
+
+		var newStart, newEnd int
+		newStart = res[i].Start
+		if res[i-1].Start <= res[i].Start {
+			newStart = res[i-1].Start
+		}
+		newEnd = res[i].End
+		if res[i-1].End >= res[i].End {
+			newEnd = res[i-1].End
+		}
+		res[i-1] = Interval{newStart, newEnd}
+
+		res = append(res[:i], res[(i+1):]...)
+	}
 	return res
 }
 
@@ -60,7 +80,7 @@ func sort(intervals []Interval) []Interval {
 		case item.Start == m.Start:
 			if item.End < m.End {
 				start = append(start, item)
-			} else if item.Start > m.Start {
+			} else if item.End > m.End {
 				end = append(end, item)
 			}
 		case item.Start > m.Start:
@@ -75,18 +95,6 @@ func sort(intervals []Interval) []Interval {
 
 }
 
-func mergeInterval(src Interval, dst Interval) Interval {
-	var newStart, newEnd int
-	newStart = dst.Start
-	if src.Start <= dst.Start {
-		newStart = src.Start
-	}
-	newEnd = dst.End
-	if src.End >= dst.End {
-		newEnd = src.End
-	}
-	return Interval{newStart, newEnd}
-}
 func Test_case1(t *testing.T) {
 	input := []Interval{Interval{1, 4}, Interval{4, 5}}
 	res := merge(input)
@@ -159,8 +167,15 @@ func Test_case8(t *testing.T) {
 func Test_case9(t *testing.T) {
 	input := []Interval{{2, 3}, {5, 5}, {2, 2}, {3, 4}, {3, 4}}
 	res := merge(input)
-	fmt.Println(res)
 	if !reflect.DeepEqual(res, []Interval{{2, 4}, {5, 5}}) {
+		t.Error("Failed")
+	}
+}
+
+func Test_case10(t *testing.T) {
+	input := []Interval{{2, 3}, {8, 9}, {1, 10}}
+	res := merge(input)
+	if !reflect.DeepEqual(res, []Interval{{1, 10}}) {
 		t.Error("Failed")
 	}
 }
