@@ -1,40 +1,48 @@
 package leetcode475
 
-import "math"
+import "sort"
 
 func findRadius(houses []int, heaters []int) int {
-
-	// // dist := make([]int, len(heaters)+1)
-	// lenOfHouse := len(houses)
-	// lenOfHeaters := len(heaters)
-	// radius := 0
-	// if heaters[0] - houses[0]
-	// 	radius = heaters[0] - houses[0]
-	// }
-	// if radius < (houses[lenOfHouse-1] - heaters[lenOfHeaters-1]) {
-	// 	radius = houses[lenOfHouse-1] - heaters[lenOfHeaters-1]
-	// }
-	// // dist = append(dist, heaters[0]-house[0])
-	// // dist = append(dist, house[lenOfHouse-1]-heaters[lenOfHeaters-1])
-
-	// for i := 1; i < lenOfHeaters; i++ {
-	// 	// dist = append(dist, (heaters[i]-heaters[i-1])/2)
-	// 	if radius < (heaters[i]-heaters[i-1])/2 {
-	// 		radius = (heaters[i] - heaters[i-1]) / 2
-	// 	}
-	// }
-	radius := 0
-	for i := 0; i < len(houses); i++ {
-		house := houses[i]
-		dist := math.Abs(float64(house - heaters[0]))
-		for j := 1; j < len(heaters); j++ {
-			if dist > math.Abs(float64(house-heaters[j])) {
-				dist = math.Abs(float64(house - heaters[j]))
-			}
-		}
-		if int(dist) > radius {
-			radius = int(dist)
-		}
+	if len(houses) == 0 {
+		return 0
 	}
-	return radius
+
+	res := 0
+
+	sort.Ints(houses)
+	sort.Ints(heaters)
+
+	iHeater := sort.SearchInts(heaters, houses[0])
+
+	for iHouse := 0; iHouse < len(houses); iHouse++ {
+		for iHeater < len(heaters) && houses[iHouse] > heaters[iHeater] {
+			iHeater++
+		}
+		if iHeater == len(heaters) {
+			return max(res, houses[len(houses)-1]-heaters[iHeater-1])
+		}
+
+		left := 1<<31 - 1 // max int
+		if 0 <= iHeater-1 {
+			left = houses[iHouse] - heaters[iHeater-1]
+		}
+		right := heaters[iHeater] - houses[iHouse]
+		res = max(res, min(left, right))
+
+	}
+	return res
+}
+
+func min(a, b int) int {
+	if a < b {
+		return a
+	}
+	return b
+}
+
+func max(a, b int) int {
+	if a > b {
+		return a
+	}
+	return b
 }
