@@ -28,6 +28,34 @@ func Test_isSubtree(t *testing.T) {
 				Right: &TreeNode{Val: 5},
 			},
 			t: &TreeNode{Val: 4, Left: &TreeNode{Val: 1}, Right: &TreeNode{Val: 2}}}, false},
+		{"Case5", args{
+			s: &TreeNode{
+				Val: 1, Right: &TreeNode{
+					Val: 1, Right: &TreeNode{
+						Val: 1, Right: &TreeNode{
+							Val: 1, Right: &TreeNode{
+								Val: 1, Right: &TreeNode{
+									Val: 1, Right: &TreeNode{
+										Val: 1, Right: &TreeNode{
+											Val: 1, Right: &TreeNode{
+												Val: 1, Right: &TreeNode{
+													Val: 1, Right: &TreeNode{
+														Val: 1, Left: &TreeNode{
+															Val: 2}},
+												}}}}}}}}},
+			},
+			t: &TreeNode{
+				Val: 1, Right: &TreeNode{
+					Val: 1, Right: &TreeNode{
+						Val: 1, Right: &TreeNode{
+							Val: 1, Right: &TreeNode{
+								Val: 1, Right: &TreeNode{
+									Val: 1, Left: &TreeNode{Val: 2}}}}}}}}, true},
+		{
+			"Case6", args{
+				s: &TreeNode{Val: 1, Left: &TreeNode{Val: 1}},
+				t: &TreeNode{Val: 1}}, true,
+		},
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {

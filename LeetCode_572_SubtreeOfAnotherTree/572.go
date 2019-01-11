@@ -9,8 +9,8 @@ package leetcode572
  * }
  */
 func isSubtree(s *TreeNode, t *TreeNode) bool {
-	if s.Val == t.Val {
-		return compareTree(s, t)
+	if s.Val == t.Val && compareTree(s, t) {
+		return true
 	}
 	if s.Left != nil && isSubtree(s.Left, t) {
 		return true
@@ -22,17 +22,21 @@ func isSubtree(s *TreeNode, t *TreeNode) bool {
 }
 
 func compareTree(sub *TreeNode, t *TreeNode) bool {
-	if sub != nil && t != nil && sub.Val != t.Val {
+
+	if (sub == nil && t == nil) || (sub.Val == t.Val && sub.Left == nil && sub.Right == nil && t.Left == nil && t.Right == nil) {
+		return true
+	}
+	if sub.Val != t.Val {
 		return false
 	}
-	if (sub.Left == nil || t.Left == nil) && !(sub.Left == nil && t.Left == nil) || !compareTree(sub.Left, t.Left) {
+	if !(sub.Left == nil && t.Left == nil) && (sub.Left == nil || t.Left == nil) {
+		return false
+	}
+	if !(sub.Right == nil && t.Right == nil) && (sub.Right == nil || t.Right == nil) {
 		return false
 	}
 
-	if (sub.Right == nil || t.Right == nil) && !(sub.Right == nil && t.Right == nil) || !compareTree(sub.Right, t.Right) {
-		return false
-	}
-	return true
+	return compareTree(sub.Left, t.Left) && compareTree(sub.Right, t.Right)
 
 }
 
