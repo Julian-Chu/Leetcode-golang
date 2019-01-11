@@ -9,35 +9,28 @@ package leetcode572
  * }
  */
 func isSubtree(s *TreeNode, t *TreeNode) bool {
-	if s.Val == t.Val && compareTree(s, t) {
+	if compareTree(s, t) {
 		return true
 	}
-	if s.Left != nil && isSubtree(s.Left, t) {
-		return true
+	if s == nil {
+		return false
 	}
-	if s.Right != nil && isSubtree(s.Right, t) {
-		return true
-	}
-	return false
+	return isSubtree(s.Left, t) || isSubtree(s.Right, t)
 }
 
 func compareTree(sub *TreeNode, t *TreeNode) bool {
-
-	if (sub == nil && t == nil) || (sub.Val == t.Val && sub.Left == nil && sub.Right == nil && t.Left == nil && t.Right == nil) {
-		return true
+	if sub == nil {
+		return t == nil
 	}
+
+	if t == nil {
+		return false
+	}
+
 	if sub.Val != t.Val {
 		return false
 	}
-	if !(sub.Left == nil && t.Left == nil) && (sub.Left == nil || t.Left == nil) {
-		return false
-	}
-	if !(sub.Right == nil && t.Right == nil) && (sub.Right == nil || t.Right == nil) {
-		return false
-	}
-
 	return compareTree(sub.Left, t.Left) && compareTree(sub.Right, t.Right)
-
 }
 
 type TreeNode struct {
