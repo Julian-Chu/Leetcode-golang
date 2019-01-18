@@ -9,36 +9,28 @@ type TreeNode struct {
 }
 
 func findTilt(root *TreeNode) int {
-	tilt := 0
-	var left *TreeNode
-	var right *TreeNode
-	if root == nil {
-		return 0
-	}
-	if root.Left != nil {
-		tilt += findTilt(root.Left)
-		left = root.Left
-	}
-	if root.Right != nil {
-		tilt += findTilt(root.Right)
-		right = root.Right
-	}
+	tilt, _ := calcTiltAndSum(root)
 
-	tilt += int(math.Abs(float64(sumOfNode(left) - sumOfNode(right))))
 	return tilt
 }
 
-func sumOfNode(root *TreeNode) int {
+func calcTiltAndSum(root *TreeNode) (tilt, sum int) {
+	var lt, rt, ls, rs int
 	if root == nil {
-		return 0
+		return 0, 0
 	}
-	sum := root.Val
+	if root.Left == nil && root.Right == nil {
+		return 0, root.Val
+	}
 
 	if root.Left != nil {
-		sum += sumOfNode(root.Left)
+		lt, ls = calcTiltAndSum(root.Left)
 	}
+
 	if root.Right != nil {
-		sum += sumOfNode(root.Right)
+		rt, rs = calcTiltAndSum(root.Right)
 	}
-	return sum
+
+	return (lt + rt + int(math.Abs(float64(ls-rs)))), ls + rs + root.Val
+
 }
