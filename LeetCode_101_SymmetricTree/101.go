@@ -10,22 +10,17 @@ func isSymmetric(root *TreeNode) bool {
 	if root == nil {
 		return true
 	}
-	res := compareSymmetric(root.Left, root.Right)
-	return res
+	return compareSymmetric(root.Left, root.Right)
 }
 
 func compareSymmetric(Left *TreeNode, Right *TreeNode) bool {
-
-	if Left == nil {
-		return Right == nil
+	if Left == nil && Right == nil {
+		return true
 	}
-	if Right == nil {
-		return false
-	}
-	if Left.Val != Right.Val {
+	if Left == nil || Right == nil {
 		return false
 	}
 
-	return compareSymmetric(Left.Left, Right.Right) && compareSymmetric(Left.Right, Right.Left)
+	return Left.Val == Right.Val && compareSymmetric(Left.Left, Right.Right) && compareSymmetric(Left.Right, Right.Left)
 
 }
