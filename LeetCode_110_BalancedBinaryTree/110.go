@@ -7,24 +7,26 @@ type TreeNode struct {
 }
 
 func isBalanced(root *TreeNode) bool {
-	
+	_, res := getHeightAndIsBalanced(root)
+
+	return res
 }
 
-var levels = map[int]bool
-var moveCount = 0
-func traverse(root *TreeNode ){
-	if root.Left ==nil && root.Right == nil{
-		if levels[moveCount] == false{
-			levels[moveCount] == true
-		}
-	}
-	if root.Left !=nil{
-		traverse(root.Left)
+func getHeightAndIsBalanced(root *TreeNode) (int, bool) {
+	if root == nil {
+		return 0, true
 	}
 
-	if root.Right !=nil{
-		traverse(root.Right)
+	leftH, leftB := getHeightAndIsBalanced(root.Left)
+	rightH, rightB := getHeightAndIsBalanced(root.Right)
+
+	h := leftH + 1
+	diff := leftH - rightH
+	if rightH > leftH {
+		h = rightH + 1
+		diff = rightH - leftH
 	}
+
+	return h, diff <= 1 && leftB && rightB
+
 }
-
-
