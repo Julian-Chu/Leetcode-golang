@@ -1,7 +1,6 @@
 package Leetcode_543_DiameterOfBinaryTree
 
 import (
-	"fmt"
 	. "leetcode-golang/helper"
 )
 
@@ -9,32 +8,29 @@ func diameterOfBinaryTree(root *TreeNode) int {
 	if root == nil {
 		return 0
 	}
-	maxPath := 0
-	getLongestPath(root, &maxPath)
-	return maxPath
+	_, res := getLenAndDia(root)
+	return res
 }
 
-func getLongestPath(root *TreeNode, maxPath *int) int {
+func getLenAndDia(root *TreeNode) (length, diameter int) {
 	if root == nil {
-		return 0
+		return
 	}
 
-	lh := getLongestPath(root.Left, maxPath)
-	rh := getLongestPath(root.Right, maxPath)
+	lh, ld := getLenAndDia(root.Left)
+	rh, rd := getLenAndDia(root.Right)
 
-	if root.Val == 2 {
-		fmt.Println(lh, rh)
+	diameter = rd
+	if ld > rd {
+		diameter = ld
 	}
-
-	if lh+rh > *maxPath {
-		*maxPath = lh + rh
-		fmt.Println(*maxPath)
-
+	if lh+rh > diameter {
+		diameter = lh + rh
 	}
 
 	if lh > rh {
-		return lh + 1
+		return lh + 1, diameter
 	}
-	return rh + 1
+	return rh + 1, diameter
 
 }
