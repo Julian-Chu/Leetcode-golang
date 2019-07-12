@@ -1,32 +1,27 @@
 package leetcode516longestpalindromicsubsequence
 
 func longestPalindromeSubseq(s string) int {
-	i, j := 0, len(s)-1
+	strLen := len(s)
 
-	maxLen := 0
-
-	if len(s) < 2 {
-		return 1
+	subLenMatrix := make([][]int, strLen)
+	for i := range subLenMatrix {
+		subLenMatrix[i] = make([]int, strLen)
+		subLenMatrix[i][i] = 1
 	}
 
-	for i <= j {
-		if s[i] == s[j] {
-			if i == j {
-				maxLen++
-				break
-			}
-			maxLen += 2
-			i, j = i+1, j-1
-		} else {
-			left := longestPalindromeSubseq(s[i:j])
-			right := longestPalindromeSubseq(s[i+1 : j+1])
-			if left > right {
-				maxLen += left
+	for Len := 2; Len <= strLen; Len++ {
+		for i := 0; i+Len-1 < strLen; i++ {
+			j := i + Len - 1
+			if s[i] == s[j] {
+				subLenMatrix[i][j] = subLenMatrix[i+1][j-1] + 2
 			} else {
-				maxLen += right
+				if subLenMatrix[i][j-1] >= subLenMatrix[i+1][j] {
+					subLenMatrix[i][j] = subLenMatrix[i][j-1]
+				} else {
+					subLenMatrix[i][j] = subLenMatrix[i+1][j]
+				}
 			}
-			return maxLen
 		}
 	}
-	return maxLen
+	return subLenMatrix[0][strLen-1]
 }
