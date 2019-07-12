@@ -33,31 +33,31 @@ func Test_increasingBST(t *testing.T) {
 		// 		},
 		// 	},
 		// },
-		// {
-		// 	"Case2",
-		// 	args{
-		// 		&TreeNode{
-		// 			Val: 5,
-		// 			Left: &TreeNode{
-		// 				Val:   3,
-		// 				Right: &TreeNode{Val: 4},
-		// 			},
-		// 			Right: &TreeNode{Val: 6},
-		// 		},
-		// 	},
-		// 	&TreeNode{
-		// 		Val: 3,
-		// 		Right: &TreeNode{
-		// 			Val: 4,
-		// 			Right: &TreeNode{
-		// 				Val: 5,
-		// 				Right: &TreeNode{
-		// 					Val: 6,
-		// 				},
-		// 			},
-		// 		},
-		// 	},
-		// },
+		{
+			"Case2",
+			args{
+				&TreeNode{
+					Val: 5,
+					Left: &TreeNode{
+						Val:   3,
+						Right: &TreeNode{Val: 4},
+					},
+					Right: &TreeNode{Val: 6},
+				},
+			},
+			&TreeNode{
+				Val: 3,
+				Right: &TreeNode{
+					Val: 4,
+					Right: &TreeNode{
+						Val: 5,
+						Right: &TreeNode{
+							Val: 6,
+						},
+					},
+				},
+			},
+		},
 
 		{
 			"Case3",

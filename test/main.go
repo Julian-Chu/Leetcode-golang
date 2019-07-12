@@ -1,91 +1,79 @@
 package main
 
 import (
-	"Leetcode-golang/test/book"
-	"bytes"
+	"encoding/json"
 	"fmt"
-	"strconv"
-	"time"
+	"os"
 )
 
+type response1 struct {
+	Page   int
+	Fruits []string
+}
+
+type response2 struct {
+	Page   int      `json:"page"`
+	Fruits []string `json:"fruits"`
+}
+
+var p = fmt.Println
+
 func main() {
-	// var buffer bytes.Buffer
-	// for i := 0; i < 10; i++ {
-	// 	go func(input int) {
-	// 		fmt.Println(input)
-	// 		buffer.WriteString(strconv.Itoa(input))
-	// 		time.Sleep(500 * time.Millisecond)
-	// 		fmt.Println(buffer.String())
-	// 	}(i)
-	// }
+	bloB, _ := json.Marshal(true)
+	fmt.Println(string(bloB))
 
-	// for i := 0; i < 10; i++ {
+	intB, _ := json.Marshal(1)
+	fmt.Println(string(intB))
 
-	// 	var buffer bytes.Buffer
-	// 	go func() {
-	// 		// wg.Add(1)
-	// 		// time.Sleep(500 * time.Microsecond)
-	// 		fmt.Println(buffer.String())
-	// 		// wg.Done()
-	// 	}()
-	// 	for j := 0; j < 30; j++ {
-	// 		buffer.WriteString(strconv.Itoa(i))
-	// 	}
-	// }
+	fltB, _ := json.Marshal(2.34)
+	p(string(fltB))
 
-	// log.Printf("%s", "1.1.1.002")
-	// sigTerm := syscall.Signal(15)
+	strB, _ := json.Marshal("gopher")
+	p(string(strB))
 
-	// log.Println(reflect.TypeOf(sigTerm))
-	// fmt.Println(4)
-	// fmt.Println(5)
+	slcD := []string{"apple", "peach", "pear"}
+	slcB, _ := json.Marshal(slcD)
+	p(slcD)
+	p(string(slcB))
 
-	fmt.Println("Hello, playground")
-	c := make(chan int, 3)
-	c <- 1
-	c <- 2
-	c <- 3
+	mapD := map[string]int{"apple": 5, "lettuce": 7}
+	mapB, _ := json.Marshal(mapD)
+	p(mapD)
+	fmt.Println(string(mapB))
 
-	go func(c chan int) {
-		for v := range c {
-			fmt.Println("value:", v)
-		}
-		c <- 4
-
-	}(c)
-	//var input string
-	//fmt.Scanf("\n",&input)
-	time.Sleep(2 * time.Second)
-
-	v, ok := <-c
-	fmt.Println("value:", v, "ok:", ok)
-	fmt.Println("before")
-
-	close(c)
-	// var str string
-	// fmt.Scanln(&str)
-
-	var b NextPage = &Book1{Book: &book.Book{Name: "test"}}
-	fmt.Println(b.GotoNextPage())
-}
-
-type NextPage interface {
-	GotoNextPage() int
-}
-
-type Book1 struct {
-	*book.Book
-}
-
-func (b *Book1) GotoNextPage() int {
-
-	return len(b.Name)
-}
-
-func Count() (res string) {
-	var buffer bytes.Buffer
-	for i := 0; i < 1000000; i++ {
-		buffer.WriteString(strconv.Itoa(i))
+	res1D := &response1{
+		Page:   1,
+		Fruits: []string{"apple", "peach", "pear"},
 	}
-	return buffer.String()
+	res1B, _ := json.Marshal(res1D)
+	p(string(res1B))
+
+	res2D := &response2{
+		Page:   1,
+		Fruits: []string{"apple", "peach", "pear"},
+	}
+	res2B, _ := json.Marshal(res2D)
+	p(string(res2B))
+
+	byt := []byte(`{"num":6.13, "strs":["a","b"]}`)
+
+	var dat map[string]interface{}
+
+	if err := json.Unmarshal(byt, &dat); err != nil {
+		panic(err)
+	}
+	fmt.Println(dat)
+	num := dat["num"].(float64)
+	p(num)
+
+	str := `{"page":1, "fruits":["apple", "peach"]}`
+	res := response2{}
+	json.Unmarshal([]byte(str), &res)
+	fmt.Println(res)
+	fmt.Println(res.Fruits[0])
+
+	enc := json.NewEncoder(os.Stdout)
+	d := map[string]int{"apple": 5, "lettuce": 7}
+	enc.Encode(d)
+
 }
