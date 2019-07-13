@@ -1,41 +1,21 @@
 package LeetCode_647PalindromicSubstrings
 
 func countSubstrings(s string) int {
-	if len(s) < 2 {
-		return 1
-	}
-	cnt := len(s) // one char
-
-	for l := 2; l <= len(s); l++ {
-		for i := 0; i+l-1 < len(s); i++ {
-			slice := s[i : i+l]
-			if isPalin(slice) {
-				cnt++
-			}
-		}
-
+	cnt := 0
+	for i := 0; i < len(s); i++ {
+		cnt += calcPalindrome(s, i, i)
+		cnt += calcPalindrome(s, i, i+1)
 	}
 	return cnt
+
 }
 
-func isPalin(s string) bool {
-
-	l := len(s)
-	if l == 1 {
-		return true
+func calcPalindrome(s string, left int, right int) int {
+	res := 0
+	for left >= 0 && right < len(s) && s[left] == s[right] {
+		res++
+		left--
+		right++
 	}
-	mid := l / 2
-	b, e := mid, mid
-	if l%2 == 0 {
-		b, e = mid-1, mid
-	}
-
-	for e < l {
-		if s[b] != s[e] {
-			return false
-		}
-		b--
-		e++
-	}
-	return true
+	return res
 }
