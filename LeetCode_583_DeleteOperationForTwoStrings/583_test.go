@@ -1,0 +1,38 @@
+package leetcode583
+
+import "testing"
+
+func Test_minDistance(t *testing.T) {
+	type args struct {
+		word1 string
+		word2 string
+	}
+	tests := []struct {
+		name string
+		args args
+		want int
+	}{
+		{
+			name: "sea eat",
+			args: args{word1: "sea", word2: "eat"},
+			want: 2,
+		},
+		{
+			name: "a a ",
+			args: args{word1: "a", word2: "a"},
+			want: 0,
+		},
+		{
+			name: "islander slander ",
+			args: args{word1: "islander", word2: "slander"},
+			want: 1,
+		},
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			if got := minDistance(tt.args.word1, tt.args.word2); got != tt.want {
+				t.Errorf("minDistance() = %v, want %v", got, tt.want)
+			}
+		})
+	}
+}
