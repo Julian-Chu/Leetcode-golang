@@ -1,19 +1,41 @@
 package leetcode300
 
-import "sort"
+import "fmt"
 
 func lengthOfLIS(nums []int) int {
-	res := make([]int, 0, len(nums))
-	for _, v := range nums {
-		at := sort.SearchInts(res, v)
-		if at == len(res) {
-			res = append(res, v)
-		} else if res[at] > v {
-			res[at] = v
+	res := make([]int, len(nums))
+	maxLen := 0
+	for i := 0; i < len(nums); i++ {
+		for j := 0; j < i; j++ {
+			if nums[i] > nums[j] {
+				res[i] = max(res[j]+1, res[i])
+			}
 		}
+		maxLen = max(maxLen, res[i]+1)
 	}
-	return len(res)
+	fmt.Printf("%v", res)
+	return maxLen
 }
+
+func max(a int, b int) int {
+	if a > b {
+		return a
+	}
+	return b
+}
+
+//func lengthOfLIS(nums []int) int {
+//	res := make([]int, 0, len(nums))
+//	for _, v := range nums {
+//		at := sort.SearchInts(res, v)
+//		if at == len(res) {
+//			res = append(res, v)
+//		} else if res[at] > v {
+//			res[at] = v
+//		}
+//	}
+//	return len(res)
+//}
 
 //func lengthOfLIS(nums []int) int {
 //	if len(nums) == 0 {
