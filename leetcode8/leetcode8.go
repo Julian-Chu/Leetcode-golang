@@ -7,69 +7,65 @@ import (
 )
 
 func myAtoi(str string) int {
-	trimStr := strings.TrimSpace(str)
-	if len(trimStr) == 0 {
+	s := strings.TrimSpace(str)
+	if s == "" {
+		return 0
+	}
+	var sign int
+	var abs string
+	switch first := s[0]; {
+	case first >= '0' && first <= '9':
+		sign, abs = 1, s
+	case first == '+':
+		sign, abs = 1, s[1:]
+	case first == '-':
+		sign, abs = -1, s[1:]
+	default:
+		sign, abs = 0, ""
+	}
+	if sign == 0 || len(abs) == 0 {
 		return 0
 	}
 
-	i := strings.IndexFunc(trimStr, func(r rune) bool {
-		return r > 57 || r < 48 && r != 45 && r != 43
-	})
-	if i == 0 {
-		return 0
-	}
-	if i != -1 {
-		trimStr = trimStr[:i]
-	}
-	for {
-		j := strings.LastIndexFunc(trimStr, func(r rune) bool {
-			return r > 57 || r < 48
-		})
-		if i == j || j <= 0 {
+	for i, b := range abs {
+		if b < '0' || b > '9' {
+			abs = abs[:i]
 			break
 		}
-		if j > 0 {
-			trimStr = trimStr[:j]
-		}
 	}
-	if trimStr[0] == 48 {
-		i := strings.IndexFunc(trimStr, func(r rune) bool {
-			return r != 48
-		})
-		if i == -1 {
-			return 0
-		}
-		if trimStr[i] < 48 || trimStr[i] > 57 {
-			return 0
-		}
-		trimStr = trimStr[i:]
-	} else if len(trimStr) > 1 && trimStr[0] == 45 && trimStr[1] == 48 {
-		i := strings.IndexFunc(trimStr, func(r rune) bool {
-			return r != 48 && r != 45
-		})
-		if i == -1 {
-			return 0
-		}
-		trimStr = trimStr[0:1] + trimStr[i:]
+
+	if len(abs) == 0 {
+		return 0
 	}
-	max := strconv.Itoa(math.MaxInt32)
-	min := strconv.Itoa(math.MinInt32)
-	if trimStr[0] == 45 {
-		if len(trimStr) >= len(min) {
-			if len(trimStr) > len(min) || trimStr >= min {
-				return math.MinInt32
+	if abs[0] == '0' {
+		n := len(abs)
+		lastZeroIndex := 0
+		for k, v := range abs {
+			if v != '0' {
+				abs = abs[k:]
+				break
 			}
+			lastZeroIndex = k
 		}
-	} else {
-		if trimStr[0] == 43 {
-			trimStr = trimStr[1:]
-		}
-		if len(trimStr) >= len(max) {
-			if len(trimStr) > len(max) || trimStr >= max {
-				return math.MaxInt32
-			}
+		if lastZeroIndex == n-1 {
+			return 0
 		}
 	}
-	v, _ := strconv.Atoi(trimStr)
-	return v
+
+	maxStr := strconv.Itoa(math.MaxInt32)
+	minStr := strconv.Itoa(math.MinInt32)
+	if sign == 1 {
+		if len(abs) > len(maxStr) || (len(abs) == len(maxStr) && abs > maxStr) {
+			return math.MaxInt32
+		}
+	} else if sign == -1 {
+		if len(abs)+1 > len(minStr) || (len(abs)+1 == len(minStr) && abs > minStr[1:]) {
+			return math.MinInt32
+		}
+	}
+
+	v, _ := strconv.Atoi(abs)
+
+	return sign * v
+
 }
