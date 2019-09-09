@@ -2,7 +2,6 @@ package leetcode8
 
 import (
 	"math"
-	"strconv"
 	"strings"
 )
 
@@ -34,38 +33,21 @@ func myAtoi(str string) int {
 		}
 	}
 
-	if len(abs) == 0 {
-		return 0
-	}
-	if abs[0] == '0' {
-		n := len(abs)
-		lastZeroIndex := 0
-		for k, v := range abs {
-			if v != '0' {
-				abs = abs[k:]
-				break
+	absV := 0
+	for _, b := range abs {
+		absV = 10*absV + int(b-'0')
+		switch sign {
+		case 1:
+			if absV > math.MaxInt32 {
+				return math.MaxInt32
 			}
-			lastZeroIndex = k
-		}
-		if lastZeroIndex == n-1 {
-			return 0
-		}
-	}
-
-	maxStr := strconv.Itoa(math.MaxInt32)
-	minStr := strconv.Itoa(math.MinInt32)
-	if sign == 1 {
-		if len(abs) > len(maxStr) || (len(abs) == len(maxStr) && abs > maxStr) {
-			return math.MaxInt32
-		}
-	} else if sign == -1 {
-		if len(abs)+1 > len(minStr) || (len(abs)+1 == len(minStr) && abs > minStr[1:]) {
-			return math.MinInt32
+		case -1:
+			if absV*-1 < math.MinInt32 {
+				return math.MinInt32
+			}
 		}
 	}
 
-	v, _ := strconv.Atoi(abs)
-
-	return sign * v
+	return sign * absV
 
 }
