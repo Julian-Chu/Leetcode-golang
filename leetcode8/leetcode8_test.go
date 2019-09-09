@@ -31,7 +31,8 @@ func Test_myAtoi(t *testing.T) {
 				str: "4193 with wo",
 			},
 			want: 4193,
-		}, {
+		},
+		{
 			name: "-91283472332",
 			args: args{
 				str: "-91283472332",
@@ -100,6 +101,34 @@ func Test_myAtoi(t *testing.T) {
 				str: "0-1",
 			},
 			want: 0,
+		},
+		{
+			name: "-5-",
+			args: args{
+				str: "-5-",
+			},
+			want: -5,
+		},
+		{
+			name: "-13+8",
+			args: args{
+				str: "-13+8",
+			},
+			want: -13,
+		},
+		{
+			name: "21474836++",
+			args: args{
+				str: "21474836++",
+			},
+			want: 21474836,
+		},
+		{
+			name: "    +1146905820n1",
+			args: args{
+				str: "    +1146905820n1",
+			},
+			want: 1146905820,
 		},
 	}
 	for _, tt := range tests {
