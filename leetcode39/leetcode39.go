@@ -1,6 +1,9 @@
 package leetcode39
 
+import "sort"
+
 func combinationSum(candidates []int, target int) [][]int {
+	sort.Ints(candidates)
 	if len(candidates) == 0 {
 		return [][]int{}
 	}
@@ -18,8 +21,12 @@ func combinationSum(candidates []int, target int) [][]int {
 		}
 
 		for i := index; i < len(candidates); i++ {
-			temp := make([]int, len(cur))
-			copy(temp, cur)
+			if candidates[i] > target { //avoid unnecessary stack
+				break
+			}
+			//temp := make([]int, len(cur))
+			//copy(temp, cur)
+			temp := cur[:len(cur):len(cur)] //avoid unnecessary copy
 			temp = append(temp, candidates[i])
 			dfs(temp, target-candidates[i], i)
 		}
