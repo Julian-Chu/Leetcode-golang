@@ -1,7 +1,6 @@
 package leetcode60
 
 import (
-	"fmt"
 	"strconv"
 )
 
@@ -19,7 +18,6 @@ func getPermutation(n int, k int) string {
 func recur(solution, nums []int, res *[]string) {
 	if len(nums) == 0 {
 		ret := ""
-		fmt.Printf("%v", solution)
 		for _, v := range solution {
 			ret += strconv.Itoa(v)
 		}

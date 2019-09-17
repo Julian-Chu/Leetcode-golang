@@ -13,12 +13,36 @@ func Test_getPermutation(t *testing.T) {
 		want string
 	}{
 		{
-			name: "[1,2]",
+			name: "n=2,k=1",
 			args: args{
 				n: 2,
 				k: 1,
 			},
 			want: "12",
+		},
+		{
+			name: "n=3,k=3",
+			args: args{
+				n: 3,
+				k: 3,
+			},
+			want: "213",
+		},
+		{
+			name: "n=4,k=9",
+			args: args{
+				n: 4,
+				k: 9,
+			},
+			want: "2314",
+		},
+		{
+			name: "n=9,k=37098",
+			args: args{
+				n: 9,
+				k: 37098,
+			},
+			want: "",
 		},
 	}
 	for _, tt := range tests {
