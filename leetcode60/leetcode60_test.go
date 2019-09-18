@@ -42,7 +42,7 @@ func Test_getPermutation(t *testing.T) {
 				n: 9,
 				k: 37098,
 			},
-			want: "",
+			want: "194627853",
 		},
 	}
 	for _, tt := range tests {
