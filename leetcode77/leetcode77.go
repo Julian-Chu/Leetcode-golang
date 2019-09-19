@@ -23,9 +23,8 @@ func recur(nums, solution []int, k int, res *[][]int) {
 	}
 
 	for i := range nums {
-		nums := append([]int{}, nums[i:]...)
 		solution = solution[:len(solution):len(solution)]
-		recur(nums, append(solution, nums[i]), k-1, res)
+		recur(append([]int{}, nums[i+1:]...), append(solution, nums[i]), k-1, res)
 	}
 
 }
