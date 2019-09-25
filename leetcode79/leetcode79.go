@@ -4,57 +4,65 @@ func exist(board [][]byte, word string) bool {
 	if len(board) == 0 {
 		return false
 	}
-	var dfs func([]Point, []byte)
+	pointMap := make(map[Point]bool)
+	var dfs func(map[Point]bool, []byte, Point)
 	val := false
-	dfs = func(path []Point, rest []byte) {
-		path = path[:len(path):len(path)]
+	dfs = func(mapper map[Point]bool, rest []byte, curPoint Point) {
 		if len(rest) == 0 {
 			val = true
 			return
 		}
 
-		curP := path[len(path)-1]
+		curP := curPoint
 
 		w := rest[0]
 		preRow := curP.RowIdx - 1
 		if preRow >= 0 && board[preRow][curP.ColIdx] == w {
-			point := Point{
+			nextPoint := Point{
 				RowIdx: preRow,
 				ColIdx: curP.ColIdx,
 			}
-			if isInPath(path, point) == false {
-				dfs(append(path, point), rest[1:])
+			if _, ok := mapper[nextPoint]; !ok {
+				mapper[nextPoint] = true
+				dfs(mapper, rest[1:], nextPoint)
+				delete(mapper, nextPoint)
 			}
 		}
 		nextRow := curP.RowIdx + 1
 		if nextRow < len(board) && board[nextRow][curP.ColIdx] == w {
-			point := Point{
+			nextPoint := Point{
 				RowIdx: nextRow,
 				ColIdx: curP.ColIdx,
 			}
-			if isInPath(path, point) == false {
-				dfs(append(path, point), rest[1:])
+			if _, ok := mapper[nextPoint]; !ok {
+				mapper[nextPoint] = true
+				dfs(mapper, rest[1:], nextPoint)
+				delete(mapper, nextPoint)
 			}
 		}
 		preCol := curP.ColIdx - 1
 		if preCol >= 0 && board[curP.RowIdx][preCol] == w {
-			point := Point{
+			nextPoint := Point{
 				RowIdx: curP.RowIdx,
 				ColIdx: preCol,
 			}
-			if isInPath(path, point) == false {
-				dfs(append(path, point), rest[1:])
+			if _, ok := mapper[nextPoint]; !ok {
+				mapper[nextPoint] = true
+				dfs(mapper, rest[1:], nextPoint)
+				delete(mapper, nextPoint)
 			}
 		}
 
 		nextCol := curP.ColIdx + 1
 		if nextCol < len(board[0]) && board[curP.RowIdx][nextCol] == w {
-			point := Point{
+			nextPoint := Point{
 				RowIdx: curP.RowIdx,
 				ColIdx: nextCol,
 			}
-			if isInPath(path, point) == false {
-				dfs(append(path, point), rest[1:])
+			if _, ok := mapper[nextPoint]; !ok {
+				mapper[nextPoint] = true
+				dfs(mapper, rest[1:], nextPoint)
+				delete(mapper, nextPoint)
 			}
 		}
 	}
@@ -62,10 +70,13 @@ func exist(board [][]byte, word string) bool {
 	for i := range board {
 		for j := range board[i] {
 			if board[i][j] == first {
-				dfs([]Point{{
+				curPoint := Point{
 					RowIdx: i,
 					ColIdx: j,
-				}}, []byte(word[1:]))
+				}
+				pointMap[curPoint] = true
+				dfs(pointMap, []byte(word[1:]), curPoint)
+				delete(pointMap, curPoint)
 			}
 		}
 	}
@@ -75,13 +86,4 @@ func exist(board [][]byte, word string) bool {
 type Point struct {
 	RowIdx int
 	ColIdx int
-}
-
-func isInPath(path []Point, point Point) bool {
-	for _, p := range path {
-		if point.ColIdx == p.ColIdx && point.RowIdx == p.RowIdx {
-			return true
-		}
-	}
-	return false
 }
