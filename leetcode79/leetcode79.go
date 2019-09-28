@@ -1,89 +1,36 @@
 package leetcode79
 
 func exist(board [][]byte, word string) bool {
-	if len(board) == 0 {
+	if len(board) == 0 || len(board[0]) == 0 || len(word) == 0 {
 		return false
 	}
-	pointMap := make(map[Point]bool)
-	var dfs func(map[Point]bool, []byte, Point)
-	val := false
-	dfs = func(mapper map[Point]bool, rest []byte, curPoint Point) {
-		if len(rest) == 0 {
-			val = true
-			return
+	var dfs func(int, int, int) bool
+	dfs = func(r, c, index int) bool {
+		if index == len(word) {
+			return true
 		}
 
-		curP := curPoint
-
-		w := rest[0]
-		preRow := curP.RowIdx - 1
-		if preRow >= 0 && board[preRow][curP.ColIdx] == w {
-			nextPoint := Point{
-				RowIdx: preRow,
-				ColIdx: curP.ColIdx,
-			}
-			if _, ok := mapper[nextPoint]; !ok {
-				mapper[nextPoint] = true
-				dfs(mapper, rest[1:], nextPoint)
-				delete(mapper, nextPoint)
-			}
-		}
-		nextRow := curP.RowIdx + 1
-		if nextRow < len(board) && board[nextRow][curP.ColIdx] == w {
-			nextPoint := Point{
-				RowIdx: nextRow,
-				ColIdx: curP.ColIdx,
-			}
-			if _, ok := mapper[nextPoint]; !ok {
-				mapper[nextPoint] = true
-				dfs(mapper, rest[1:], nextPoint)
-				delete(mapper, nextPoint)
-			}
-		}
-		preCol := curP.ColIdx - 1
-		if preCol >= 0 && board[curP.RowIdx][preCol] == w {
-			nextPoint := Point{
-				RowIdx: curP.RowIdx,
-				ColIdx: preCol,
-			}
-			if _, ok := mapper[nextPoint]; !ok {
-				mapper[nextPoint] = true
-				dfs(mapper, rest[1:], nextPoint)
-				delete(mapper, nextPoint)
-			}
+		if r < 0 || c < 0 || r > len(board)-1 || c > len(board[0])-1 || board[r][c] != word[index] {
+			return false
 		}
 
-		nextCol := curP.ColIdx + 1
-		if nextCol < len(board[0]) && board[curP.RowIdx][nextCol] == w {
-			nextPoint := Point{
-				RowIdx: curP.RowIdx,
-				ColIdx: nextCol,
-			}
-			if _, ok := mapper[nextPoint]; !ok {
-				mapper[nextPoint] = true
-				dfs(mapper, rest[1:], nextPoint)
-				delete(mapper, nextPoint)
-			}
+		temp := board[r][c]
+		board[r][c] = 0
+		if dfs(r-1, c, index+1) || dfs(r+1, c, index+1) || dfs(r, c-1, index+1) || dfs(r, c+1, index+1) {
+			return true
 		}
+		board[r][c] = temp
+		return false
 	}
-	first := word[0]
-	for i := range board {
-		for j := range board[i] {
-			if board[i][j] == first {
-				curPoint := Point{
-					RowIdx: i,
-					ColIdx: j,
+
+	for i := 0; i < len(board); i++ {
+		for j := 0; j < len(board[0]); j++ {
+			if board[i][j] == word[0] {
+				if dfs(i, j, 0) {
+					return true
 				}
-				pointMap[curPoint] = true
-				dfs(pointMap, []byte(word[1:]), curPoint)
-				delete(pointMap, curPoint)
 			}
 		}
 	}
-	return val
-}
-
-type Point struct {
-	RowIdx int
-	ColIdx int
+	return false
 }
