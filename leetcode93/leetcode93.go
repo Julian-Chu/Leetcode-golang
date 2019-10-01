@@ -3,21 +3,21 @@ package leetcode93
 import "strconv"
 
 func restoreIpAddresses(s string) []string {
-	if len(s) == 0 {
+	if len(s) < 4 || len(s) > 12 {
 		return []string{}
 	}
 	res := make([]string, 0)
 
 	var dfs func(string, int, int)
 	dfs = func(temp string, stringIdx, substrIdx int) {
-		if stringIdx == len(s) && len(temp) == len(s)+3 {
+		if stringIdx == len(s) {
 			res = append(res, temp)
 			return
 		}
 
 		for i := 0; i < 3; i++ {
 			restLen := len(s[stringIdx:])
-			if restLen < i+1 || restLen == 0 {
+			if restLen < i+1 {
 				break
 			}
 			end := stringIdx + i + 1
