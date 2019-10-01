@@ -1,32 +1,52 @@
 package leetcode93
 
+import "strconv"
+
 func restoreIpAddresses(s string) []string {
 	if len(s) == 0 {
 		return []string{}
 	}
-	// submask which starts with zero has only digit
-	// submask max 3 digits, less than or equal to 255
 	res := make([]string, 0)
 
-	var dfs func([]byte, int, int)
-	dfs = func(temp []byte, idx, pointCount int) {
-		if len(temp) == len(s)+3 {
-			res = append(res, string(temp))
+	var dfs func(string, int, int)
+	dfs = func(temp string, stringIdx, substrIdx int) {
+		if stringIdx == len(s) && len(temp) == len(s)+3 {
+			res = append(res, temp)
 			return
 		}
-		temp = temp[:len(temp):len(temp)]
-		for i := 1; i <= 3; i++ {
-			pointCount++
-			newTemp := s[idx : idx+i]
-			newTemp
-			if pointCount == 3 {
-				dfs()
+
+		for i := 0; i < 3; i++ {
+			restLen := len(s[stringIdx:])
+			if restLen < i+1 || restLen == 0 {
+				break
+			}
+			end := stringIdx + i + 1
+			subIpStr := s[stringIdx:end]
+			if len(subIpStr) == 3 {
+				subIp, _ := strconv.Atoi(subIpStr)
+				if subIp > 255 {
+					break
+				}
+			}
+			newStr := temp + subIpStr + "."
+			if substrIdx == 3 {
+				if restLen > 3 || restLen == 0 {
+					break
+				}
+				newStr = temp + s[stringIdx:]
 			} else {
-				dfs(append(temp, newTemp...), idx+i, pointCount)
+				if len(s[end:]) == 0 {
+					break
+				}
+			}
+			dfs(newStr, end, substrIdx+1)
+			if s[stringIdx] == '0' {
+				break
 			}
 		}
+
 	}
 
-	dfs([]byte{}, 0, 0)
-	return []string{}
+	dfs("", 0, 0)
+	return res
 }
