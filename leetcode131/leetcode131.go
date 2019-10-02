@@ -6,13 +6,17 @@ func partition(s string) [][]string {
 	var dfs func(int, []string)
 	dfs = func(idx int, temp []string) {
 		if idx == len(s) {
-			res = append(res, temp)
+			cur := make([]string, len(temp))
+			copy(cur, temp)
+			res = append(res, cur)
+			//res = append(res, temp)
 			return
 		}
-		temp = temp[:len(temp):len(temp)]
+		//temp = temp[:len(temp):len(temp)]
 		for i := 1; i <= len(s)-idx; i++ {
 			subStr := s[idx : idx+i]
 			if isPalidrome(subStr) {
+				//temp = temp[:len(temp):len(temp)]
 				dfs(idx+i, append(temp, subStr))
 			}
 		}
@@ -26,18 +30,14 @@ func isPalidrome(s string) bool {
 	if n <= 1 {
 		return true
 	}
-	l, r := n/2, n/2
+	l, r := 0, n-1
 
-	if len(s)%2 == 0 {
-		l = r - 1
-	}
-
-	for l >= 0 {
+	for l < r {
 		if s[l] != s[r] {
 			return false
 		}
-		l--
-		r++
+		l++
+		r--
 	}
 	return true
 }
