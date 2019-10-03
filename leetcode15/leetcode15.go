@@ -22,16 +22,14 @@ func threeSum(nums []int) [][]int {
 				l++
 			default:
 				res = append(res, []int{nums[i], nums[l], nums[r]})
-				if nums[l] != 0 {
+				l++
+				for l < r && nums[l] == nums[l-1] {
 					l++
-					for l < r && nums[l] == nums[l-1] {
-						l++
-					}
-					break
 				}
 
-				for l < r && nums[l] == 0 {
-					l++
+				r--
+				for l < r && nums[r] == nums[r+1] {
+					r--
 				}
 			}
 		}
