@@ -1,27 +1,24 @@
 package leetcode27
 
+import "fmt"
+
 func removeElement(nums []int, val int) int {
-	noval := true
-	for _, v := range nums {
-		if v == val {
-			noval = false
+	i, j := 0, len(nums)-1
+
+	for {
+		for i < len(nums) && nums[i] != val {
+			i++
 		}
+
+		for j >= 0 && nums[j] == val {
+			j--
+		}
+		if j < i {
+			break
+		}
+		fmt.Println(i, j)
+		nums[i], nums[j] = nums[j], nums[i]
 	}
 
-	if noval {
-		return len(nums)
-	}
-	l, r := 0, len(nums)-1
-	for l < r {
-		if nums[l] != val {
-			l++
-		} else {
-			if nums[r] == val {
-				r--
-			} else {
-				nums[l], nums[r] = nums[r], nums[l]
-			}
-		}
-	}
-	return l
+	return i
 }
