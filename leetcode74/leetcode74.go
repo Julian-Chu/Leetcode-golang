@@ -24,6 +24,7 @@ func searchMatrix(matrix [][]int, target int) bool {
 	for l <= r {
 		mid = (l + r) / 2
 		switch {
+
 		case matrix[row][mid] < target:
 			l = mid + 1
 		case matrix[row][mid] > target:
