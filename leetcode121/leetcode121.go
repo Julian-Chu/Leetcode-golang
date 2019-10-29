@@ -1,18 +1,15 @@
 package leetcode121
 
 func maxProfit(prices []int) int {
-	n := len(prices)
-	if n == 0 {
-		return 0
-	}
 	max := 0
-	min := prices[0]
-	for i := range prices {
-		if max < prices[i]-min {
-			max = prices[i] - min
+	temp := 0
+	for i := 1; i < len(prices); i++ {
+		temp += prices[i] - prices[i-1]
+		if temp < 0 {
+			temp = 0
 		}
-		if min > prices[i] {
-			min = prices[i]
+		if max < temp {
+			max = temp
 		}
 	}
 	return max
