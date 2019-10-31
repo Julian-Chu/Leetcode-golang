@@ -1,23 +1,44 @@
 package leetcode152
 
 func maxProduct(nums []int) int {
-	pos, neg, max := 1, 1, nums[0]
-	for i := 0; i < len(nums); i++ {
-		switch {
-		case nums[i] > 0:
-			pos, neg = nums[i]*pos, nums[i]*neg
-		case nums[i] < 0:
-			pos, neg = nums[i]*neg, nums[i]*pos
-		default:
-			pos, neg = 0, 1
+	var maxInts = func(nums []int) int {
+		max := nums[0]
+		for i := 1; i < len(nums); i++ {
+			if nums[i] > max {
+				max = nums[i]
+			}
 		}
+		return max
+	}
 
-		if max < pos {
-			max = pos
+	var minInts = func(nums []int) int {
+		min := nums[0]
+		for i := 1; i < len(nums); i++ {
+			if nums[i] < min {
+				min = nums[i]
+			}
 		}
-		if pos <= 0 {
-			pos = 1
+		return min
+	}
+	n := len(nums)
+	max := make([]int, n, n)
+	min := make([]int, n, n)
+
+	max[0] = nums[0]
+	min[0] = nums[0]
+	ans := nums[0]
+
+	for i := 1; i < n; i++ {
+		v1 := max[i-1] * nums[i]
+		v2 := min[i-1] * nums[i]
+
+		max[i] = maxInts([]int{v1, v2, nums[i]})
+		min[i] = minInts([]int{v1, v2, nums[i]})
+
+		if ans < max[i] {
+			ans = max[i]
 		}
 	}
-	return max
+
+	return ans
 }
