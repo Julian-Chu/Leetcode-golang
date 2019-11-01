@@ -32,6 +32,13 @@ func Test_findMin(t *testing.T) {
 			},
 			want: 1,
 		},
+		{
+			name: "[1,2]",
+			args: args{
+				nums: []int{1, 2},
+			},
+			want: 1,
+		},
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
