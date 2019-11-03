@@ -1,32 +1,19 @@
 package leetcode167
 
 func twoSum(numbers []int, target int) []int {
-	mapper := make(map[int]int)
+	mapper := make(map[int]int, len(numbers))
 
 	max := target - numbers[0]
 
-	for i := 0; i < len(numbers); i++ {
-		if numbers[i] > max {
+	for i, v := range numbers {
+		if v > max {
 			break
 		}
-		if _, ok := mapper[numbers[i]]; !ok {
-			mapper[numbers[i]] = i
+		if n := mapper[target-v]; n != 0 {
+			return []int{n, i + 1}
 		}
+
+		mapper[v] = i + 1
 	}
-
-	for i := 0; i < len(numbers); i++ {
-		if numbers[i] > target {
-			break
-		}
-
-		nextVal := target - numbers[i]
-		if nextVal == numbers[i] {
-			return []int{i + 1, i + 2}
-		}
-
-		if idx, ok := mapper[nextVal]; ok {
-			return []int{i + 1, idx + 1}
-		}
-	}
-	return []int{0, 0}
+	return nil
 }

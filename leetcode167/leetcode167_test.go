@@ -16,7 +16,7 @@ func Test_twoSum(t *testing.T) {
 		want []int
 	}{
 		{
-			name: "[2,7,11,15",
+			name: "[2,7,11,15]",
 			args: args{
 				numbers: []int{2, 7, 11, 15},
 				target:  9,
