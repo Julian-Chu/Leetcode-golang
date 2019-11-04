@@ -1,14 +1,17 @@
 package leetcode169
 
 func majorityElement(nums []int) int {
-	m := make(map[int]int)
+	x, cnt := 0, 0
 
-	moreThan := len(nums) / 2
 	for _, v := range nums {
-		m[v]++
-		if m[v] > moreThan {
-			return v
+		switch {
+		case x == v:
+			cnt++
+		case cnt > 0:
+			cnt--
+		default:
+			x = v
 		}
 	}
-	return 0
+	return x
 }
