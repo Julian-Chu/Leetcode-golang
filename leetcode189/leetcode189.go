@@ -5,6 +5,5 @@ func rotate(nums []int, k int) {
 		return
 	}
 
-	k %= len(nums)
 	copy(nums, append(nums[len(nums)-k:], nums[:len(nums)-k]...))
 }
