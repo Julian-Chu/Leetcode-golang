@@ -1,29 +1,30 @@
 package leetcode91
 
 func numDecodings(s string) int {
-	cnt := 0
-	rec([]byte(s), &cnt)
-	return cnt
-}
+	n := len(s)
+	if n == 0 || s[0]-'0' == 0 {
+		return 0
+	}
+	if n == 1 {
+		return 1
+	}
+	dp := make([]int, n)
+	dp[0] = 1
+	lastDigit, lastTwoDigits := s[0]-'0', uint8(0)
 
-func rec(restStr []byte, cnt *int) {
-	if len(restStr) == 0 {
-		*cnt++
-		return
+	for i := 1; i < n; i++ {
+		lastDigit, lastTwoDigits = s[i]-'0', lastDigit*10+s[i]-'0'
+		if lastDigit > 0 {
+			dp[i] += dp[i-1]
+		}
+		if lastTwoDigits >= 10 && lastTwoDigits <= 26 {
+			if i == 1 {
+				dp[i]++
+			} else {
+				dp[i] += dp[i-2]
+			}
+		}
 	}
-	// take 1
-	v1 := restStr[0] - '0'
-	if v1 != 0 {
-		rec(append([]byte{}, restStr[1:]...), cnt)
-	}
-	// take 2
-	if len(restStr) < 2 {
-		return
-	}
+	return dp[n-1]
 
-	v2 := v1*10 + restStr[1] - '0'
-	if v2 > 26 || v2 == 0 || v1 == 0 {
-		return
-	}
-	rec(append([]byte{}, restStr[2:]...), cnt)
 }
