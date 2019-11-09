@@ -12,8 +12,13 @@ func numTrees(n int) int {
 	}
 
 	sum := 0
-	for i := 1; i <= n; i++ {
+	for i := 1; i <= n/2; i++ {
 		sum += numTrees(i-1) * numTrees(n-i)
+	}
+	sum *= 2
+	if n%2 == 1 {
+		temp := numTrees(n / 2)
+		sum += temp * temp
 	}
 	return sum
 }
