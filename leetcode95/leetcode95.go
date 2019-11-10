@@ -7,7 +7,9 @@ type TreeNode struct {
 }
 
 func generateTrees(n int) []*TreeNode {
-
+	if n == 0 {
+		return []*TreeNode{}
+	}
 	in := make([]int, n)
 	for i := 0; i < n; i++ {
 		in[i] = i + 1
@@ -45,10 +47,7 @@ func buildNode(in []int, pre []int) *TreeNode {
 }
 
 func getPres(in []int) [][]int {
-	if len(in) == 0 {
-		return [][]int{}
-	}
-	if len(in) == 1 {
+	if len(in) < 2 {
 		return [][]int{in}
 	}
 	if len(in) == 2 {
@@ -59,24 +58,11 @@ func getPres(in []int) [][]int {
 		root := in[i]
 		left := getPres(in[:i])
 		right := getPres(in[i+1:])
-		n1 := len(left)
-		if n1 == 0 {
-			n1 = 1
-		}
-
-		for j := 0; j < n1; j++ {
-			n2 := len(right)
-			if n2 == 0 {
-				n2 = 1
-			}
-			for k := 0; k < n2; k++ {
-				pre := append([]int{}, root)
-				if len(left) != 0 {
-					pre = append(pre, left[j]...)
-				}
-				if len(right) != 0 {
-					pre = append(pre, right[k]...)
-				}
+		for j := 0; j < len(left); j++ {
+			for k := 0; k < len(right); k++ {
+				pre := []int{root}
+				pre = append(pre, left[j]...)
+				pre = append(pre, right[k]...)
 				res = append(res, pre)
 			}
 		}
