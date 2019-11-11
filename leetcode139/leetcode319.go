@@ -6,20 +6,27 @@ func wordBreak(s string, wordDict []string) bool {
 	sort.Slice(wordDict, func(i, j int) bool {
 		return len(wordDict[i]) > len(wordDict[j])
 	})
-	if len(s) == 0 {
-		return true
-	}
-	for _, v := range wordDict {
-		n := len(v)
-		if len(s) < n {
-			continue
-		}
-		if s[0:n] == v {
-			str := s[n:]
-			if wordBreak(str, wordDict) {
+	strLen := len(s)
+	var recur func(int) bool
+
+	recur = func(start int) bool {
+		for _, v := range wordDict {
+			if start == strLen {
 				return true
 			}
+			n := len(v)
+			end := start + n
+			if end > strLen {
+				continue
+			}
+			if s[start:end] == v {
+				if recur(end) {
+					return true
+				}
+			}
 		}
+		return false
 	}
-	return false
+
+	return recur(0)
 }
