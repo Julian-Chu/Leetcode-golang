@@ -52,6 +52,14 @@ func Test_divide(t *testing.T) {
 			},
 			want: 2147483647,
 		},
+		{
+			name: "-2147483648/1",
+			args: args{
+				dividend: -2147483648,
+				divisor:  1,
+			},
+			want: -2147483648,
+		},
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {

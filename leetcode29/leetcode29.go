@@ -6,23 +6,31 @@ func divide(dividend int, divisor int) int {
 	if divisor == 0 || dividend == 0 {
 		return 0
 	}
-	cnt := 0
-	abs_dividend := int(math.Abs(float64(dividend)))
-	d := int(math.Abs(float64(divisor)))
-	for abs_dividend >= d {
-		abs_dividend -= d
-		cnt++
+
+	res := divInt64(int64(math.Abs(float64(dividend))), int64(math.Abs(float64(divisor))))
+
+	if (dividend > 0 && divisor < 0) || (dividend < 0 && divisor > 0) {
+		res = -res
+	}
+	if res > math.MaxInt32 {
+		return math.MaxInt32
+	}
+	if -res < math.MinInt32 {
+		return math.MinInt32
+	}
+	return int(res)
+}
+
+func divInt64(dividend int64, divisor int64) int64 {
+	if dividend < divisor {
+		return 0
+	}
+	cnt := 1
+	temp := divisor
+	for dividend > (temp << 1) {
+		temp = temp << 1
+		cnt = cnt << 1
 	}
 
-	if (divisor > 0 && dividend > 0) || (divisor < 0 && dividend < 0) {
-		if cnt > math.MaxInt32 {
-			return math.MaxInt32
-		}
-		return cnt
-	} else {
-		if cnt < math.MinInt32 {
-			return math.MaxInt32
-		}
-		return -cnt
-	}
+	return int64(cnt) + divInt64(dividend-temp, divisor)
 }
