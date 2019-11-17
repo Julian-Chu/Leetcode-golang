@@ -16,11 +16,8 @@ func myPow(x float64, n int) float64 {
 			return -1
 		}
 	}
-	res := float64(1)
-	n_abs := int(math.Abs(float64(n)))
-	for i := 0; i < n_abs; i++ {
-		res *= x
-	}
+
+	res := pow(x, n)
 
 	if n < 0 {
 		res = 1 / res
@@ -29,4 +26,20 @@ func myPow(x float64, n int) float64 {
 	res = math.Floor(res * 100000)
 	res /= 100000
 	return res
+}
+
+func pow(x float64, n int) float64 {
+	if n == 1 {
+		return x
+	}
+
+	if n == 0 {
+		return 1
+	}
+
+	if n%2 == 0 {
+		return pow(x*x, n/2)
+	} else {
+		return x * pow(x*x, n/2)
+	}
 }
