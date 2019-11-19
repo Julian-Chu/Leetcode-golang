@@ -1,7 +1,9 @@
 package leetcode69
 
-import "math"
-
 func mySqrt(x int) int {
-	return int(math.Sqrt(float64(x)))
+	res := x
+	for res*res > x {
+		res = (res + x/res) / 2
+	}
+	return res
 }
