@@ -2,18 +2,11 @@ package leetcode168
 
 func convertToTitle(n int) string {
 	res := ""
-	for n > 26 {
-
-		rest := n % 26
-		n = n / 26
-		if rest == 0 {
-			res = string('Z') + res
-			n--
-		} else {
-			res = string('A'+rest-1) + res
-		}
+	for n > 0 {
+		n--
+		res = string(byte(n%26)+'A') + res
+		n /= 26
 	}
 
-	res = string('A'+n-1) + res
 	return res
 }
