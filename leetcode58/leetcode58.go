@@ -1,19 +1,17 @@
 package leetcode58
 
-import "strings"
-
 func lengthOfLastWord(s string) int {
-	if s == "" {
-		return 0
-	}
-
-	arr := strings.Split(s, " ")
-	for i := len(arr) - 1; i >= 0; i-- {
-		if arr[i] == "" {
+	l := 0
+	found := false
+	for i := len(s) - 1; i >= 0; i-- {
+		if s[i] == ' ' {
+			if found {
+				break
+			}
 			continue
 		}
-		return len(arr[i])
+		l++
+		found = true
 	}
-
-	return 0
+	return l
 }
