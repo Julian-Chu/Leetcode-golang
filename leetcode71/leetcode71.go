@@ -3,15 +3,15 @@ package leetcode71
 import "strings"
 
 func simplifyPath(path string) string {
-	strs := strings.Split(path, "/")
+	splitStrArr := strings.Split(path, "/")
 
 	res := ""
 	moveUpCnt := 0
-	for i := len(strs) - 1; i >= 0; i-- {
-		if strs[i] == "" || strs[i] == "." {
+	for i := len(splitStrArr) - 1; i >= 0; i-- {
+		if splitStrArr[i] == "" || splitStrArr[i] == "." {
 			continue
 		}
-		if strs[i] == ".." {
+		if splitStrArr[i] == ".." {
 			moveUpCnt++
 			continue
 		}
@@ -21,11 +21,11 @@ func simplifyPath(path string) string {
 			continue
 		}
 		if res == "" {
-			res = strs[i]
+			res = splitStrArr[i]
 			continue
 		}
 
-		res = strs[i] + "/" + res
+		res = splitStrArr[i] + "/" + res
 	}
 
 	return "/" + res
