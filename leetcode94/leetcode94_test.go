@@ -49,6 +49,22 @@ func Test_inorderTraversal(t *testing.T) {
 			},
 			want: []int{4, 1, 3, 2},
 		},
+		{
+			name: "case3",
+			args: args{
+				root: &TreeNode{
+					Val: 3,
+					Left: &TreeNode{
+						Val:  1,
+						Left: nil,
+						Right: &TreeNode{
+							Val: 2,
+						},
+					},
+				},
+			},
+			want: []int{1, 2, 3},
+		},
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
