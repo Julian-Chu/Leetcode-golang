@@ -10,24 +10,24 @@ func isValidBST(root *TreeNode) bool {
 	return isValidSubBST(root, nil, nil)
 }
 
-func isValidSubBST(node *TreeNode, minNode *TreeNode, maxNode *TreeNode) bool {
+func isValidSubBST(node *TreeNode, lower *int, upper *int) bool {
 	if node == nil {
 		return true
 	}
-
-	if minNode != nil && node.Val <= minNode.Val {
+	val := node.Val
+	if lower != nil && val <= *lower {
 		return false
 	}
 
-	if maxNode != nil && node.Val >= maxNode.Val {
+	if upper != nil && val >= *upper {
 		return false
 	}
 
-	if !isValidSubBST(node.Left, minNode, node) {
+	if !isValidSubBST(node.Left, lower, &val) {
 		return false
 	}
 
-	if !isValidSubBST(node.Right, node, maxNode) {
+	if !isValidSubBST(node.Right, &val, upper) {
 		return false
 	}
 	return true
