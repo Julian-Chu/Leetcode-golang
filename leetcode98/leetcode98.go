@@ -11,67 +11,60 @@ func isValidBST(root *TreeNode) bool {
 		return true
 	}
 
-	left := true
+	l := true
 	if root.Left != nil {
 		if root.Val <= root.Left.Val {
 			return false
 		}
-		left = isLeftValidSubBST(root.Left, root.Val)
+		l = isValidSubBST(root.Left, nil, root)
 	}
-
-	right := true
+	r := true
 	if root.Right != nil {
 		if root.Val >= root.Right.Val {
 			return false
 		}
-		right = isRightValidSubBST(root.Right, root.Val)
+		r = isValidSubBST(root.Right, root, nil)
 	}
 
-	return left && right
-
+	return l && r
 }
 
-func isLeftValidSubBST(node *TreeNode, max int) bool {
-	if node == nil {
-		return true
-	}
-	left := true
+func isValidSubBST(node *TreeNode, minNode *TreeNode, maxNode *TreeNode) bool {
+	l := true
 	if node.Left != nil {
-		if node.Val <= node.Left.Val || node.Left.Val >= max {
+		if node.Val <= node.Left.Val {
 			return false
 		}
-		left = isLeftValidSubBST(node.Left, max)
+		if minNode != nil && node.Left.Val <= minNode.Val {
+			return false
+		}
+		if maxNode != nil && node.Left.Val >= maxNode.Val {
+			return false
+		}
+		if minNode != nil {
+			l = isValidSubBST(node.Left, minNode, node)
+		} else {
+			l = isValidSubBST(node.Left, nil, node)
+		}
 	}
-
-	right := true
+	r := true
 	if node.Right != nil {
-		if node.Val >= node.Right.Val || node.Right.Val >= max {
+		if node.Val >= node.Right.Val {
 			return false
 		}
-		right = isRightValidSubBST(node.Right, max)
-	}
 
-	return left && right
-}
-func isRightValidSubBST(node *TreeNode, min int) bool {
-	if node == nil {
-		return true
-	}
-	left := true
-	if node.Left != nil {
-		if node.Val <= node.Left.Val || node.Left.Val <= min {
+		if minNode != nil && node.Right.Val <= minNode.Val {
 			return false
 		}
-		left = isLeftValidSubBST(node.Left, min)
-	}
-
-	right := true
-	if node.Right != nil {
-		if node.Val >= node.Right.Val || node.Right.Val <= min {
+		if maxNode != nil && node.Right.Val >= maxNode.Val {
 			return false
 		}
-		right = isRightValidSubBST(node.Right, min)
+		if maxNode != nil {
+			r = isValidSubBST(node.Right, node, maxNode)
+		} else {
+			r = isValidSubBST(node.Right, node, nil)
+		}
 	}
 
-	return left && right
+	return l && r
 }
