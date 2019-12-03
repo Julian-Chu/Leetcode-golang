@@ -7,28 +7,14 @@ import (
 type TreeNode = utils.TreeNode
 
 func isValidBST(root *TreeNode) bool {
-	return isValidSubBST(root, nil, nil)
+	min, max := -1<<63, 1<<63-1
+	return isValidSubBST(min, max, root)
 }
 
-func isValidSubBST(node *TreeNode, lower *int, upper *int) bool {
-	if node == nil {
+func isValidSubBST(min, max int, root *TreeNode) bool {
+	if root == nil {
 		return true
 	}
-	val := node.Val
-	if lower != nil && val <= *lower {
-		return false
-	}
 
-	if upper != nil && val >= *upper {
-		return false
-	}
-
-	if !isValidSubBST(node.Left, lower, &val) {
-		return false
-	}
-
-	if !isValidSubBST(node.Right, &val, upper) {
-		return false
-	}
-	return true
+	return min < root.Val && root.Val < max && isValidSubBST(min, root.Val, root.Left) && isValidSubBST(root.Val, max, root.Right)
 }
