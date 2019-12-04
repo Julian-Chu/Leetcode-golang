@@ -5,31 +5,30 @@ import "Leetcode-golang/utils"
 type TreeNode = utils.TreeNode
 
 func zigzagLevelOrder(root *TreeNode) [][]int {
-	res := buildZigZagLevelOrder(root, 0, [][]int{})
+	var res [][]int
 
-	for i := 0; i < len(res); i++ {
-		if i%2 != 0 {
-			for l, r := 0, len(res[i])-1; l < r; l, r = l+1, r-1 {
-				res[i][l], res[i][r] = res[i][r], res[i][l]
-			}
+	var dfs func(*TreeNode, int)
+	dfs = func(root *TreeNode, level int) {
+		if root == nil {
+			return
 		}
+
+		if len(res) == level {
+			res = append(res, []int{})
+		}
+
+		if level%2 == 0 {
+			res[level] = append(res[level], root.Val)
+		} else {
+			temp := make([]int, len(res[level])+1)
+			temp[0] = root.Val
+			copy(temp[1:], res[level])
+			res[level] = temp
+		}
+		dfs(root.Left, level+1)
+		dfs(root.Right, level+1)
 	}
-	return res
-}
 
-func buildZigZagLevelOrder(node *TreeNode, level int, res [][]int) [][]int {
-	if node == nil {
-		return res
-	}
-
-	if len(res) == level {
-		res = append(res, []int{})
-	}
-
-	res[level] = append(res[level], node.Val)
-
-	res = buildZigZagLevelOrder(node.Left, level+1, res)
-	res = buildZigZagLevelOrder(node.Right, level+1, res)
-
+	dfs(root, 0)
 	return res
 }
