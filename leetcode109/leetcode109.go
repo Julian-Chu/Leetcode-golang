@@ -8,6 +8,9 @@ type (
 )
 
 func sortedListToBST(head *ListNode) *TreeNode {
+	if head == nil {
+		return nil
+	}
 	var nums []int
 	node := head
 	for {
@@ -17,5 +20,26 @@ func sortedListToBST(head *ListNode) *TreeNode {
 		}
 		node = node.Next
 	}
+	mid := len(nums) / 2
+	root := &TreeNode{
+		Val: nums[mid],
+	}
+	root.Left = buildBST(nums[:mid])
+	root.Right = buildBST(nums[mid+1:])
 
+	return root
+}
+
+func buildBST(nums []int) *TreeNode {
+	if len(nums) == 0 {
+		return nil
+	}
+
+	mid := len(nums) / 2
+	root := &TreeNode{
+		Val: nums[mid],
+	}
+	root.Left = buildBST(nums[:mid])
+	root.Right = buildBST(nums[mid+1:])
+	return root
 }
