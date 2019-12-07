@@ -11,35 +11,31 @@ func sortedListToBST(head *ListNode) *TreeNode {
 	if head == nil {
 		return nil
 	}
-	var nums []int
-	node := head
-	for {
-		nums = append(nums, node.Val)
-		if node.Next == nil {
-			break
-		}
-		node = node.Next
-	}
-	mid := len(nums) / 2
-	root := &TreeNode{
-		Val: nums[mid],
-	}
-	root.Left = buildBST(nums[:mid])
-	root.Right = buildBST(nums[mid+1:])
 
-	return root
+	return FindMidAndBuildBST(head, nil)
+
 }
 
-func buildBST(nums []int) *TreeNode {
-	if len(nums) == 0 {
+func FindMidAndBuildBST(start, end *ListNode) *TreeNode {
+
+	if start == end {
 		return nil
 	}
-
-	mid := len(nums) / 2
-	root := &TreeNode{
-		Val: nums[mid],
+	if start.Next == end {
+		return &TreeNode{Val: start.Val}
 	}
-	root.Left = buildBST(nums[:mid])
-	root.Right = buildBST(nums[mid+1:])
-	return root
+
+	fast, slow := start, start
+	for fast != end && fast.Next != end {
+		fast = fast.Next.Next
+		slow = slow.Next
+	}
+
+	mid := slow
+
+	return &TreeNode{
+		Val:   mid.Val,
+		Left:  FindMidAndBuildBST(start, mid),
+		Right: FindMidAndBuildBST(mid.Next, end),
+	}
 }
