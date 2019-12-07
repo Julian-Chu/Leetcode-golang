@@ -115,6 +115,9 @@ func Test_isValidBST(t *testing.T) {
 						},
 						Right: &TreeNode{
 							Val: 2,
+							Right: &TreeNode{
+								Val: 3,
+							},
 						},
 					},
 					Right: &TreeNode{
@@ -124,9 +127,6 @@ func Test_isValidBST(t *testing.T) {
 						},
 						Right: &TreeNode{
 							Val: 6,
-							Right: &TreeNode{
-								Val: 3,
-							},
 						},
 					},
 				},

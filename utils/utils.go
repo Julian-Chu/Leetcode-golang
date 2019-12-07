@@ -21,5 +21,9 @@ func compareTrees(node1, node2 *TreeNode) bool {
 	}
 
 	return compareTrees(node1.Left, node2.Left) && compareTrees(node1.Right, node2.Right)
+}
 
+type ListNode struct {
+	Val  int
+	Next *ListNode
 }
