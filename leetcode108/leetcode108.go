@@ -5,22 +5,20 @@ import "Leetcode-golang/utils"
 type TreeNode = utils.TreeNode
 
 func sortedArrayToBST(nums []int) *TreeNode {
-	if len(nums) == 0 {
+	return dfs(nums, 0, len(nums)-1)
+}
+
+func dfs(nums []int, l, r int) *TreeNode {
+	if l > r {
 		return nil
 	}
 
-	mid := len(nums) / 2
+	mid := (l + r) / 2
 	root := &TreeNode{
 		Val: nums[mid],
 	}
 
-	if mid > 0 {
-		root.Left = sortedArrayToBST(nums[:mid])
-	}
-	if mid < len(nums)-1 {
-		root.Right = sortedArrayToBST(nums[mid+1:])
-	}
-
+	root.Left = dfs(nums, l, mid-1)
+	root.Right = dfs(nums, mid+1, r)
 	return root
-
 }
