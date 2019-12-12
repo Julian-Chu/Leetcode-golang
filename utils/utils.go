@@ -6,6 +6,10 @@ type TreeNode struct {
 	Right *TreeNode
 }
 
+func Ints2Tree(arr []int) (root *TreeNode) {
+	return root
+}
+
 func compareTrees(node1, node2 *TreeNode) bool {
 	if node1 == nil && node2 == nil {
 		return true
