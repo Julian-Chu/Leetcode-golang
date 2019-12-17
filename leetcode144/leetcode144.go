@@ -14,27 +14,27 @@ import "Leetcode-golang/utils"
 type TreeNode = utils.TreeNode
 
 func preorderTraversal(root *TreeNode) []int {
+	var rightStack []*TreeNode
 	var res []int
-	cur := root
-	var stack []*TreeNode
-	for cur != nil || len(stack) != 0 {
-		if cur != nil {
-			res = append(res, cur.Val)
-			if cur.Left == nil && cur.Right == nil {
-				cur = nil
-				continue
-			}
+
+	for cur := root; cur != nil; {
+		res = append(res, cur.Val)
+
+		if cur.Left != nil {
 			if cur.Right != nil {
-				stack = append(stack, cur.Right)
+				rightStack = append(rightStack, cur.Right)
 			}
-			if cur.Left != nil {
-				cur = cur.Left
+			cur = cur.Left
+		} else {
+			if cur.Right != nil {
+				cur = cur.Right
 			} else {
-				cur = nil
+				if len(rightStack) == 0 {
+					break
+				}
+				cur = rightStack[len(rightStack)-1]
+				rightStack = rightStack[:len(rightStack)-1]
 			}
-		} else if len(stack) != 0 {
-			cur = stack[len(stack)-1]
-			stack = stack[:len(stack)-1]
 		}
 	}
 	return res
