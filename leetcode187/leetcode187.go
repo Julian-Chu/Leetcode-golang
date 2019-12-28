@@ -4,17 +4,13 @@ func findRepeatedDnaSequences(s string) []string {
 	m := make(map[string]int)
 
 	size := 10
-
-	for i := 0; i <= len(s)-size; i++ {
-		m[s[i:i+size]]++
-	}
-
 	var res []string
-
-	for k, v := range m {
-		if v > 1 {
-			res = append(res, k)
+	for i := 0; i <= len(s)-size; i++ {
+		str := s[i : i+size]
+		if m[str] == 1 {
+			res = append(res, str)
 		}
+		m[str]++
 	}
 
 	return res
