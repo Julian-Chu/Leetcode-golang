@@ -1,28 +1,20 @@
 package leetcode134
 
 func canCompleteCircuit(gas []int, cost []int) int {
-	end := len(gas) - 1
-	for start := range gas {
-		i := start
-		sum := gas[i] - cost[i]
-		i++
-		if i > end {
-			i = 0
-		}
-		for sum >= 0 {
-			sum += gas[i] - cost[i]
-			if sum < 0 {
-				break
-			}
+	start, end, sum := len(gas)-1, 0, gas[len(gas)-1]-cost[len(gas)-1]
 
-			if i == start {
-				return start
-			}
-			i++
-			if i > end {
-				i = 0
-			}
+	for start > end {
+		if sum >= 0 {
+			sum += gas[end] - cost[end]
+			end++
+		} else {
+			start--
+			sum += gas[start] - cost[start]
 		}
+	}
+
+	if sum >= 0 {
+		return start
 	}
 
 	return -1
