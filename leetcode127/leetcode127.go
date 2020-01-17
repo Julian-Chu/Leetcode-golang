@@ -1,47 +1,54 @@
 package leetcode127
 
 func ladderLength(beginWord string, endWord string, wordList []string) int {
-	var q [][]string
-	path := []string{beginWord}
-	bfs(beginWord, endWord, path, wordList, &q)
+	dict := make(map[string]bool)
+	for _, v := range wordList {
+		dict[v] = true
+	}
 
-	if len(q) == 0 {
+	delete(dict, beginWord)
+	if dict[endWord] == false {
 		return 0
 	}
-	cnt := len(q[0])
-	for i := range q {
-		if len(q[i]) < cnt {
-			cnt = len(q[i])
-		}
-	}
-	return cnt
-}
 
-func bfs(word, endWord string, path, wordList []string, queue *[][]string) {
-	if word == endWord {
-		*queue = append(*queue, path)
-		return
+	q := map[string]bool{beginWord: true}
+	length := 0
+	notFound := true
+loop:
+	for len(q) > 0 {
+		length++
+		next := make(map[string]bool)
+
+		for word, _ := range q {
+			w := []byte(word)
+			for i := 0; i < len(w); i++ {
+				ch := w[i]
+
+				for j := 0; j < 26; j++ {
+					newCh := 'a' + byte(j)
+					if ch == newCh {
+						continue
+					}
+					w[i] = newCh
+
+					if dict[string(w)] == true {
+						if string(w) == endWord {
+							notFound = false
+							break loop
+						}
+						next[string(w)] = true
+						delete(dict, string(w))
+					}
+				}
+				w[i] = ch
+			}
+		}
+		q = next
 	}
 
-	path = path[:len(path):len(path)]
-	for i := range wordList {
-		if isOnlyOneDifferentAlphabet(word, wordList[i]) {
-			newPath := append(path, wordList[i])
-			wordList[i], wordList[0] = wordList[0], wordList[i]
-			newWordList := make([]string, len(wordList)-1)
-			copy(newWordList, wordList[1:])
-			bfs(wordList[0], endWord, newPath, newWordList, queue)
-		}
+	if notFound {
+		return 0
 	}
-}
+	return length + 1
 
-func isOnlyOneDifferentAlphabet(first, second string) bool {
-	diff := 0
-	size := len(first)
-	for i := 0; i < size; i++ {
-		if first[i] != second[i] {
-			diff++
-		}
-	}
-	return diff == 1
 }
