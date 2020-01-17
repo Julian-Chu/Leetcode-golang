@@ -2,6 +2,11 @@ package leetcode127
 
 import "testing"
 
+func Benchmark_ladderLength(b *testing.B) {
+	for i := 0; i < b.N; i++ {
+		ladderLength("hit", "cog", []string{"hot", "dot", "dog", "lot", "log", "cog"})
+	}
+}
 func Test_ladderLength(t *testing.T) {
 	type args struct {
 		beginWord string
