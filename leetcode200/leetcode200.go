@@ -4,58 +4,57 @@ func numIslands(grid [][]byte) int {
 	if len(grid) == 0 {
 		return 0
 	}
-	size := len(grid) * len(grid[0])
 
-	x := make([]int, 0, size)
-	y := make([]int, 0, size)
-	add := func(i, j int) {
-		x = append(x, i)
-		y = append(y, j)
-		grid[i][j] = '0'
-	}
-	bfs := func(i, j int) int {
-		if grid[i][j] == '0' {
-			return 0
-		}
-
-		add(i, j)
-
-		for len(x) > 0 {
-			i := x[0]
-			x = x[1:]
-			j := y[0]
-			y = y[1:]
-
-			if i-1 >= 0 && grid[i-1][j] == '1' {
-				add(i-1, j)
-			}
-
-			if j-1 >= 0 && grid[i][j-1] == '1' {
-				add(i, j-1)
-			}
-
-			if i+1 < len(grid) && grid[i+1][j] == '1' {
-				add(i+1, j)
-			}
-
-			if j+1 < len(grid[0]) && grid[i][j+1] == '1' {
-				add(i, j+1)
-			}
-		}
-		return 1
-
+	rows, columns := getMatrixSize(grid)
+	visited := make([][]bool, rows)
+	for i, _ := range visited {
+		visited[i] = make([]bool, columns)
 	}
 
-	res := 0
-	for i := 0; i < len(grid); i++ {
-		for j := 0; j < len(grid[0]); j++ {
-			res += bfs(i, j)
+	var islandCount int
+	for row, _ := range grid {
+		for column, _ := range grid[row] {
+			if dfsTriggered(row, column, grid, visited) {
+				islandCount++
+			}
 		}
 	}
 
-	return res
+	return islandCount
 }
 
-//func getPos(i int, j int) string {
-//	return fmt.Sprintf("%v,%v", i, j)
-//}
+func getMatrixSize(grid [][]byte) (rows int, columns int) {
+	rows = len(grid)
+	columns = len(grid[0])
+	return
+}
+
+func dfsTriggered(row, column int, grid [][]byte, visited [][]bool) bool {
+	if visited[row][column] {
+		return false
+	}
+
+	dfs(row, column, grid, visited)
+	if grid[row][column] == '0' {
+		return false
+	}
+	return true
+}
+
+func dfs(row, column int, grid [][]byte, visited [][]bool) {
+	if row < 0 || column < 0 || row >= len(grid) || column >= len(grid[row]) || visited[row][column] == true {
+		return
+	}
+
+	if grid[row][column] == '0' {
+		visited[row][column] = true
+		return
+	}
+
+	visited[row][column] = true
+	dfs(row, column-1, grid, visited)
+	dfs(row, column+1, grid, visited)
+	dfs(row-1, column, grid, visited)
+	dfs(row+1, column, grid, visited)
+	return
+}
