@@ -13,29 +13,23 @@ import "Leetcode-golang/helper"
 type ListNode = helper.ListNode
 
 func removeNthFromEnd(head *ListNode, n int) *ListNode {
-	if head == nil {
-		return head
+
+	parent := head
+	cursor := head
+
+	for cursor != nil {
+		if n < 0 {
+			parent = parent.Next
+		}
+		n--
+		cursor = cursor.Next
 	}
 
-	nodes := make([]*ListNode, 0, n*2)
-	node := head
-	for node != nil {
-		nodes = append(nodes, node)
-		node = node.Next
+	if n == 0 {
+		return head.Next
 	}
 
-	if len(nodes) == 1 {
-		return nil
-	}
-	i := len(nodes) - n
-	switch {
-	case i == 0:
-		return nodes[1]
-	case i == len(nodes)-1:
-		nodes[len(nodes)-2].Next = nil
-	default:
-		nodes[i-1].Next = nodes[i+1]
-	}
+	parent.Next = parent.Next.Next
 
 	return head
 }
