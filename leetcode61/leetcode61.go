@@ -12,37 +12,31 @@ import "Leetcode-golang/helper"
 type ListNode = helper.ListNode
 
 func rotateRight(head *ListNode, k int) *ListNode {
-	if head == nil {
-		return nil
-	}
-	if head.Next == nil || k == 0 {
+
+	if head == nil || k == 0 || head.Next == nil {
 		return head
 	}
 
 	node := head
-	var tail, newTail *ListNode
 	l := 0
 	for node != nil {
 		l++
-		if node.Next == nil {
-			tail = node
-		}
 		node = node.Next
-
 	}
-	offset := (l - k%l) % l
-	newHead := head
-	if offset == 0 {
+
+	k = k % l
+	if k == 0 {
 		return head
 	}
-	for offset > 0 {
-		newTail = newHead
-		newHead = newHead.Next
-		offset--
+	tail, newTail := head, head
+	for tail.Next != nil {
+		if k <= 0 {
+			newTail = newTail.Next
+		}
+		k--
+		tail = tail.Next
 	}
-
-	newTail.Next = nil
-	tail.Next = head
+	newHead := newTail.Next
+	newTail.Next, tail.Next = nil, head
 	return newHead
-
 }
