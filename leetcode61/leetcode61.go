@@ -15,28 +15,34 @@ func rotateRight(head *ListNode, k int) *ListNode {
 	if head == nil {
 		return nil
 	}
-
 	if head.Next == nil || k == 0 {
 		return head
 	}
 
-	nodes := make([]*ListNode, 0)
-	for head != nil {
-		nodes = append(nodes, head)
-		head = head.Next
+	node := head
+	var tail, newTail *ListNode
+	l := 0
+	for node != nil {
+		l++
+		if node.Next == nil {
+			tail = node
+		}
+		node = node.Next
+
+	}
+	offset := (l - k%l) % l
+	newHead := head
+	if offset == 0 {
+		return head
+	}
+	for offset > 0 {
+		newTail = newHead
+		newHead = newHead.Next
+		offset--
 	}
 
-	l := len(nodes)
-	offset := l - k%l
-
-	if offset == l {
-		return nodes[0]
-	}
-	if offset > 0 {
-		nodes[offset-1].Next = nil
-		nodes[l-1].Next = nodes[0]
-	}
-
-	return nodes[offset]
+	newTail.Next = nil
+	tail.Next = head
+	return newHead
 
 }
