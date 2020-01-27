@@ -5,14 +5,18 @@ import "Leetcode-golang/helper"
 type ListNode = helper.ListNode
 
 func hasCycle(head *ListNode) bool {
-	m := make(map[*ListNode]bool)
+	if head == nil || head.Next == nil {
+		return false
+	}
 
-	for head != nil {
-		if _, ok := m[head]; ok {
+	slow, fast := head, head.Next
+	for slow != nil && fast != nil && fast.Next != nil {
+		if slow == fast {
 			return true
 		}
-		m[head] = true
-		head = head.Next
+
+		slow = slow.Next
+		fast = fast.Next.Next
 	}
 
 	return false
