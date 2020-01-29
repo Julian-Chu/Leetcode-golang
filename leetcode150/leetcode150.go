@@ -14,7 +14,7 @@ func evalRPN(tokens []string) int {
 			numStack = append(numStack, num)
 			continue
 		}
-		v1, v2 := numStack[len(numStack)-1], numStack[len(numStack)-2]
+		v1, v2 := numStack[len(numStack)-2], numStack[len(numStack)-1]
 		numStack = numStack[:len(numStack)-2]
 		res := 0
 		switch v {
