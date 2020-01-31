@@ -1,61 +1,48 @@
 package leetcode146
 
+import "container/list"
+
 type LRUCache struct {
-	cache    map[int]int
 	capacity int
-	queue    []int
+	lru      *list.List
+	values   map[int]int
+	keys     map[int]*list.Element
 }
 
 func Constructor(capacity int) LRUCache {
 	return LRUCache{
-		cache:    make(map[int]int, 0),
-		queue:    make([]int, 0, capacity),
 		capacity: capacity,
+		lru:      list.New(),
+		values:   make(map[int]int, capacity),
+		keys:     make(map[int]*list.Element, capacity),
 	}
 }
 
 func (this *LRUCache) Get(key int) int {
-	if v, ok := this.cache[key]; ok {
-		for i := range this.queue {
-			if this.queue[i] == key {
-				q := make([]int, 1, this.capacity)
-				q[0] = key
-				q = append(q, this.queue[:i]...)
-				q = append(q, this.queue[i+1:]...)
-				this.queue = q
-			}
-		}
-
+	if v, ok := this.values[key]; ok {
+		this.lru.MoveToFront(this.keys[key])
 		return v
 	}
 	return -1
 }
 
 func (this *LRUCache) Put(key int, value int) {
-	if _, ok := this.cache[key]; ok {
-		for i := range this.queue {
-			if this.queue[i] == key {
-				q := make([]int, 1, this.capacity)
-				q[0] = key
-				q = append(q, this.queue[:i]...)
-				q = append(q, this.queue[i+1:]...)
-				this.queue = q
-			}
-		}
-		this.cache[key] = value
+	if _, ok := this.values[key]; ok {
+		this.values[key] = value
+		this.lru.MoveToFront(this.keys[key])
 		return
 	}
-	if len(this.cache) == this.capacity {
-		size := len(this.queue)
-		lastKey := this.queue[size-1]
-		this.queue = this.queue[:size-1]
-		delete(this.cache, lastKey)
+
+	if this.lru.Len() >= this.capacity {
+		last := this.lru.Back()
+		this.lru.Remove(last)
+		delete(this.values, last.Value.(int))
+		delete(this.keys, last.Value.(int))
 	}
-	this.cache[key] = value
-	q := make([]int, 1+len(this.queue), this.capacity)
-	q[0] = key
-	copy(q[1:], this.queue)
-	this.queue = q
+
+	e := this.lru.PushFront(key)
+	this.values[key] = value
+	this.keys[key] = e
 }
 
 /**
