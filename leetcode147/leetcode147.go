@@ -12,38 +12,25 @@ import "Leetcode-golang/helper"
 type ListNode = helper.ListNode
 
 func insertionSortList(head *ListNode) *ListNode {
-	if head == nil || head.Next == nil {
-		return head
-	}
-
-	start, end, prev, cur := head, head, head, head.Next
-
-	for cur != nil {
-		if cur.Val <= start.Val {
-			tmp := cur
-			cur = cur.Next
-			prev.Next = cur
-			tmp.Next = start
-			start = tmp
+	beforeHead := &ListNode{Next: head}
+	cur := head
+	for cur != nil && cur.Next != nil {
+		p := cur.Next
+		if cur.Val <= p.Val {
+			cur = p
 			continue
-		} else if cur.Val >= end.Val {
-			end = cur
-			cur = cur.Next
-			prev = prev.Next
-			continue
-		} else {
-			tmp := cur
-			cur = cur.Next
-			prev.Next = cur
-			insertAfter := start
-			for insertAfter.Next.Val < tmp.Val {
-				insertAfter = insertAfter.Next
-			}
-			insertBefore := insertAfter.Next
-			insertAfter.Next = tmp
-			tmp.Next = insertBefore
 		}
+		cur.Next = p.Next
+		prev, next := beforeHead, beforeHead.Next
+
+		for next.Val < p.Val {
+			prev = next
+			next = next.Next
+		}
+
+		prev.Next = p
+		p.Next = next
 	}
 
-	return start
+	return beforeHead.Next
 }

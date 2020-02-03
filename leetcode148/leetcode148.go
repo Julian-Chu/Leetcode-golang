@@ -2,7 +2,6 @@ package leetcode148
 
 import (
 	"Leetcode-golang/helper"
-	"math"
 )
 
 /**
@@ -19,28 +18,23 @@ func sortList(head *ListNode) *ListNode {
 		return nil
 	}
 	cur := head
-	p := &ListNode{Next: head, Val: math.MinInt64}
+	p := &ListNode{Next: head}
 	for cur != nil && cur.Next != nil {
 		if cur.Val <= cur.Next.Val {
 			cur = cur.Next
 			continue
 		}
 
-		// remove cur.Next from Linked list
 		tmp := cur.Next
 		cur.Next = cur.Next.Next
 
 		insertAfter := p
-		for insertAfter != nil && insertAfter.Next != nil {
-			if insertAfter.Val <= tmp.Val && tmp.Val < insertAfter.Next.Val {
-				tmp.Next = insertAfter.Next
-				insertAfter.Next = tmp
-				break
-			}
-
+		for tmp.Val > insertAfter.Next.Val {
 			insertAfter = insertAfter.Next
 		}
 
+		tmp.Next = insertAfter.Next
+		insertAfter.Next = tmp
 	}
 	return p.Next
 }
