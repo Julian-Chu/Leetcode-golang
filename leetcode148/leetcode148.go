@@ -1,7 +1,7 @@
 package leetcode148
 
 import (
-	"Leetcode-golang/helper"
+	"Leetcode-golang/utils"
 )
 
 /**
@@ -11,7 +11,7 @@ import (
  *     Next *ListNode
  * }
  */
-type ListNode = helper.ListNode
+type ListNode = utils.ListNode
 
 func sortList(head *ListNode) *ListNode {
 	if head == nil {

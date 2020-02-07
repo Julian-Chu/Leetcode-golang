@@ -1,8 +1,10 @@
 package leetcode141
 
-import "Leetcode-golang/helper"
+import (
+	"Leetcode-golang/utils"
+)
 
-type ListNode = helper.ListNode
+type ListNode = utils.ListNode
 
 func hasCycle(head *ListNode) bool {
 	if head == nil || head.Next == nil {

@@ -1,52 +1,52 @@
 package leetcode617
 
 import (
-	. "Leetcode-golang/helper"
+	"Leetcode-golang/utils"
 	"fmt"
 	"testing"
 )
 
 func Test_mergeTrees(t *testing.T) {
 	type args struct {
-		t1 *TreeNode
-		t2 *TreeNode
+		t1 *utils.TreeNode
+		t2 *utils.TreeNode
 	}
 	tests := []struct {
 		name string
 		args args
-		want *TreeNode
+		want *utils.TreeNode
 	}{
 		{
 			"Case1",
 			args{
-				t1: &TreeNode{
+				t1: &utils.TreeNode{
 					Val:  1,
-					Left: &TreeNode{Val: 2}},
-				t2: &TreeNode{
+					Left: &utils.TreeNode{Val: 2}},
+				t2: &utils.TreeNode{
 					Val:  1,
-					Left: &TreeNode{Val: 2}},
+					Left: &utils.TreeNode{Val: 2}},
 			},
 
-			&TreeNode{
+			&utils.TreeNode{
 				Val:  2,
-				Left: &TreeNode{Val: 4},
+				Left: &utils.TreeNode{Val: 4},
 			},
 		},
 		{
 			"Case2",
 			args{
-				t1: &TreeNode{
+				t1: &utils.TreeNode{
 					Val:  1,
-					Left: &TreeNode{Val: 2}},
-				t2: &TreeNode{
+					Left: &utils.TreeNode{Val: 2}},
+				t2: &utils.TreeNode{
 					Val:   1,
-					Right: &TreeNode{Val: 2}},
+					Right: &utils.TreeNode{Val: 2}},
 			},
 
-			&TreeNode{
+			&utils.TreeNode{
 				Val:   2,
-				Left:  &TreeNode{Val: 2},
-				Right: &TreeNode{Val: 2},
+				Left:  &utils.TreeNode{Val: 2},
+				Right: &utils.TreeNode{Val: 2},
 			},
 		},
 	}
@@ -59,7 +59,7 @@ func Test_mergeTrees(t *testing.T) {
 	}
 }
 
-func compareTree(t1 *TreeNode, t2 *TreeNode) bool {
+func compareTree(t1 *utils.TreeNode, t2 *utils.TreeNode) bool {
 	if t1 == nil {
 		return t2 == nil
 	}
@@ -79,8 +79,8 @@ func compareTree(t1 *TreeNode, t2 *TreeNode) bool {
 
 func xTest_compareTree(t *testing.T) {
 	type args struct {
-		t1 *TreeNode
-		t2 *TreeNode
+		t1 *utils.TreeNode
+		t2 *utils.TreeNode
 	}
 	tests := []struct {
 		name string
@@ -90,10 +90,10 @@ func xTest_compareTree(t *testing.T) {
 		{
 			"case1",
 			args{
-				t1: &TreeNode{
+				t1: &utils.TreeNode{
 					Val: 1,
 				},
-				t2: &TreeNode{
+				t2: &utils.TreeNode{
 					Val: 1,
 				},
 			},
@@ -102,11 +102,11 @@ func xTest_compareTree(t *testing.T) {
 		{
 			"case2",
 			args{
-				t1: &TreeNode{
+				t1: &utils.TreeNode{
 					Val:  1,
-					Left: &TreeNode{Val: 2},
+					Left: &utils.TreeNode{Val: 2},
 				},
-				t2: &TreeNode{
+				t2: &utils.TreeNode{
 					Val: 1,
 				},
 			},
@@ -115,13 +115,13 @@ func xTest_compareTree(t *testing.T) {
 		{
 			"case3",
 			args{
-				t1: &TreeNode{
+				t1: &utils.TreeNode{
 					Val:  1,
-					Left: &TreeNode{Val: 2},
+					Left: &utils.TreeNode{Val: 2},
 				},
-				t2: &TreeNode{
+				t2: &utils.TreeNode{
 					Val:  1,
-					Left: &TreeNode{Val: 3},
+					Left: &utils.TreeNode{Val: 3},
 				},
 			},
 			false,
@@ -129,15 +129,15 @@ func xTest_compareTree(t *testing.T) {
 		{
 			"case3",
 			args{
-				t1: &TreeNode{
+				t1: &utils.TreeNode{
 					Val:   1,
-					Left:  &TreeNode{Val: 2},
-					Right: &TreeNode{Val: 2},
+					Left:  &utils.TreeNode{Val: 2},
+					Right: &utils.TreeNode{Val: 2},
 				},
-				t2: &TreeNode{
+				t2: &utils.TreeNode{
 					Val:   1,
-					Left:  &TreeNode{Val: 2},
-					Right: &TreeNode{Val: 3},
+					Left:  &utils.TreeNode{Val: 2},
+					Right: &utils.TreeNode{Val: 3},
 				},
 			},
 			false,

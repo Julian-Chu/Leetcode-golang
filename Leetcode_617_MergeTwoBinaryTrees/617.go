@@ -1,16 +1,16 @@
 package leetcode617
 
 import (
-	. "Leetcode-golang/helper"
+	"Leetcode-golang/utils"
 	"fmt"
 )
 
-func mergeTrees(t1 *TreeNode, t2 *TreeNode) *TreeNode {
+func mergeTrees(t1 *utils.TreeNode, t2 *utils.TreeNode) *utils.TreeNode {
 	fmt.Println(t1)
 	return traverse(t1, t2)
 }
 
-func traverse(t1 *TreeNode, t2 *TreeNode) *TreeNode {
+func traverse(t1 *utils.TreeNode, t2 *utils.TreeNode) *utils.TreeNode {
 	if t1 == nil && t2 == nil {
 		return nil
 	}

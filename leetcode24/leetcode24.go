@@ -1,6 +1,8 @@
 package leetcode24
 
-import "Leetcode-golang/helper"
+import (
+	"Leetcode-golang/utils"
+)
 
 /**
  * Definition for singly-linked list.
@@ -9,7 +11,7 @@ import "Leetcode-golang/helper"
  *     Next *ListNode
  * }
  */
-type ListNode = helper.ListNode
+type ListNode = utils.ListNode
 
 func swapPairs(head *ListNode) *ListNode {
 	if head == nil || head.Next == nil {

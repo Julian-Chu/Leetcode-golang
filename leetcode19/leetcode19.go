@@ -1,6 +1,8 @@
 package leetcode19
 
-import "Leetcode-golang/helper"
+import (
+	"Leetcode-golang/utils"
+)
 
 /**
  * Definition for singly-linked list.
@@ -10,7 +12,7 @@ import "Leetcode-golang/helper"
  * }
  */
 
-type ListNode = helper.ListNode
+type ListNode = utils.ListNode
 
 func removeNthFromEnd(head *ListNode, n int) *ListNode {
 

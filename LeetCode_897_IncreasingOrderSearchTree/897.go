@@ -1,11 +1,11 @@
 package leetcode897
 
 import (
-	"Leetcode-golang/helper"
+	"Leetcode-golang/utils"
 	"fmt"
 )
 
-type TreeNode = helper.TreeNode
+type TreeNode = utils.TreeNode
 
 func increasingBST(root *TreeNode) *TreeNode {
 	head := &TreeNode{Val: -1}

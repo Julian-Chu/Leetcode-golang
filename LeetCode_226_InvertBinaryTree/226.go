@@ -1,13 +1,15 @@
 package LeetCode_226_InvertBinaryTree
 
-import . "Leetcode-golang/helper"
+import (
+	"Leetcode-golang/utils"
+)
 
-func invertTree(root *TreeNode) *TreeNode {
+func invertTree(root *utils.TreeNode) *utils.TreeNode {
 	invertNodes(root)
 	return root
 }
 
-func invertNodes(root *TreeNode) {
+func invertNodes(root *utils.TreeNode) {
 	if root == nil {
 		return
 	}

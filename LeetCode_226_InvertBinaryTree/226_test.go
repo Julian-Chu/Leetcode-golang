@@ -1,47 +1,47 @@
 package LeetCode_226_InvertBinaryTree
 
 import (
-	. "Leetcode-golang/helper"
+	"Leetcode-golang/utils"
 	"reflect"
 	"testing"
 )
 
 func Test_invertTree(t *testing.T) {
 	type args struct {
-		root *TreeNode
+		root *utils.TreeNode
 	}
 	tests := []struct {
 		name string
 		args args
-		want *TreeNode
+		want *utils.TreeNode
 	}{
 		{
 			"Case 1",
 			args{
-				root: &TreeNode{
+				root: &utils.TreeNode{
 					Val:  1,
-					Left: &TreeNode{Val: 2},
+					Left: &utils.TreeNode{Val: 2},
 				},
 			},
-			&TreeNode{
+			&utils.TreeNode{
 				Val:   1,
-				Right: &TreeNode{Val: 2},
+				Right: &utils.TreeNode{Val: 2},
 			},
 		},
 		{
 			"Case 2",
 			args{
-				root: &TreeNode{
+				root: &utils.TreeNode{
 					Val: 1,
-					Left: &TreeNode{
+					Left: &utils.TreeNode{
 						Val:  2,
-						Left: &TreeNode{Val: 3},
+						Left: &utils.TreeNode{Val: 3},
 					},
 				},
 			},
-			&TreeNode{
+			&utils.TreeNode{
 				Val:   1,
-				Right: &TreeNode{Val: 2, Right: &TreeNode{Val: 3}},
+				Right: &utils.TreeNode{Val: 2, Right: &utils.TreeNode{Val: 3}},
 			},
 		},
 	}

@@ -1,8 +1,10 @@
 package leetcode86
 
-import "Leetcode-golang/helper"
+import (
+	"Leetcode-golang/utils"
+)
 
-type ListNode = helper.ListNode
+type ListNode = utils.ListNode
 
 func partition(head *ListNode, x int) *ListNode {
 	if head == nil || head.Next == nil {
