@@ -14,27 +14,58 @@ import (
 type ListNode = utils.ListNode
 
 func sortList(head *ListNode) *ListNode {
-	if head == nil {
-		return nil
+	if head == nil || head.Next == nil {
+		return head
 	}
-	cur := head
-	p := &ListNode{Next: head}
-	for cur != nil && cur.Next != nil {
-		if cur.Val <= cur.Next.Val {
-			cur = cur.Next
-			continue
+
+	l, r := split(head)
+
+	return merge(sortList(l), sortList(r))
+}
+
+func merge(node1 *ListNode, node2 *ListNode) *ListNode {
+	prehead := &ListNode{}
+
+	cur := prehead
+	for node1 != nil && node2 != nil {
+		if node1.Val > node2.Val {
+			cur.Next = node2
+			node2 = node2.Next
+		} else {
+			cur.Next = node1
+			node1 = node1.Next
 		}
-
-		tmp := cur.Next
-		cur.Next = cur.Next.Next
-
-		insertAfter := p
-		for tmp.Val > insertAfter.Next.Val {
-			insertAfter = insertAfter.Next
-		}
-
-		tmp.Next = insertAfter.Next
-		insertAfter.Next = tmp
+		cur = cur.Next
 	}
-	return p.Next
+
+	for node1 != nil {
+		cur.Next = node1
+		node1 = node1.Next
+		cur = cur.Next
+	}
+
+	for node2 != nil {
+		cur.Next = node2
+		node2 = node2.Next
+		cur = cur.Next
+	}
+
+	return prehead.Next
+}
+
+func split(head *ListNode) (*ListNode, *ListNode) {
+	slow, fast := head, head
+
+	for fast != nil && fast.Next != nil {
+		slow = slow.Next
+		fast = fast.Next.Next
+	}
+	tmp := slow
+	if slow.Next != nil {
+		slow = slow.Next
+		tmp.Next = nil
+	} else {
+		head.Next = nil
+	}
+	return head, slow
 }
