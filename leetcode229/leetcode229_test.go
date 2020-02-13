@@ -1,7 +1,6 @@
 package leetcode229
 
 import (
-	"reflect"
 	"testing"
 )
 
@@ -31,8 +30,19 @@ func Test_majorityElement(t *testing.T) {
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			if got := majorityElement(tt.args.nums); !reflect.DeepEqual(got, tt.want) {
-				t.Errorf("majorityElement() = %v, want %v", got, tt.want)
+			got := majorityElement(tt.args.nums)
+
+			for _, v := range got {
+				found := false
+				for _, w := range tt.want {
+					if v == w {
+						found = true
+					}
+				}
+
+				if !found {
+					t.Errorf("majorityElement() = %v, want %v", got, tt.want)
+				}
 			}
 		})
 	}
