@@ -1,23 +1,19 @@
 package leetcode287
 
 func findDuplicate(nums []int) int {
-	l, r := 1, len(nums)
+	slow, fast := nums[0], nums[nums[0]]
 
-	for l < r {
-		mid := (l + r) / 2
-		count := 0
-		for _, v := range nums {
-			if v <= mid {
-				count++
-			}
-		}
-
-		if count > mid {
-			r = mid
-		} else {
-			l = mid + 1
-		}
+	for slow != fast {
+		slow = nums[slow]
+		fast = nums[nums[fast]]
 	}
-	return r
 
+	slow = 0
+
+	for slow != fast {
+		slow = nums[slow]
+		fast = nums[fast]
+	}
+
+	return fast
 }
