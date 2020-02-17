@@ -26,7 +26,7 @@ func Test_gameOfLife(t *testing.T) {
 			for i := range tt.args.board {
 				for j := range tt.args.board[i] {
 					if tt.args.board[i][j] != tt.args.wantBoard[i][j] {
-						t.Errorf("Failed")
+						t.Errorf("Failed in (i:%v,j:%v)", i, j)
 					}
 				}
 

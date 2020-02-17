@@ -9,11 +9,7 @@ func gameOfLife(board [][]int) {
 
 	for i := range board {
 		for j := range board[i] {
-			if board[i][j] == 2 {
-				board[i][j] = 0
-			} else if board[i][j] == -2 {
-				board[i][j] = 1
-			}
+			board[i][j] %= 2
 		}
 	}
 }
@@ -46,31 +42,15 @@ func getNextState(board [][]int, i int, j int) int {
 			if m == i && n == j {
 				continue
 			}
-			if board[m][n] > 0 {
+			if board[m][n] == 1 || board[m][n] == 2 {
 				cnt++
 			}
 		}
 	}
-	cur := board[i][j]
-	switch {
-	case cnt < 2:
-		if cur == 1 {
-			return 2
-		} else {
-			return 0
-		}
-	case cnt == 2:
-		return cur
-	case cnt == 3:
-		if cur == 1 {
-			return 1
-		} else {
-			return -2
-		}
-	default:
-		if cur == 1 {
-			return 2
-		}
-		return 0
+	if board[i][j] == 1 && (cnt < 2 || cnt > 3) {
+		return 2
+	} else if board[i][j] == 0 && cnt == 3 {
+		return 3
 	}
+	return board[i][j]
 }
