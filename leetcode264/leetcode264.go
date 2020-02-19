@@ -1,7 +1,8 @@
 package leetcode264
 
 func nthUglyNumber(n int) int {
-	res := []int{1}
+	res := make([]int, n)
+	res[0] = 1
 	i2, i3, i5 := 0, 0, 0
 
 	var min = func(a, b int) int {
@@ -11,7 +12,7 @@ func nthUglyNumber(n int) int {
 		return a
 	}
 
-	for len(res) < n {
+	for i := 1; i < n; i++ {
 		m2, m3, m5 := res[i2]*2, res[i3]*3, res[i5]*5
 
 		m := min(min(m2, m3), m5)
@@ -27,7 +28,7 @@ func nthUglyNumber(n int) int {
 		if m == m5 {
 			i5++
 		}
-		res = append(res, m)
+		res[i] = m
 	}
 
 	return res[n-1]
