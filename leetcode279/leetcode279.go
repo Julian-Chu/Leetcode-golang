@@ -12,8 +12,11 @@ func numSquares(n int) int {
 		sn = append(sn, v)
 	}
 	minCnt := n
-	var recur func(int, []int)
-	recur = func(rest int, curRes []int) {
+	var recur func(int, int, []int)
+	recur = func(rest, cycles int, curRes []int) {
+		if cycles >= minCnt {
+			return
+		}
 		if rest == 0 {
 			if len(curRes) < minCnt {
 				minCnt = len(curRes)
@@ -26,10 +29,10 @@ func numSquares(n int) int {
 				continue
 			}
 
-			recur(rest-sn[i], append(curRes, sn[i]))
+			recur(rest-sn[i], cycles+1, append(curRes, sn[i]))
 		}
 	}
 
-	recur(n, []int{})
+	recur(n, 0, []int{})
 	return minCnt
 }
