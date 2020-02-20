@@ -1,38 +1,23 @@
 package leetcode279
 
 func numSquares(n int) int {
-	sn := make([]int, 0)
-
-	for i := 1; i < n; i++ {
-		v := i * i
-
-		if v > n {
-			break
-		}
-		sn = append(sn, v)
+	dp := make([]int, n+1)
+	dp[0] = 0
+	for i := 1; i <= n; i++ {
+		dp[i] = 1<<32 - 1
 	}
-	minCnt := n
-	var recur func(int, int, []int)
-	recur = func(rest, cycles int, curRes []int) {
-		if cycles >= minCnt {
-			return
-		}
-		if rest == 0 {
-			if len(curRes) < minCnt {
-				minCnt = len(curRes)
-			}
-			return
-		}
-		curRes = curRes[:len(curRes):len(curRes)]
-		for i := len(sn) - 1; i >= 0; i-- {
-			if sn[i] > rest {
-				continue
-			}
+	perfects := make([]int, 0)
+	for i := 1; i*i <= n; i++ {
+		perfects = append(perfects, i*i)
+	}
 
-			recur(rest-sn[i], cycles+1, append(curRes, sn[i]))
+	for _, p := range perfects {
+		for i := p; i < len(dp); i++ {
+			if dp[i] > dp[i-p]+1 {
+				dp[i] = dp[i-p] + 1
+			}
 		}
 	}
 
-	recur(n, 0, []int{})
-	return minCnt
+	return dp[n]
 }
