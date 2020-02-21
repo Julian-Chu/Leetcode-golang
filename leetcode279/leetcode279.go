@@ -1,23 +1,29 @@
 package leetcode279
 
+import "math"
+
 func numSquares(n int) int {
-	dp := make([]int, n+1)
-	dp[0] = 0
-	for i := 1; i <= n; i++ {
-		dp[i] = 1<<32 - 1
+	if isSquare(n) {
+		return 1
 	}
-	perfects := make([]int, 0)
-	for i := 1; i*i <= n; i++ {
-		perfects = append(perfects, i*i)
+	if n%4 == 0 {
+		n /= 4
 	}
 
-	for _, p := range perfects {
-		for i := p; i < len(dp); i++ {
-			if dp[i] > dp[i-p]+1 {
-				dp[i] = dp[i-p] + 1
-			}
+	for i := 1; i*i <= n; i++ {
+		if isSquare(n - i*i) {
+			return 2
 		}
 	}
 
-	return dp[n]
+	if n%8 != 7 {
+		return 3
+	}
+	return 4
+}
+
+func isSquare(n int) bool {
+	c := int(math.Sqrt(float64(n)))
+
+	return c*c == n
 }
