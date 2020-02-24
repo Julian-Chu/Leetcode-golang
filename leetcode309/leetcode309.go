@@ -1,29 +1,27 @@
 package leetcode309
 
 func maxProfit(prices []int) int {
-	if len(prices) == 0 {
+	l := len(prices)
+	if l == 0 {
 		return 0
 	}
 
-	s0 := 0          // sell->rest or rest->rest
-	s1 := -prices[0] // rest->buy or buy->rest
-	s2 := -1 << 31   // rest->sell
+	buy := make([]int, l+1)
+	sell := make([]int, l+1)
 
-	for i := 1; i < len(prices); i++ {
-		pre0 := s0
-		pre1 := s1
-		pre2 := s2
-		s0 = max(pre0, pre2)
-		s1 = max(pre0-prices[i], pre1)
-		s2 = pre1 + prices[i]
+	buy[1] = -prices[0]
+	for i := 2; i <= l; i++ {
+		buy[i] = max(buy[i-1], sell[i-2]-prices[i-1])
+		sell[i] = max(sell[i-1], buy[i-1]+prices[i-1])
 	}
-	return max(s0, s2)
+
+	return sell[l]
+
 }
 
 func max(a, b int) int {
 	if a > b {
 		return a
 	}
-
 	return b
 }
