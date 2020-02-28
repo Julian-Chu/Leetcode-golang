@@ -1,6 +1,9 @@
 package leetcode357
 
 func countNumbersWithUniqueDigits(n int) int {
+	if n == 0 {
+		return 1
+	}
 
 	dp := make([]int, n+1)
 	dp[0] = 1

@@ -32,6 +32,13 @@ func Test_countNumbersWithUniqueDigits(t *testing.T) {
 			},
 			want: 739,
 		},
+		{
+			name: "0",
+			args: args{
+				n: 0,
+			},
+			want: 1,
+		},
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
