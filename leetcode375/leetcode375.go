@@ -7,27 +7,27 @@ func getMoneyAmount(n int) int {
 		dp[i] = make([]int, n+1)
 	}
 
-	for j := 2; j < n+1; j++ {
-		for i := j - 1; i > 0; i-- {
-			dp[i][j] = i + dp[i+1][j]
-			for k := i + 1; k < j; k++ {
-				dp[i][j] = min(dp[i][j], k+max(dp[i][k-1], dp[k+1][j]))
+	for i := 2; i < n+1; i++ {
+		for j := i - 1; j > 0; j-- {
+			if j+1 == i {
+				dp[j][i] = j
+				continue
 			}
+			min := 1 << 31
+
+			for k := j + 1; k < i; k++ {
+				max := dp[k+1][i]
+				if dp[j][k-1] > max {
+					max = dp[j][k-1]
+				}
+				max += k
+				if min > max {
+					min = max
+				}
+			}
+
+			dp[j][i] = min
 		}
 	}
-
 	return dp[1][n]
-}
-func max(a, b int) int {
-	if a > b {
-		return a
-	}
-	return b
-}
-
-func min(a, b int) int {
-	if a < b {
-		return a
-	}
-	return b
 }
