@@ -1,23 +1,33 @@
 package leetcode375
 
 func getMoneyAmount(n int) int {
-	var dp []int
-	if n < 3 {
-		dp = make([]int, 3+1)
-	} else {
-		dp = make([]int, n+1)
-	}
-	dp[0] = 0
-	dp[1] = 0
-	dp[2] = 1
-	dp[3] = 2
+	dp := make([][]int, n+1)
 
-	for i := 4; i < n+1; i++ {
-		if i-1 > dp[i-4] {
-			dp[i] = i - 3 + i - 1
-		} else {
-			dp[i] = i - 3 + dp[i-4]
+	for i := range dp {
+		dp[i] = make([]int, n+1)
+	}
+
+	for j := 2; j < n+1; j++ {
+		for i := j - 1; i > 0; i-- {
+			dp[i][j] = i + dp[i+1][j]
+			for k := i + 1; k < j; k++ {
+				dp[i][j] = min(dp[i][j], k+max(dp[i][k-1], dp[k+1][j]))
+			}
 		}
 	}
-	return dp[n]
+
+	return dp[1][n]
+}
+func max(a, b int) int {
+	if a > b {
+		return a
+	}
+	return b
+}
+
+func min(a, b int) int {
+	if a < b {
+		return a
+	}
+	return b
 }
