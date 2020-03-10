@@ -1,30 +1,29 @@
 package leetcode313
 
 func nthSuperUglyNumber(n int, primes []int) int {
-	if len(primes) == 0 {
-		return 1
-	}
-	max := 1
-	for i := 0; i < n-1; i++ {
-		max *= primes[0]
-	}
-	dp := make([]bool, max+1)
-	dp[1] = true
-	cnt := 1
-	i := 2
-	for cnt < n {
-		for idx := range primes {
-			if i%primes[idx] == 0 && dp[i/primes[idx]] == true {
-				dp[i] = true
-				cnt++
-				if cnt == n {
-					return i
+	dp := make([]int, n+1)
+
+	dp[0] = 0
+	dp[1] = 1
+
+	for i := 2; i < n+1; i++ {
+		lower := dp[i-1]
+		min := 0
+		for j := 1; j < i; j++ {
+			for _, p := range primes {
+				v := dp[j] * p
+				if v > lower {
+					if min == 0 {
+						min = v
+						continue
+					}
+					if min > v {
+						min = v
+					}
 				}
-				break
 			}
 		}
-		i++
+		dp[i] = min
 	}
-
-	return 1
+	return dp[n]
 }
