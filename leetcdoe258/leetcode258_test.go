@@ -18,6 +18,20 @@ func Test_addDigits(t *testing.T) {
 			},
 			want: 2,
 		},
+		{
+			name: "9",
+			args: args{
+				num: 9,
+			},
+			want: 9,
+		},
+		{
+			name: "18",
+			args: args{
+				num: 18,
+			},
+			want: 9,
+		},
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
