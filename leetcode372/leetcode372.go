@@ -1,20 +1,21 @@
 package leetcode372
 
 func superPow(a int, b []int) int {
-	cnt := 0
-	res := 1
-	for i := len(b) - 1; i >= 0; i-- {
-		cyc := 1
-		for j := 0; j < cnt; j++ {
-			cyc *= 10
-		}
+	n := len(b)
+	base := 1337
 
-		for k := 0; k < cyc*b[i]; k++ {
-			res *= a
-			res %= 1337
-		}
-		cnt++
+	if n == 0 {
+		return 1
 	}
+	// a^k mode base
+	powmod := func(a, k int) int {
+		a %= base
+		res := 1
 
-	return res
+		for i := 0; i < k; i++ {
+			res = (res * a) % base
+		}
+		return res
+	}
+	return (powmod(superPow(a, b[:n-1]), 10) * powmod(a, b[n-1])) % base
 }

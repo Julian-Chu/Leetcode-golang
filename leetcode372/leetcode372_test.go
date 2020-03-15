@@ -21,7 +21,7 @@ func Test_superPow(t *testing.T) {
 			want: 8,
 		},
 		{
-			name: "a=2",
+			name: "a=2,b=[1,2]",
 			args: args{
 				a: 2,
 				b: []int{1, 2},
