@@ -1,40 +1,31 @@
 package leetcode397
 
 func integerReplacement(n int) int {
-	if n <= 1 {
-		return 0
+	rec := make(map[int]int)
+	rec[1] = 0
+
+	var ir func(int) int
+	ir = func(i int) int {
+		if n, ok := rec[i]; ok {
+			return n
+		}
+
+		if i%2 == 0 {
+			rec[i] = ir(i/2) + 1
+			return rec[i]
+		}
+
+		rec[i] = min(ir(i+1), ir(i-1)) + 1
+		return rec[i]
 	}
 
-	powerOfTwo := make(map[int]int)
+	return ir(n)
+}
 
-	cnt := 0
-
-	for i := 1; i <= n+1; i *= 2 {
-		powerOfTwo[i] = cnt
-		cnt++
+func min(a, b int) int {
+	if a < b {
+		return a
 	}
 
-	min := 1 << 31
-	var dfs func(int, int)
-	dfs = func(v int, curCnt int) {
-		if curCnt > min {
-			return
-		}
-		if cnt, ok := powerOfTwo[v]; ok {
-			if min > (cnt + curCnt) {
-				min = cnt + curCnt
-			}
-			return
-		}
-		if v%2 == 0 {
-			dfs(v/2, curCnt+1)
-		} else {
-			dfs(v+1, curCnt+1)
-			dfs(v-1, curCnt+1)
-		}
-	}
-
-	dfs(n, 0)
-
-	return min
+	return b
 }
