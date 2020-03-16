@@ -1,31 +1,22 @@
 package leetcode397
 
 func integerReplacement(n int) int {
-	rec := make(map[int]int)
-	rec[1] = 0
-
-	var ir func(int) int
-	ir = func(i int) int {
-		if n, ok := rec[i]; ok {
-			return n
-		}
-
-		if i%2 == 0 {
-			rec[i] = ir(i/2) + 1
-			return rec[i]
-		}
-
-		rec[i] = min(ir(i+1), ir(i-1)) + 1
-		return rec[i]
-	}
-
-	return ir(n)
+	var cnt int
+	return helper(n, cnt)
 }
 
-func min(a, b int) int {
-	if a < b {
-		return a
+func helper(n int, cnt int) int {
+	if n == 1 {
+		return cnt
 	}
 
-	return b
+	cnt++
+	if n%2 == 0 {
+		return helper(n/2, cnt)
+	} else if n%4 == 1 || n == 3 {
+		return helper(n-1, cnt)
+	}
+
+	return helper(n+1, cnt)
+
 }
