@@ -1,5 +1,9 @@
 package leetcode385
 
+import (
+	"strconv"
+)
+
 //// This is the interface that allows for creating nested lists.
 //// You should not implement it, or speculate about its implementation
 type NestedInteger struct {
@@ -42,46 +46,73 @@ func (n NestedInteger) GetList() []*NestedInteger {
 }
 
 func deserialize(s string) *NestedInteger {
-	b := []byte(s)
-	ni := &NestedInteger{}
-	if b[0] != '[' {
-		val := 0
-		for i := range b {
-			val = val*10 + int(b[i]-'0')
-		}
-		ni.SetInteger(val)
-		return ni
+	if len(s) == 0 {
+		return nil
 	}
 
-	// remove first  [ and ]
-	b = b[1 : len(b)-1]
-	n := len(b)
-	i := 0
-	j := 0
-	cnt := 0
+	if s[0] != '[' {
+		return getValue(s)
+	}
 
-	for j < n {
-		switch {
-		case b[j] == '[':
-			cnt++
-			j++
-		case b[j] >= '0' && b[j] <= '9':
-			j++
-			if j == n {
-				ni.Add(*deserialize(string(b[i:j])))
+	stack := new(stackChars)
+
+	var cur *NestedInteger
+
+	si, ci := 0, 0
+
+	for ; ci < len(s); ci++ {
+		switch s[ci] {
+		case '[':
+			if cur != nil {
+				stack.Push(cur)
 			}
-		case b[j] == ',' && cnt == 0:
-			ni.Add(*deserialize(string(b[i:j])))
-			j++
-			i = j
-		case b[j] == ']':
-			j++
-			cnt--
-			if cnt == 0 {
-				ni.Add(*deserialize(string(b[i:j])))
+
+			cur = new(NestedInteger)
+			si = ci + 1
+		case ']':
+			if ci > si {
+				cur.Add(*getValue(s[si:ci]))
 			}
+
+			if !stack.Empty() {
+				tmp := stack.Pop()
+				tmp.Add(*cur)
+				cur = tmp
+			}
+
+			si = ci + 1
+		case ',':
+			if s[ci-1] != ']' {
+				cur.Add(*getValue(s[si:ci]))
+			}
+			si = ci + 1
 		}
 	}
 
-	return ni
+	return cur
+}
+
+func getValue(s string) *NestedInteger {
+	val, _ := strconv.Atoi(s)
+	item := new(NestedInteger)
+	item.SetInteger(val)
+	return item
+}
+
+type stackChars struct {
+	chars []*NestedInteger
+}
+
+func (s *stackChars) Pop() *NestedInteger {
+	slen := len(s.chars)
+	rb := s.chars[slen-1]
+	s.chars = s.chars[:slen-1]
+	return rb
+}
+
+func (s *stackChars) Push(nb *NestedInteger) {
+	s.chars = append(s.chars, nb)
+}
+func (s stackChars) Empty() bool {
+	return len(s.chars) == 0
 }
