@@ -1,20 +1,16 @@
 package leetcode387
 
 func firstUniqChar(s string) int {
-	if len(s) == 0 {
-		return -1
-	}
-	m := make(map[byte]int)
-	b := []byte(s)
-
-	for i := range b {
-		m[b[i]]++
+	m := make([]int, 26)
+	for _, v := range s {
+		m[v-'a']++
 	}
 
-	for i := range b {
-		if m[b[i]] == 1 {
-			return i
+	for k, v := range s {
+		if m[v-'a'] == 1 {
+			return k
 		}
 	}
+
 	return -1
 }
