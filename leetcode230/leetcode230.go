@@ -10,27 +10,25 @@ import "Leetcode-golang/utils"
  *     Right *TreeNode
  * }
  */
+
 type TreeNode = utils.TreeNode
 
 func kthSmallest(root *TreeNode, k int) int {
-	inoder := traverse(root)
-
-	return inoder[k-1].Val
+	leftSize := getSize(root.Left)
+	switch {
+	case k <= leftSize:
+		return kthSmallest(root.Left, k)
+	case k > leftSize+1:
+		return kthSmallest(root.Right, k-leftSize-1)
+	default:
+		return root.Val
+	}
 }
 
-func traverse(root *TreeNode) []*TreeNode {
+func getSize(root *utils.TreeNode) int {
 	if root == nil {
-		return []*TreeNode{}
-	}
-	var left []*TreeNode
-	if root.Left != nil {
-		left = traverse(root.Left)
-	}
-	var right []*TreeNode
-	if root.Right != nil {
-		right = traverse(root.Right)
+		return 0
 	}
 
-	return append(append(left, root), right...)
-
+	return 1 + getSize(root.Left) + getSize(root.Right)
 }
