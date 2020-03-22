@@ -14,18 +14,9 @@ import "Leetcode-golang/utils"
 type TreeNode = utils.TreeNode
 
 func countNodes(root *TreeNode) int {
-	cnt := 0
-
-	var dfs func(*TreeNode)
-	dfs = func(node *TreeNode) {
-		if node == nil {
-			return
-		}
-		cnt++
-		dfs(node.Left)
-		dfs(node.Right)
+	if root == nil {
+		return 0
 	}
 
-	dfs(root)
-	return cnt
+	return countNodes(root.Right) + countNodes(root.Left) + 1
 }
