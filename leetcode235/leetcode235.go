@@ -5,12 +5,18 @@ import "Leetcode-golang/utils"
 type TreeNode = utils.TreeNode
 
 func lowestCommonAncestor(root, p, q *TreeNode) *TreeNode {
-	switch {
-	case root.Val < p.Val && root.Val < q.Val:
-		return lowestCommonAncestor(root.Right, p, q)
-	case root.Val > p.Val && root.Val > q.Val:
-		return lowestCommonAncestor(root.Left, p, q)
-	default:
-		return root
+	for root != nil {
+		val := root.Val
+		if p.Val <= val && val <= q.Val || p.Val >= val && val >= q.Val {
+			return root
+		}
+
+		if p.Val < val && q.Val < val {
+			root = root.Left
+		} else {
+			root = root.Right
+		}
 	}
+
+	return nil
 }
