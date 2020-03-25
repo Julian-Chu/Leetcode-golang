@@ -18,22 +18,25 @@ func pathSum(root *TreeNode, sum int) int {
 	if root == nil {
 		return 0
 	}
+
 	res := 0
-	var dfs func(node *TreeNode, rest int)
-	dfs = func(node *TreeNode, rest int) {
-		if node == nil {
-			return
-		}
+	iPath(sum, &res, []int{}, root)
+	return res
+}
 
-		rest -= node.Val
-		if rest == 0 {
-			res++
-		}
-
-		dfs(node.Left, rest)
-		dfs(node.Right, rest)
+func iPath(sum int, res *int, prev []int, root *TreeNode) {
+	if root == nil {
+		return
 	}
-	dfs(root, sum)
-	return res + pathSum(root.Left, sum) + pathSum(root.Right, sum)
 
+	prev = append(prev, root.Val)
+	s := 0
+	for i := len(prev) - 1; i >= 0; i-- {
+		s += prev[i]
+		if sum == s {
+			*res++
+		}
+	}
+	iPath(sum, res, prev, root.Left)
+	iPath(sum, res, prev, root.Right)
 }
