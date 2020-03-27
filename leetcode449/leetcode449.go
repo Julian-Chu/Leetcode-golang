@@ -50,30 +50,40 @@ func (this *Codec) deserialize(data string) *TreeNode {
 		data = data[:len(data)-1]
 	}
 	nodes := strings.Split(data, ",")
+
+	nums := make([]int, len(nodes))
+
+	for i := range nodes {
+		v, _ := strconv.Atoi(nodes[i])
+		nums[i] = v
+	}
+
+	return this.buildTree(nums)
+}
+
+func (this *Codec) buildTree(nodes []int) *TreeNode {
 	leftIdx := 0
 	rightIdx := 0
 
-	rootVal, _ := strconv.Atoi(nodes[0])
+	rootVal := nodes[0]
 	for i := 1; i < len(nodes); i++ {
-		num, _ := strconv.Atoi(nodes[i])
-		if leftIdx == 0 && num < rootVal {
+		if leftIdx == 0 && nodes[i] < rootVal {
 			leftIdx = i
 		}
-		if rightIdx == 0 && num > rootVal {
+		if rightIdx == 0 && nodes[i] > rootVal {
 			rightIdx = i
 		}
 	}
 
-	num, _ := strconv.Atoi(nodes[0])
-	root := &TreeNode{Val: num}
+	root := &TreeNode{Val: rootVal}
 	if rightIdx != 0 {
-		root.Right = this.deserialize(strings.Join(nodes[rightIdx:], ","))
+		root.Right = this.buildTree(nodes[rightIdx:])
 	}
 	if leftIdx != 0 {
 		if rightIdx == 0 {
 			rightIdx = len(nodes)
 		}
-		root.Left = this.deserialize(strings.Join(nodes[leftIdx:rightIdx], ","))
+		root.Left = this.buildTree(nodes[leftIdx:rightIdx])
 	}
 
 	return root
