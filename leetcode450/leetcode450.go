@@ -62,6 +62,8 @@ func deleteNode(root *TreeNode, key int) *TreeNode {
 				if newNode.Left != nil {
 					tmp.Right = newNode.Left
 					newNode.Left = nil
+				} else {
+					tmp.Right = nil
 				}
 			} else {
 				newNode = newNode.Right
@@ -76,6 +78,8 @@ func deleteNode(root *TreeNode, key int) *TreeNode {
 				if newNode.Right != nil {
 					tmp.Left = newNode.Right
 					newNode.Right = nil
+				} else {
+					tmp.Left = nil
 				}
 			} else {
 				newNode = newNode.Left
