@@ -16,96 +16,58 @@ func deleteNode(root *TreeNode, key int) *TreeNode {
 	if root == nil {
 		return nil
 	}
-	var pre, cur *TreeNode
 
-	cur = root
-
-	for cur.Val != key {
-		if key < cur.Val {
-			if cur.Left == nil {
-				return root
-			}
-			pre = cur
-			cur = cur.Left
-			continue
-		}
-
-		if key > cur.Val {
-			if cur.Right == nil {
-				return root
-			}
-			pre = cur
-			cur = cur.Right
-			continue
-		}
-	}
-	if cur.Left == nil && cur.Right == nil {
-		if pre == nil {
-			return nil
-		}
-
-		if key > pre.Val {
-			pre.Right = nil
-		} else {
-			pre.Left = nil
-		}
-		return root
-	}
-
-	var newNode *TreeNode
-	if cur.Left != nil {
-		newNode = cur.Left
-		for newNode.Right != nil {
-			if newNode.Right.Right == nil {
-				tmp := newNode
-				newNode = newNode.Right
-				if newNode.Left != nil {
-					tmp.Right = newNode.Left
-					newNode.Left = nil
-				} else {
-					tmp.Right = nil
-				}
-			} else {
-				newNode = newNode.Right
-			}
-		}
+	if key < root.Val {
+		root.Left = deleteNode(root.Left, key)
+	} else if key > root.Val {
+		root.Right = deleteNode(root.Right, key)
 	} else {
-		newNode = cur.Right
-		for newNode.Left != nil {
-			if newNode.Left.Left == nil {
-				tmp := newNode
-				newNode = newNode.Left
-				if newNode.Right != nil {
-					tmp.Left = newNode.Right
-					newNode.Right = nil
-				} else {
-					tmp.Left = nil
-				}
-			} else {
-				newNode = newNode.Left
-			}
+		if root.Left == nil {
+			return root.Right
+		} else if root.Right == nil {
+			return root.Left
 		}
+
+		minNode := findMax(root.Left)
+		root.Val = minNode.Val
+		root.Left = deleteNode(root.Left, root.Val)
 	}
 
-	if cur.Left != nil && cur.Left.Val != newNode.Val {
-		newNode.Left = cur.Left
-	}
-	if cur.Right != nil && cur.Right.Val != newNode.Val {
-		newNode.Right = cur.Right
-	}
-
-	if pre != nil {
-		if pre.Val > newNode.Val {
-			pre.Left = newNode
-		} else {
-			pre.Right = newNode
-		}
-	}
-
-	if root.Val == key {
-		return newNode
-	} else {
-		return root
-	}
-
+	return root
 }
+
+func findMax(root *TreeNode) *TreeNode {
+	for root.Right != nil {
+		root = root.Right
+	}
+	return root
+}
+
+//func deleteNode(root *TreeNode, key int) *TreeNode {
+//	if root == nil {
+//		return nil
+//	}
+//
+//	if key < root.Val {
+//		root.Left = deleteNode(root.Left, key)
+//	} else if key > root.Val {
+//		root.Right = deleteNode(root.Right, key)
+//	} else {
+//		if root.Left == nil {
+//			return root.Right
+//		} else if root.Right == nil {
+//			return root.Left
+//		}
+//
+//		minNode := root.Right
+//		for minNode.Left != nil {
+//			minNode = minNode.Left
+//		}
+//
+//		root.Val = minNode.Val
+//		root.Right = deleteNode(root.Right, key)
+//
+//	}
+//
+//	return root
+//}

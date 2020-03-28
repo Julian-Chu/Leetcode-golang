@@ -25,7 +25,7 @@ func Test_deleteNode(t *testing.T) {
 				root: Int2TreeNode([]int{1, Null, 4, 2, 5, Null, 3}),
 				key:  1,
 			},
-			want: Int2TreeNode([]int{2, Null, 4, 3, 5}),
+			want: Int2TreeNode([]int{4, 2, 5, Null, 3}),
 		},
 		{
 			name: "[4,2,null,1,3] key = 4",
@@ -33,7 +33,7 @@ func Test_deleteNode(t *testing.T) {
 				root: Int2TreeNode([]int{4, 2, Null, 1, 3}),
 				key:  4,
 			},
-			want: Int2TreeNode([]int{3, 2, Null, 1}),
+			want: Int2TreeNode([]int{2, 1, 3}),
 		},
 		{
 			name: "[3,1,4,null,2], key=3",
