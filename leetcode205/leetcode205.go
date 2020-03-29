@@ -1,26 +1,25 @@
 package leetcode205
 
 func isIsomorphic(s string, t string) bool {
-	m := make(map[byte]byte)
-	set := make(map[byte]bool)
+	if len(s) != len(t) {
+		return false
+	}
 
-	sbytes := []byte(s)
-	tbytes := []byte(t)
+	m := make([][]int, 265)
 
-	for i := range sbytes {
-		ch, ok := m[sbytes[i]]
-		if !ok {
-			if _, ok := set[tbytes[i]]; ok {
-				return false
-			}
-			m[sbytes[i]] = tbytes[i]
-			set[tbytes[i]] = true
-			continue
-		}
+	for i := 0; i < len(m); i++ {
+		m[i] = []int{-1, -1}
+	}
 
-		if ch != tbytes[i] {
+	for i, sb := range s {
+		tb := t[i]
+
+		if m[sb][0] != m[tb][1] {
 			return false
 		}
+
+		m[sb][0] = i
+		m[tb][1] = i
 	}
 
 	return true
