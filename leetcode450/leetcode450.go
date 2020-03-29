@@ -13,61 +13,39 @@ import "Leetcode-golang/utils"
 type TreeNode = utils.TreeNode
 
 func deleteNode(root *TreeNode, key int) *TreeNode {
+	found := false
+	return preorder(root, key, &found)
+}
+
+func preorder(root *TreeNode, key int, found *bool) *TreeNode {
 	if root == nil {
 		return nil
 	}
 
-	if key < root.Val {
-		root.Left = deleteNode(root.Left, key)
-	} else if key > root.Val {
-		root.Right = deleteNode(root.Right, key)
-	} else {
-		if root.Left == nil {
-			return root.Right
-		} else if root.Right == nil {
-			return root.Left
+	if !*found {
+		if root.Val == key {
+			*found = true
+			if root.Right != nil {
+				tmp := root.Right
+				for tmp.Left != nil {
+					tmp = tmp.Left
+				}
+				tmp.Left = root.Left
+				return root.Right
+			} else if root.Left != nil {
+				tmp := root.Left
+				for tmp.Right != nil {
+					tmp = tmp.Right
+				}
+				tmp.Right = root.Right
+				return root.Left
+			}
+			return nil
+		} else if key > root.Val {
+			root.Right = preorder(root.Right, key, found)
+		} else {
+			root.Left = preorder(root.Left, key, found)
 		}
-
-		minNode := findMax(root.Left)
-		root.Val = minNode.Val
-		root.Left = deleteNode(root.Left, root.Val)
-	}
-
-	return root
-}
-
-func findMax(root *TreeNode) *TreeNode {
-	for root.Right != nil {
-		root = root.Right
 	}
 	return root
 }
-
-//func deleteNode(root *TreeNode, key int) *TreeNode {
-//	if root == nil {
-//		return nil
-//	}
-//
-//	if key < root.Val {
-//		root.Left = deleteNode(root.Left, key)
-//	} else if key > root.Val {
-//		root.Right = deleteNode(root.Right, key)
-//	} else {
-//		if root.Left == nil {
-//			return root.Right
-//		} else if root.Right == nil {
-//			return root.Left
-//		}
-//
-//		minNode := root.Right
-//		for minNode.Left != nil {
-//			minNode = minNode.Left
-//		}
-//
-//		root.Val = minNode.Val
-//		root.Right = deleteNode(root.Right, key)
-//
-//	}
-//
-//	return root
-//}
