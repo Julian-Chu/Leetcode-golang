@@ -6,18 +6,17 @@ func isAnagram(s string, t string) bool {
 	}
 
 	schars := [26]byte{}
-	tchars := [26]byte{}
 
 	for i := range s {
 		schars[s[i]-'a']++
 	}
 
 	for i := range s {
-		tchars[t[i]-'a']++
+		schars[t[i]-'a']--
 	}
 
 	for i := range schars {
-		if schars[i] != tchars[i] {
+		if schars[i] != 0 {
 			return false
 		}
 	}
