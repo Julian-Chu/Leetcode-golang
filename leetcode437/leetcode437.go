@@ -15,28 +15,19 @@ import (
 type TreeNode = utils.TreeNode
 
 func pathSum(root *TreeNode, sum int) int {
-	if root == nil {
+	return helper(root, 0, sum, map[int]int{0: 1})
+}
+
+func helper(node *TreeNode, curSum, target int, m map[int]int) int {
+	if node == nil {
 		return 0
 	}
 
-	res := 0
-	iPath(sum, &res, []int{}, root)
-	return res
-}
-
-func iPath(sum int, res *int, prev []int, root *TreeNode) {
-	if root == nil {
-		return
-	}
-
-	prev = append(prev, root.Val)
-	s := 0
-	for i := len(prev) - 1; i >= 0; i-- {
-		s += prev[i]
-		if sum == s {
-			*res++
-		}
-	}
-	iPath(sum, res, prev, root.Left)
-	iPath(sum, res, prev, root.Right)
+	curSum += node.Val
+	summary := m[curSum-target]
+	m[curSum]++
+	summary += helper(node.Left, curSum, target, m)
+	summary += helper(node.Right, curSum, target, m)
+	m[curSum]--
+	return summary
 }
