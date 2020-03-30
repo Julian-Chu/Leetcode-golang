@@ -1,26 +1,35 @@
 package leetcode274
 
-import "sort"
-
 func hIndex(citations []int) int {
-	n := len(citations)
-	sort.Ints(citations)
-	hIdx := 0
-	for idx := 1; idx <= n; idx++ {
-		gt := 0
-		eq := 0
-		for i := range citations {
-			switch {
-			case citations[i] > idx:
-				gt++
-			case citations[i] == idx:
-				eq++
-			}
-		}
-		if gt+eq >= idx {
-			hIdx = idx
-		}
+	qsort(citations)
 
+	for i, num := range citations {
+		if i >= num {
+			return i
+		}
 	}
-	return hIdx
+	return len(citations)
+}
+
+func qsort(nums []int) {
+	if len(nums) <= 1 {
+		return
+	}
+
+	l := 0
+	r := len(nums) - 1
+	mid := nums[0]
+
+	for i := 1; i <= r; {
+		if nums[i] < mid {
+			nums[i], nums[r] = nums[r], nums[i]
+			r--
+		} else {
+			nums[i], nums[l] = nums[l], nums[i]
+			l++
+			i++
+		}
+	}
+	qsort(nums[:r])
+	qsort(nums[r+1:])
 }
