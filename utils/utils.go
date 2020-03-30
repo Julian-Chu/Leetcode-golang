@@ -14,7 +14,7 @@ func Ints2Tree(ints []int) (root *TreeNode) {
 	queue := make([]*TreeNode, 1, n*2)
 	queue[0] = root
 	i := 1
-	for i < n {
+	for i < n && len(queue) > 0 {
 		node := queue[0]
 		queue = queue[1:]
 		if i < n && ints[i] != NULL {
