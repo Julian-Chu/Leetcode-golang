@@ -13,43 +13,38 @@ func topKFrequent(nums []int, k int) []int {
 	for _, num := range nums {
 		m[num]++
 	}
+
 	res := make([]int, 0, k)
 	if len(m) <= k {
 		for key := range m {
 			res = append(res, key)
 		}
+		sort.Ints(res)
 		return res
 	}
 
-	minCnt := 1 << 31
-	var keyMinCnt = 0
-	for key, cnt := range m {
-		if len(res) < k {
-			if cnt < minCnt {
-				minCnt = cnt
-				keyMinCnt = key
-			}
+	type kp struct {
+		key int
+		cnt int
+	}
+	kps := make([]kp, 0, len(m))
+	for key := range m {
+		kps = append(kps, kp{
+			key: key,
+			cnt: m[key],
+		})
+	}
 
-			res = append(res, key)
-			continue
+	sort.Slice(kps, func(i, j int) bool {
+		if kps[i].cnt > kps[j].cnt {
+			return true
 		}
+		return false
+	})
 
-		if cnt > minCnt {
-			minCnt = 1 << 31
-			for i := 0; i < k; i++ {
-				if res[i] == keyMinCnt {
-					res[i] = key
-					break
-				}
-			}
-			for i := 0; i < k; i++ {
-				c := m[res[i]]
-				if c < minCnt {
-					minCnt = c
-					keyMinCnt = res[i]
-				}
-			}
-		}
+	kps = kps[0:k]
+	for i := range kps {
+		res = append(res, kps[i].key)
 	}
 
 	sort.Ints(res)
