@@ -11,26 +11,19 @@ func intersect(nums1 []int, nums2 []int) []int {
 		m1[num]++
 	}
 
-	resMap := make(map[int]int)
-
+	res := make([]int, 0, len(nums1))
 	for _, num := range nums2 {
 		cnt, ok := m1[num]
 		if !ok {
 			continue
 		}
-		if resMap[num] >= cnt {
+		if cnt <= 0 {
 			continue
 		}
 
-		resMap[num]++
-	}
+		m1[num]--
+		res = append(res, num)
 
-	res := make([]int, 0, len(nums1))
-
-	for key, cnt := range resMap {
-		for i := 0; i < cnt; i++ {
-			res = append(res, key)
-		}
 	}
 
 	return res
