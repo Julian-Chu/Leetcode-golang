@@ -1,29 +1,14 @@
 package leetcode389
 
 func findTheDifference(s string, t string) byte {
-	sb := []byte(s)
-	tb := []byte(t)
-
-	m := make(map[byte]int)
-
-	for _, b := range sb {
-		m[b]++
+	res := int32(0)
+	for _, v := range s {
+		res ^= v
 	}
 
-	for _, b := range tb {
-		if _, ok := m[b]; !ok {
-			return b
-		}
-		m[b]--
-
+	for _, v := range t {
+		res ^= v // xor associativity
 	}
 
-	for key, cnt := range m {
-		if cnt != 0 {
-			return key
-		}
-
-	}
-
-	return 0
+	return byte(res)
 }
