@@ -14,18 +14,16 @@ func findAnagrams(s string, p string) []int {
 
 	window := [26]int{}
 	res := make([]int, 0)
-	for i := 0; i <= len(s)-n; i++ {
-		if i == 0 {
-			subStr := s[i : i+n]
-			for j := range subStr {
-				window[subStr[j]-'a']++
-			}
-		} else {
-			window[s[i-1]-'a']--
-			window[s[i+n-1]-'a']++
+	for i := 0; i < len(s); i++ {
+		window[s[i]-'a']++
+		if i < n-1 {
+			continue
 		}
-		if target == window {
-			res = append(res, i)
+		if i >= n {
+			window[s[i-n]-'a']--
+		}
+		if window == target {
+			res = append(res, i-n+1)
 		}
 	}
 	return res
