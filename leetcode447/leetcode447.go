@@ -3,8 +3,8 @@ package leetcode447
 func numberOfBoomerangs(points [][]int) int {
 	res := 0
 	n := len(points)
-	if n == 0 {
-		return res
+	if n < 3 {
+		return 0
 	}
 
 	calcDistSquare := func(p1, p2 []int) int {
@@ -15,7 +15,7 @@ func numberOfBoomerangs(points [][]int) int {
 	}
 
 	for i := 0; i < n; i++ {
-		distMap := make(map[int]int)
+		distMap := make(map[int]int, n)
 		for j := 0; j < n; j++ {
 			if j == i {
 				continue
@@ -25,9 +25,7 @@ func numberOfBoomerangs(points [][]int) int {
 		}
 
 		for _, cnt := range distMap {
-			if cnt > 1 {
-				res += cnt * (cnt - 1)
-			}
+			res += cnt * (cnt - 1)
 		}
 	}
 
