@@ -1,6 +1,9 @@
 package leetcode451
 
-import "sort"
+import (
+	"sort"
+	"strings"
+)
 
 func frequencySort(s string) string {
 	type pair struct {
@@ -39,13 +42,13 @@ func frequencySort(s string) string {
 		return false
 	})
 
-	res := ""
+	var b strings.Builder
 
 	for _, p := range pairs {
 		for i := 0; i < p.cnt; i++ {
-			res += string(p.ch)
+			b.WriteRune(p.ch)
 		}
 	}
 
-	return res
+	return b.String()
 }
