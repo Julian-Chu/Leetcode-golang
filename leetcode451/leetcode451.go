@@ -3,50 +3,32 @@ package leetcode451
 import "sort"
 
 func frequencySort(s string) string {
-	r := ['z' + 1]int{}
-	for i := range s {
-		r[s[i]]++
+	var (
+		counts = make([]int, 128)
+		bin    = make([]byte, 0, 128)
+		res    = make([]byte, 0, len(s))
+	)
+
+	for i := 0; i < len(s); i++ {
+		counts[s[i]]++
 	}
 
-	ss := make([]string, 0, len(s))
-	for i := range r {
-		if r[i] == 0 {
-			continue
+	for k := byte(0); k < 128; k++ {
+		if counts[k] > 0 {
+			bin = append(bin, k)
 		}
-		ss = append(ss, makeString(byte(i), r[i]))
 	}
 
-	sort.Sort(segments(ss))
+	sort.Slice(bin, func(i, j int) bool {
+		return counts[bin[i]] > counts[bin[j]]
+	})
 
-	res := ""
-	for _, s := range ss {
-		res += s
+	for i := 0; i < len(bin); i++ {
+		ln := counts[bin[i]]
+		for j := 0; j < ln; j++ {
+			res = append(res, bin[i])
+		}
 	}
 
-	return res
-}
-
-func makeString(b byte, n int) string {
-	bytes := make([]byte, n)
-	for i := range bytes {
-		bytes[i] = b
-	}
-	return string(bytes)
-}
-
-type segments []string
-
-func (s segments) Len() int {
-	return len(s)
-}
-
-func (s segments) Less(i, j int) bool {
-	if len(s[i]) == len(s[j]) {
-		return s[i] < s[j]
-	}
-	return len(s[i]) > len(s[j])
-}
-
-func (s segments) Swap(i, j int) {
-	s[i], s[j] = s[j], s[i]
+	return string(res)
 }
