@@ -1,54 +1,52 @@
 package leetcode451
 
-import (
-	"sort"
-	"strings"
-)
+import "sort"
 
 func frequencySort(s string) string {
-	type pair struct {
-		ch  rune
-		cnt int
+	r := ['z' + 1]int{}
+	for i := range s {
+		r[s[i]]++
 	}
 
-	if len(s) <= 2 {
-		return s
-	}
-
-	m := make(map[rune]*pair)
-
-	for _, ch := range s {
-		if _, ok := m[ch]; !ok {
-			m[ch] = &pair{
-				ch:  ch,
-				cnt: 1,
-			}
+	ss := make([]string, 0, len(s))
+	for i := range r {
+		if r[i] == 0 {
 			continue
 		}
-
-		m[ch].cnt++
+		ss = append(ss, makeString(byte(i), r[i]))
 	}
 
-	pairs := make([]*pair, 0, len(m))
+	sort.Sort(segments(ss))
 
-	for _, p := range m {
-		pairs = append(pairs, p)
+	res := ""
+	for _, s := range ss {
+		res += s
 	}
 
-	sort.Slice(pairs, func(i, j int) bool {
-		if pairs[i].cnt > pairs[j].cnt {
-			return true
-		}
-		return false
-	})
+	return res
+}
 
-	var b strings.Builder
-
-	for _, p := range pairs {
-		for i := 0; i < p.cnt; i++ {
-			b.WriteRune(p.ch)
-		}
+func makeString(b byte, n int) string {
+	bytes := make([]byte, n)
+	for i := range bytes {
+		bytes[i] = b
 	}
+	return string(bytes)
+}
 
-	return b.String()
+type segments []string
+
+func (s segments) Len() int {
+	return len(s)
+}
+
+func (s segments) Less(i, j int) bool {
+	if len(s[i]) == len(s[j]) {
+		return s[i] < s[j]
+	}
+	return len(s[i]) > len(s[j])
+}
+
+func (s segments) Swap(i, j int) {
+	s[i], s[j] = s[j], s[i]
 }
