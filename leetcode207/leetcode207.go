@@ -1,35 +1,34 @@
 package leetcode207
 
 func canFinish(numCourses int, prerequisites [][]int) bool {
-	indegrees := make([]int, numCourses)
+	flags := make([]int, numCourses)
 	adjacency := make([][]int, numCourses)
-
-	for _, edge := range prerequisites {
-		indegrees[edge[0]]++
-		adjacency[edge[1]] = append(adjacency[edge[1]], edge[0])
+	for _, pair := range prerequisites {
+		adjacency[pair[1]] = append(adjacency[pair[1]], pair[0])
 	}
-
-	q := make([]int, 0, numCourses)
-
-	for i, cnt := range indegrees {
-		if cnt == 0 {
-			q = append(q, i)
+	var dfs func(int) bool
+	dfs = func(i int) bool {
+		if flags[i] == -1 {
+			return true
 		}
-	}
-
-	for len(q) > 0 {
-		course := q[0]
-		q = q[1:]
-
-		numCourses--
-
-		for _, cur := range adjacency[course] {
-			indegrees[cur]--
-			if indegrees[cur] == 0 {
-				q = append(q, cur)
+		if flags[i] == 1 {
+			return false
+		}
+		flags[i] = 1
+		for _, idx := range adjacency[i] {
+			if !dfs(idx) {
+				return false
 			}
 		}
+		flags[i] = -1
+		return true
 	}
 
-	return numCourses == 0
+	for i := 0; i < numCourses; i++ {
+		if !dfs(i) {
+			return false
+		}
+	}
+
+	return true
 }
