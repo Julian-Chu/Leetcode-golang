@@ -1,54 +1,35 @@
 package leetcode207
 
 func canFinish(numCourses int, prerequisites [][]int) bool {
-	if numCourses == 0 {
-		return false
+	indegrees := make([]int, numCourses)
+	adjacency := make([][]int, numCourses)
+
+	for _, edge := range prerequisites {
+		indegrees[edge[0]]++
+		adjacency[edge[1]] = append(adjacency[edge[1]], edge[0])
 	}
 
-	preq := make([]map[int]bool, numCourses)
-	for i := range preq {
-		preq[i] = make(map[int]bool)
-	}
+	q := make([]int, 0, numCourses)
 
-	for i := range prerequisites {
-		m := preq[prerequisites[i][1]]
-		if _, ok := m[prerequisites[i][0]]; !ok {
-			m[prerequisites[i][0]] = true
-		}
-	}
-
-	q := make([]int, 0, 100000)
-
-	for i := range preq {
-		if len(preq[i]) == 0 {
+	for i, cnt := range indegrees {
+		if cnt == 0 {
 			q = append(q, i)
 		}
 	}
 
 	for len(q) > 0 {
-		qNext := make([]int, 0, 100000)
-		for _, v := range q {
-			for i, m := range preq {
+		course := q[0]
+		q = q[1:]
 
-				if len(m) == 0 {
-					continue
-				}
-				if _, ok := m[v]; ok {
-					delete(m, v)
-				}
-				if len(m) == 0 {
-					qNext = append(qNext, i)
-				}
+		numCourses--
+
+		for _, cur := range adjacency[course] {
+			indegrees[cur]--
+			if indegrees[cur] == 0 {
+				q = append(q, cur)
 			}
 		}
-		q = qNext
 	}
 
-	for _, m := range preq {
-		if len(m) > 0 {
-			return false
-		}
-	}
-	return true
-
+	return numCourses == 0
 }
