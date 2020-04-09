@@ -13,6 +13,14 @@ func Test_canFinish(t *testing.T) {
 		want bool
 	}{
 		{
+			name: "case5",
+			args: args{
+				numCourses:    3,
+				prerequisites: [][]int{{0, 2}, {1, 2}, {2, 0}},
+			},
+			want: false,
+		},
+		{
 			name: "case4",
 			args: args{
 				numCourses:    7,
