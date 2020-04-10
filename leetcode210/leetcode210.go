@@ -1,45 +1,34 @@
 package leetcode210
 
 func findOrder(numCourses int, prerequisites [][]int) []int {
+	inDegrees := make([]int, numCourses)
 	adjacency := make([][]int, numCourses)
-
-	for _, pre := range prerequisites {
-		adjacency[pre[1]] = append(adjacency[pre[1]], pre[0])
+	orderings := make([]int, 0, numCourses)
+	for _, prereq := range prerequisites {
+		inDegrees[prereq[0]]++
+		adjacency[prereq[1]] = append(adjacency[prereq[1]], prereq[0])
 	}
 
-	orderings := make([]int, 0, numCourses)
-	flags := make([]int, numCourses)
-	var dfs func(idx int) bool
-	dfs = func(idx int) bool {
-		switch flags[idx] {
-		case -1:
-			return true
-		case 1:
-			return false
+	q := make([]int, 0)
+	for i, cnt := range inDegrees {
+		if cnt == 0 {
+			q = append(q, i)
 		}
+	}
 
-		flags[idx] = 1
-		for _, i := range adjacency[idx] {
-			if !dfs(i) {
-				return false
+	for len(q) > 0 {
+		e := q[0]
+		q = q[1:]
+		orderings = append(orderings, e)
+		for _, course := range adjacency[e] {
+			inDegrees[course]--
+			if inDegrees[course] == 0 {
+				q = append(q, course)
 			}
 		}
-		flags[idx] = -1
-		orderings = append(orderings, idx)
-		return true
 	}
-
-	for i := 0; i < numCourses; i++ {
-		if !dfs(i) {
-			return []int{}
-		}
-	}
-	l, r := 0, numCourses-1
-
-	for l < r {
-		orderings[l], orderings[r] = orderings[r], orderings[l]
-		l++
-		r--
+	if len(orderings) < numCourses {
+		return []int{}
 	}
 	return orderings
 }
