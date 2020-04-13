@@ -1,53 +1,41 @@
 package leetcode394
 
-import "strings"
+import (
+	"strconv"
+)
 
 func decodeString(s string) string {
-	sb := []byte(s)
-	res := []string{}
-	brackets := make(map[byte]int)
+	i := 0
+	n := len(s)
 
-	leftBracket := byte('[')
-	rightBracket := byte(']')
-	brackets[leftBracket] = 0
-	brackets[rightBracket] = 0
-	leftBracketIndx := -1
-	rightBracketIndx := -1
-	num := 0
-	for i := 0; i < len(sb); i++ {
-		switch {
-		case sb[i] >= '0' && sb[i] <= '9' && brackets[leftBracket] == 0:
-			num *= 10
-			num += int(sb[i] - '0')
-		case sb[i] == leftBracket:
-			if brackets[leftBracket] == 0 {
-				leftBracketIndx = i
-			}
-			brackets[leftBracket]++
-		case sb[i] == rightBracket:
-			brackets[rightBracket]++
-			if brackets[rightBracket] != brackets[leftBracket] {
-				continue
-			}
-			rightBracketIndx = i
+	for i < n && (s[i] < '0' || s[i] > '9') {
+		i++
+	}
+	if i == n {
+		return s
+	}
 
-			var encodedStr = string(sb[leftBracketIndx+1 : rightBracketIndx])
-			if brackets[rightBracket] != 1 {
-				encodedStr = decodeString(encodedStr)
-			}
-
-			for i := 0; i < num; i++ {
-				res = append(res, encodedStr)
-			}
-			num = 0
-			brackets[leftBracket] = 0
-			brackets[rightBracket] = 0
-		default:
-			if num != 0 {
-				continue
-			}
-			res = append(res, string(sb[i]))
+	j := i + 1
+	for s[j] != '[' {
+		j++
+	}
+	k := j
+	cnt := 1
+	for cnt > 0 {
+		k++
+		switch s[k] {
+		case '[':
+			cnt++
+		case ']':
+			cnt--
 		}
 	}
-	return strings.Join(res, "")
+
+	repeat, _ := strconv.Atoi(s[i:j])
+	substr := decodeString(s[j+1 : k])
+	substrs := ""
+	for i := 0; i < repeat; i++ {
+		substrs += substr
+	}
+	return s[:i] + substrs + decodeString(s[k+1:])
 }
