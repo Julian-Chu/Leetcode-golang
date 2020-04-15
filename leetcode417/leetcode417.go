@@ -13,11 +13,11 @@ func pacificAtlantic(matrix [][]int) [][]int {
 		p[i] = make([]bool, n)
 		a[i] = make([]bool, n)
 	}
-	var dfs func(i, j int, visited [][]bool)
+	var dfs func(i, j int, visited *[][]bool)
 
 	steps := [][]int{{-1, 0}, {0, -1}, {1, 0}, {0, 1}}
-	dfs = func(i, j int, visited [][]bool) {
-		visited[i][j] = true
+	dfs = func(i, j int, visited *[][]bool) {
+		(*visited)[i][j] = true
 
 		for _, step := range steps {
 			a, b := i+step[0], j+step[1]
@@ -25,26 +25,26 @@ func pacificAtlantic(matrix [][]int) [][]int {
 				continue
 			}
 
-			if matrix[i][j] <= matrix[a][b] && visited[a][b] == false {
+			if matrix[i][j] <= matrix[a][b] && (*visited)[a][b] == false {
 				dfs(a, b, visited)
 			}
 		}
 	}
 
 	for i := 0; i < m; i++ {
-		dfs(i, 0, p)
-		dfs(i, n-1, a)
+		dfs(i, 0, &p)
+		dfs(i, n-1, &a)
 	}
 
 	for j := 0; j < n; j++ {
-		dfs(0, j, p)
-		dfs(m-1, j, a)
+		dfs(0, j, &p)
+		dfs(m-1, j, &a)
 	}
 
-	var res = [][]int{}
+	var res [][]int
 	for i := 0; i < m; i++ {
 		for j := 0; j < n; j++ {
-			if p[i][j] == true && a[i][j] == true {
+			if p[i][j] && a[i][j] {
 				res = append(res, []int{i, j})
 			}
 		}
