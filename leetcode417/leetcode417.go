@@ -13,35 +13,45 @@ func pacificAtlantic(matrix [][]int) [][]int {
 		p[i] = make([]bool, n)
 		a[i] = make([]bool, n)
 	}
-	var dfs func(i, j int, visited *[][]bool)
+
+	var pQueue = [][]int{}
+	var aQueue = [][]int{}
+
+	for i := 0; i < m; i++ {
+		p[i][0] = true
+		pQueue = append(pQueue, []int{i, 0})
+		a[i][n-1] = true
+		aQueue = append(aQueue, []int{i, n - 1})
+	}
+
+	for j := 0; j < n; j++ {
+		p[0][j] = true
+		pQueue = append(pQueue, []int{0, j})
+		a[m-1][j] = true
+		aQueue = append(aQueue, []int{m - 1, j})
+
+	}
 
 	steps := [][]int{{-1, 0}, {0, -1}, {1, 0}, {0, 1}}
-	dfs = func(i, j int, visited *[][]bool) {
-		(*visited)[i][j] = true
+	var res [][]int
 
-		for _, step := range steps {
-			a, b := i+step[0], j+step[1]
-			if a < 0 || b < 0 || a >= m || b >= n {
-				continue
-			}
-
-			if matrix[i][j] <= matrix[a][b] && (*visited)[a][b] == false {
-				dfs(a, b, visited)
+	bfs := func(queue [][]int, rec [][]bool) {
+		for len(queue) > 0 {
+			pos := queue[0]
+			queue = queue[1:]
+			for _, step := range steps {
+				i, j := pos[0]+step[0], pos[1]+step[1]
+				if i >= 0 && i < m && j >= 0 && j < n && !rec[i][j] && matrix[pos[0]][pos[1]] <= matrix[i][j] {
+					rec[i][j] = true
+					queue = append(queue, []int{i, j})
+				}
 			}
 		}
 	}
 
-	for i := 0; i < m; i++ {
-		dfs(i, 0, &p)
-		dfs(i, n-1, &a)
-	}
+	bfs(pQueue, p)
+	bfs(aQueue, a)
 
-	for j := 0; j < n; j++ {
-		dfs(0, j, &p)
-		dfs(m-1, j, &a)
-	}
-
-	var res [][]int
 	for i := 0; i < m; i++ {
 		for j := 0; j < n; j++ {
 			if p[i][j] && a[i][j] {
