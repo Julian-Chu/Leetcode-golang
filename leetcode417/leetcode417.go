@@ -1,80 +1,54 @@
 package leetcode417
 
 func pacificAtlantic(matrix [][]int) [][]int {
-	m := len(matrix)
-	if m == 0 {
+	if len(matrix) == 0 || len(matrix[0]) == 0 {
 		return [][]int{}
 	}
-	n := len(matrix[0])
-	if n == 0 {
-		return [][]int{}
+	m, n := len(matrix), len(matrix[0])
+
+	p := make([][]bool, m)
+	a := make([][]bool, m)
+
+	for i := range p {
+		p[i] = make([]bool, n)
+		a[i] = make([]bool, n)
 	}
-	const toPacific = 1
-	const toAtlantic = 2
-	flags := make([][]int, m)
-	for i := range flags {
-		flags[i] = make([]int, n)
-	}
-	var dfs func(int, int) int
-	dfs = func(i, j int) int {
-		if flags[i][j] == 3 {
-			return flags[i][j]
-		}
-		res := flags[i][j]
-		if i == 0 || j == 0 {
-			res |= toPacific
-		}
+	var dfs func(i, j int, visited [][]bool)
 
-		if i == m-1 || j == n-1 {
-			res |= toAtlantic
-		}
+	steps := [][]int{{-1, 0}, {0, -1}, {1, 0}, {0, 1}}
+	dfs = func(i, j int, visited [][]bool) {
+		visited[i][j] = true
 
-		if res == 3 {
-			flags[i][j] = 3
-			return 3
-		}
+		for _, step := range steps {
+			a, b := i+step[0], j+step[1]
+			if a < 0 || b < 0 || a >= m || b >= n {
+				continue
+			}
 
-		v := matrix[i][j]
-
-		flags[i][j] = -1
-		if i > 0 && matrix[i-1][j] <= v && flags[i-1][j] > -1 {
-			res = res | dfs(i-1, j)
-		}
-		if j > 0 && matrix[i][j-1] <= v && flags[i][j-1] > -1 {
-			res = res | dfs(i, j-1)
-		}
-		if i < m-1 && matrix[i+1][j] <= v && flags[i+1][j] > -1 {
-			res = res | dfs(i+1, j)
-		}
-		if j < n-1 && matrix[i][j+1] <= v && flags[i][j+1] > -1 {
-			res = res | dfs(i, j+1)
-		}
-
-		flags[i][j] = res
-		return res
-	}
-	for i := range matrix {
-		for j := range matrix[i] {
-			dfs(i, j)
-		}
-	}
-
-	for i := range matrix {
-		for j := range matrix[i] {
-			v := matrix[i][j]
-			if i > 0 && matrix[i-1][j] >= v && flags[i-1][j] < flags[i][j] {
-				flags[i-1][j] = flags[i][j]
+			if matrix[i][j] <= matrix[a][b] && visited[a][b] == false {
+				dfs(a, b, visited)
 			}
 		}
 	}
 
-	var res [][]int
-	for i := range flags {
-		for j := range flags[i] {
-			if flags[i][j] == 3 {
+	for i := 0; i < m; i++ {
+		dfs(i, 0, p)
+		dfs(i, n-1, a)
+	}
+
+	for j := 0; j < n; j++ {
+		dfs(0, j, p)
+		dfs(m-1, j, a)
+	}
+
+	var res = [][]int{}
+	for i := 0; i < m; i++ {
+		for j := 0; j < n; j++ {
+			if p[i][j] == true && a[i][j] == true {
 				res = append(res, []int{i, j})
 			}
 		}
 	}
+
 	return res
 }
