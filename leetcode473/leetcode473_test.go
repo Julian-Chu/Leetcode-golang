@@ -12,6 +12,20 @@ func Test_makesquare(t *testing.T) {
 		want bool
 	}{
 		{
+			name: "[5,5,5,5,4,4,4,4,3,3,3,3]",
+			args: args{
+				nums: []int{5, 5, 5, 5, 4, 4, 4, 4, 3, 3, 3, 3},
+			},
+			want: true,
+		},
+		{
+			name: "[5,5,5,5,16,4,4,4,4,4,3,3,3,3,4]",
+			args: args{
+				nums: []int{5, 5, 5, 5, 16, 4, 4, 4, 4, 4, 3, 3, 3, 3, 4},
+			},
+			want: false,
+		},
+		{
 			name: "[1,1,2,2,2]",
 			args: args{
 				nums: []int{1, 1, 2, 2, 2},
@@ -26,11 +40,11 @@ func Test_makesquare(t *testing.T) {
 			want: false,
 		},
 		{
-			name: "[5,5,5,5,4,4,4,4,3,3,3,3]",
+			name: "[2,2,2,2,2,6]",
 			args: args{
-				nums: []int{5, 5, 5, 5, 4, 4, 4, 4, 3, 3, 3, 3},
+				nums: []int{2, 2, 2, 2, 2, 6},
 			},
-			want: true,
+			want: false,
 		},
 	}
 	for _, tt := range tests {
