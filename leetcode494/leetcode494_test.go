@@ -23,7 +23,7 @@ func Test_findTargetSumWays(t *testing.T) {
 		{
 			name: "[1,0,1]",
 			args: args{
-				nums: []int{1, 0, -1},
+				nums: []int{1, 0, 1},
 				S:    2,
 			},
 			want: 2,

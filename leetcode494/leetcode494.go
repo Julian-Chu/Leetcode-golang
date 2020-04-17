@@ -6,24 +6,23 @@ func findTargetSumWays(nums []int, S int) int {
 		return 0
 	}
 
-	res := 0
-	var dfs func(int, int)
-	dfs = func(idx, sum int) {
-		plus := sum + nums[idx]
-		minus := sum - nums[idx]
-		if idx == n-1 {
-			if plus == S {
-				res++
-			}
-			if minus == S {
-				res++
-			}
-			return
-		}
-
-		dfs(idx+1, plus)
-		dfs(idx+1, minus)
+	sum := 0
+	for _, num := range nums {
+		sum += num
 	}
-	dfs(0, 0)
-	return res
+
+	if (sum+S)%2 == 1 {
+		return 0
+	}
+	target := (sum + S) / 2
+	dp := make([]int, 1001)
+	dp[0] = 1
+
+	for i := 0; i < len(nums); i++ {
+		for j := sum; j >= nums[i]; j-- {
+			dp[j] += dp[j-nums[i]]
+		}
+	}
+
+	return dp[target]
 }
