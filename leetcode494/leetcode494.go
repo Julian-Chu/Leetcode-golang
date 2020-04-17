@@ -15,19 +15,15 @@ func findTargetSumWays(nums []int, S int) int {
 		return 0
 	}
 
-	dp := make([]int, 2*sum+1)
-	dp[sum] = 1 // origin    0 sum 2*sum+1
+	dp := make(map[int]int)
+	dp[0] = 1
 	for i := 0; i < len(nums); i++ {
-		next := make([]int, 2*sum+1)
-		for j := 0; j < len(dp); j++ {
-			if dp[j] == 0 {
-				continue
-			}
-
-			next[j+nums[i]] += dp[j]
-			next[j-nums[i]] += dp[j]
+		next := make(map[int]int)
+		for sum, cnt := range dp {
+			next[sum+nums[i]] += cnt
+			next[sum-nums[i]] += cnt
 		}
 		dp = next
 	}
-	return dp[sum+S]
+	return dp[S]
 }
