@@ -1,23 +1,21 @@
 package leetcode275
 
 func hIndex(citations []int) int {
-	n := len(citations)
-	hIdx := 0
-	for idx := 0; idx <= n; idx++ {
-		gt := 0
-		eq := 0
-		for i := range citations {
-			switch {
-			case citations[i] > idx:
-				gt++
-			case citations[i] == idx:
-				eq++
-			}
-		}
-		if gt+eq >= idx {
-			hIdx = idx
+	return bSearchIndex(citations, 0, len(citations)-1)
+}
+
+func bSearchIndex(c []int, l int, r int) int {
+	for l < r {
+		mid := l + (r-l)/2
+		if len(c)-mid > c[mid] {
+			l = mid + 1
+		} else {
+			r = mid
 		}
 	}
 
-	return hIdx
+	if len(c) > 0 && len(c)-l > c[l] {
+		return 0
+	}
+	return len(c) - l
 }
