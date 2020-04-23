@@ -13,26 +13,41 @@ func removeKdigits(num string, k int) string {
 		return num
 	}
 
-	v := num
+	bs := []byte(num)
 	for j := 0; j < k; j++ {
-		min := v[1:]
-		for i := 1; i < len(v); i++ {
-			bs := []byte(v)
-			//bs[0], bs[i] =   bs[i], bs[0]
-			copy(bs[1:], bs[0:i])
+		if len(bs) == 0 {
+			return "0"
+		}
+		zeros := 0
+		for i := 1; i < len(bs); i++ {
+			if bs[i] != '0' {
+				break
+			}
+			zeros++
+		}
 
-			minNum, _ := strconv.Atoi(min)
-			target, _ := strconv.Atoi(string(bs[1:]))
+		if zeros > 0 {
+			bs = bs[zeros+1:]
+			continue
+		}
 
-			if target < minNum {
-				min = string(bs[1:])
+		min := bs[1:]
+		for i := 1; i < len(bs); i++ {
+			target := make([]byte, len(bs)-1)
+			copy(target, bs[:i])
+			copy(target[i:], bs[i+1:])
+
+			minNum, _ := strconv.Atoi(string(min))
+			targetNum, _ := strconv.Atoi(string(target))
+			if minNum > targetNum {
+				min = target
 			}
 		}
-		v = min
+		bs = min
 	}
-	val, _ := strconv.Atoi(v)
-	if v == "" || val == 0 {
+	v, _ := strconv.Atoi(string(bs))
+	if len(bs) == 0 || v == 0 {
 		return "0"
 	}
-	return strings.TrimLeft(v, "0")
+	return strings.TrimLeft(string(bs), "0")
 }
