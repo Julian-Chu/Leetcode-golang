@@ -11,21 +11,13 @@ func findMinArrowShots(points [][]int) int {
 	})
 
 	res := 1
-	start := points[0][0]
 	end := points[0][1]
 
 	for i := 1; i < len(points); i++ {
 		if end >= points[i][0] {
-			if start < points[i][0] {
-				start = points[i][0]
-			}
-
-			if end > points[i][1] {
-				end = points[i][1]
-			}
+			continue
 		} else {
 			res++
-			start = points[i][0]
 			end = points[i][1]
 		}
 
