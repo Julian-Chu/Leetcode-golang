@@ -1,37 +1,32 @@
 package leetcode621
 
+import "sort"
+
 func leastInterval(tasks []byte, n int) int {
-	intervals := make([]int, 26)
-	taskCount := len(tasks)
 	ts := make([]int, 26)
-
-	for _, task := range tasks {
-		ts[task-'A']++
+	for _, v := range tasks {
+		ts[v-'A']++
 	}
 
-	cnt := 0
-	for taskCount > 0 {
-		maxIdx := -1
-		maxCnt := 0
-		for i := range ts {
-			if ts[i] > maxCnt && intervals[i] <= 0 {
-				maxCnt = ts[i]
-				maxIdx = i
-			}
-		}
+	sort.Ints(ts)
 
-		for i := range intervals {
-			intervals[i]--
-		}
+	i := 25 // last sequence
+	// A B C D   => if n > (count of a line) ,
+	// A B C D
+	// A B C D
+	// A B        last sequence
 
-		if maxIdx != -1 {
-			intervals[maxIdx] = n
-			ts[maxIdx]--
-			taskCount--
+	for _, v := range ts {
+		if v == ts[25] {
+			i--
 		}
-		cnt++
 	}
 
-	return cnt
+	res := (ts[25]-1)*(n+1) + 25 - i
 
+	if res > len(tasks) {
+		return res
+	}
+
+	return len(tasks)
 }
