@@ -1,46 +1,44 @@
 package leetcode310
 
 func findMinHeightTrees(n int, edges [][]int) []int {
-	nodes := make([][]int, n)
+	if n == 1 {
+		return []int{0}
+	}
+	links := make([][]int, n)
 
+	count := make([]int, n)
 	for _, edge := range edges {
-		nodes[edge[0]] = append(nodes[edge[0]], edge[1])
-		nodes[edge[1]] = append(nodes[edge[1]], edge[0])
+		links[edge[0]] = append(links[edge[0]], edge[1])
+		links[edge[1]] = append(links[edge[1]], edge[0])
+		count[edge[0]]++
+		count[edge[1]]++
 	}
 
-	heights := make([]int, n)
-	for i := range nodes {
-		m := make([]bool, n)
-		m[i] = true
-		queue := []int{i}
-		for len(queue) > 0 {
-			heights[i]++
-			nextq := make([]int, 0, len(nodes[i]))
-			for _, node := range queue {
-				for _, next := range nodes[node] {
-					if m[next] == false {
-						nextq = append(nextq, next)
-						m[next] = true
-					}
+	leafs := make([]int, 0, n)
+	for i := 0; i < n; i++ {
+		if count[i] == 1 {
+			leafs = append(leafs, i)
+		}
+	}
+
+	for n > 2 {
+		newLeafs := make([]int, 0, len(leafs))
+		for _, leaf := range leafs {
+			n--
+			for _, linknode := range links[leaf] {
+				count[linknode]--
+				if count[linknode] == 1 {
+					newLeafs = append(newLeafs, linknode)
 				}
 			}
-			queue = nextq
 		}
+		leafs = newLeafs
 	}
 
-	min := heights[0]
-	for _, h := range heights {
-		if h < min {
-			min = h
-		}
+	res := make([]int, 0, 2)
+	for _, root := range leafs {
+		res = append(res, root)
 	}
 
-	res := make([]int, 0)
-
-	for i, h := range heights {
-		if h == min {
-			res = append(res, i)
-		}
-	}
 	return res
 }

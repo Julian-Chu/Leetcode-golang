@@ -16,6 +16,14 @@ func Test_findMinHeightTrees(t *testing.T) {
 		want []int
 	}{
 		{
+			name: "[]",
+			args: args{
+				n:     1,
+				edges: [][]int{},
+			},
+			want: []int{0},
+		},
+		{
 			name: "[[1,0],[1,2],[1,3]]",
 			args: args{
 				n:     4,
