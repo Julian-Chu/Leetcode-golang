@@ -17,20 +17,17 @@ func findBottomLeftValue(root *TreeNode) int {
 		return 0
 	}
 	queue := []*TreeNode{root}
-	left := root.Val
 	for len(queue) > 0 {
-		nextQueue := make([]*TreeNode, 0, len(queue)*2)
-		for _, node := range queue {
-			if node.Left != nil {
-				nextQueue = append(nextQueue, node.Left)
-			}
+		root = queue[0]
+		queue = queue[1:]
 
-			if node.Right != nil {
-				nextQueue = append(nextQueue, node.Right)
-			}
+		if root.Right != nil {
+			queue = append(queue, root.Right)
 		}
-		left = queue[0].Val
-		queue = nextQueue
+
+		if root.Left != nil {
+			queue = append(queue, root.Left)
+		}
 	}
-	return left
+	return root.Val
 }
