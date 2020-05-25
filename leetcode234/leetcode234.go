@@ -5,24 +5,30 @@ import "Leetcode-golang/utils"
 type ListNode = utils.ListNode
 
 func isPalindrome(head *ListNode) bool {
-	if head == nil || head.Next == nil {
-		return true
+	slow, fast := head, head
+
+	prev := &ListNode{}
+
+	for fast != nil && fast.Next != nil {
+		fast = fast.Next.Next
+		next := slow.Next
+		slow.Next = prev
+		prev = slow
+		slow = next
 	}
 
-	s := make([]int, 0)
-
-	for head != nil {
-		s = append(s, head.Val)
-		head = head.Next
+	first, second := prev, slow
+	if fast != nil {
+		second = slow.Next
 	}
 
-	i, j := 0, len(s)-1
-	for i <= j {
-		if s[i] != s[j] {
+	for second != nil {
+		if first.Val != second.Val {
 			return false
 		}
-		i++
-		j--
+
+		first = first.Next
+		second = second.Next
 	}
 
 	return true
