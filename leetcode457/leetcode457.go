@@ -1,52 +1,36 @@
 package leetcode457
 
 func circularArrayLoop(nums []int) bool {
-	if len(nums) < 2 {
-		return false
+	next := func(i int) int {
+		return (len(nums) + (i+nums[i])%len(nums)) % len(nums)
 	}
-	for i := range nums {
-		if checkCircle(nums, i) {
-			return true
+
+	for i := 0; i < len(nums); i++ {
+		if nums[i] == 0 {
+			continue
+		}
+
+		slow, fast := i, next(i)
+
+		for nums[fast]*nums[slow] > 0 && nums[next(fast)]*nums[slow] > 0 {
+			if fast == slow {
+				if next(fast) != fast {
+					return true
+				}
+				break
+			}
+
+			fast = next(next(fast))
+			slow = next(slow)
+		}
+
+		slow = i
+		numsi := nums[i]
+
+		// mark slow to disable the route includes the index
+		for nums[slow]*numsi > 0 {
+			nums[slow], slow = 0, next(slow)
 		}
 	}
 	return false
-}
-
-func checkCircle(nums []int, idx int) bool {
-	slow, fast := idx, idx
-	slow = getIdx(nums, slow)
-	fast = getIdx(nums, fast)
-	fast = getIdx(nums, fast)
-	for slow != fast {
-		slow = getIdx(nums, slow)
-		fast = getIdx(nums, fast)
-		fast = getIdx(nums, fast)
-	}
-
-	steps := make(map[int]bool)
-	for _, ok := steps[slow]; !ok; _, ok = steps[slow] {
-		steps[slow] = true
-		pre := slow
-		slow = getIdx(nums, slow)
-		if (nums[pre] < 0 && nums[slow] > 0) || (nums[pre] > 0 && nums[slow] < 0) {
-			return false
-		}
-	}
-
-	if len(steps) > 1 {
-		return true
-	}
-
-	return false
-}
-
-func getIdx(nums []int, cur int) int {
-	n := len(nums)
-	cur += nums[cur]
-	cur %= n
-	if cur < 0 {
-		cur += n
-	}
-
-	return cur
 }
