@@ -1,39 +1,32 @@
 package leetcode524
 
-func findLongestWord(s string, d []string) string {
-	res := ""
-	n := len(s)
-	for _, str := range d {
-		idx := 0
-		i := 0
+import "sort"
 
-		size := len(str)
-		for idx < size && i < n {
-			if str[idx] == s[i] {
-				idx++
-			}
-			i++
+func findLongestWord(s string, d []string) string {
+	sort.Slice(d, func(i, j int) bool {
+		if len(d[i]) == len(d[j]) {
+			return d[i] < d[j]
 		}
 
-		if idx == size {
-			switch {
-			case len(res) < len(str):
-				res = str
-			case len(res) == len(str):
-				for i := 0; i < len(str); i++ {
-					if res[i] < str[i] {
-						break
-					}
+		return len(d[i]) > len(d[j])
+	})
 
-					if res[i] > str[i] {
-						res = str
-						break
-					}
-				}
-			}
-
+	for _, word := range d {
+		if isSub(word, s) {
+			return word
 		}
 	}
 
-	return res
+	return ""
+}
+
+func isSub(word string, s string) bool {
+	i, j := 0, 0
+	for i < len(word) && j < len(s) {
+		if word[i] == s[j] {
+			i++
+		}
+		j++
+	}
+	return i == len(word)
 }
