@@ -4,31 +4,26 @@ func findPairs(nums []int, k int) int {
 	if k < 0 {
 		return 0
 	}
-	m := make(map[int]int)
 
-	for i := range nums {
-		m[nums[i]]++
+	m, res := make(map[int]int, len(nums)), 0
+
+	for _, val := range nums {
+		m[val]++
 	}
 
-	cnt := 0
-	for key := range m {
-		if k == 0 {
-			if m[key] > 1 {
-				cnt++
+	if k == 0 {
+		for _, cnt := range m {
+			if cnt > 1 {
+				res++
 			}
-		} else {
-			cnt += min(min(m[key], m[key+k]), 1)
+		}
+	} else {
+		for val := range m {
+			if m[val+k] > 0 {
+				res++
+			}
 		}
 	}
 
-	return cnt
-
-}
-
-func min(a, b int) int {
-	if a > b {
-		return b
-	}
-
-	return a
+	return res
 }
