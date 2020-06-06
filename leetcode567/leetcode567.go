@@ -1,29 +1,33 @@
 package leetcode567
 
 func checkInclusion(s1 string, s2 string) bool {
-	arr1 := [26]int{}
-	n := len(s1)
-	for _, ch := range s1 {
-		arr1[ch-'a']++
+	n1 := len(s1)
+	n2 := len(s2)
+	if n1 > n2 {
+		return false
 	}
 
-	arr2 := [26]int{}
+	h1 := 0
+	h2 := 0
+	for i := 0; i < n1; i++ {
+		c1 := s1[i] - 'a'
+		c2 := s2[i] - 'a'
+		h1 += 1 << c1
+		h2 += 1 << c2
+	}
 
-	for i := 0; i < len(s2)-n+1; i++ {
-		if i == 0 {
-			for _, ch := range s2[:n] {
-				arr2[ch-'a']++
-			}
-		} else {
-			arr2[s2[i-1]-'a']--
-			arr2[s2[i+n-1]-'a']++
-		}
+	if h1 == h2 {
+		return true
+	}
 
-		if arr1 == arr2 {
+	for i := n1; i < n2; i++ {
+		cb := s2[i-n1] - 'a'
+		ce := s2[i] - 'a'
+		h2 += (1 << ce) - (1 << cb)
+		if h1 == h2 {
 			return true
 		}
 	}
 
 	return false
-
 }
