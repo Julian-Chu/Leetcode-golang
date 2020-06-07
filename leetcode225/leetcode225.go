@@ -1,80 +1,72 @@
 package leetcode225
 
 type MyStack struct {
-	queue Queue
-	top   int
+	a, b *Queue
 }
 
 /** Initialize your data structure here. */
 func Constructor() MyStack {
 	return MyStack{
-		queue: Queue{slice: make([]int, 0)},
+		a: NewQueue(), b: NewQueue(),
 	}
 }
 
 /** Push element x onto stack. */
 func (this *MyStack) Push(x int) {
-	this.queue.enqueue(x)
-	this.top = x
+	if this.a.Len() == 0 {
+		this.a, this.b = this.b, this.a
+	}
+	this.a.Enqueue(x)
 }
 
 /** Removes the element on top of the stack and returns that element. */
 func (this *MyStack) Pop() int {
-	if this.queue.isEmpty() {
-		return 0
+	if this.a.Len() == 0 {
+		this.a, this.b = this.b, this.a
 	}
 
-	nextq := Queue{}
-
-	for this.queue.size() != 1 {
-		nextq.enqueue(this.queue.dequeue())
+	for this.a.Len() > 1 {
+		this.b.Enqueue(this.a.Dequeue())
 	}
-	res := this.queue.dequeue()
-	this.queue = nextq
-	if this.queue.isEmpty() {
-		this.top = 0
-	} else {
-		this.top = nextq.slice[0]
-	}
-	return res
+	return this.a.Dequeue()
 }
 
 /** Get the top element. */
 func (this *MyStack) Top() int {
-	return this.top
+	res := this.Pop()
+	this.Push(res)
+	return res
 }
 
 /** Returns whether the stack is empty. */
 func (this *MyStack) Empty() bool {
-	return len(this.queue.slice) == 0
+	return (this.a.Len() + this.b.Len()) == 0
 }
 
 type Queue struct {
-	slice []int
+	nums []int
 }
 
-func (q *Queue) dequeue() int {
-	queue := q.slice
-	res := queue[len(queue)-1]
-	queue = queue[:len(queue)-1]
-	q.slice = queue
+func NewQueue() *Queue {
+	return &Queue{nums: []int{}}
+}
+
+func (q *Queue) Enqueue(n int) {
+	q.nums = append(q.nums, n)
+}
+
+func (q *Queue) Dequeue() int {
+	res := q.nums[0]
+	q.nums = q.nums[1:]
 	return res
 }
 
-func (q *Queue) enqueue(x int) {
-	queue := q.slice
-	nextq := make([]int, len(queue)+1)
-	copy(nextq[1:], queue)
-	nextq[0] = x
-	q.slice = nextq
+func (q *Queue) Len() int {
+	return len(q.nums)
 }
 
-func (q Queue) size() int {
-	return len(q.slice)
-}
-
-func (q Queue) isEmpty() bool {
-	return q.size() == 0
+func (q *Queue) IsEmpty() bool {
+	return q.Len() == 0
 }
 
 /**
