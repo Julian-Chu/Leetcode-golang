@@ -1,14 +1,14 @@
 package leetcode232
 
 type MyQueue struct {
-	a, b *Stack
+	a, b Stack
 }
 
 /** Initialize your data structure here. */
 func Constructor() MyQueue {
 	return MyQueue{
-		a: NewStack(),
-		b: NewStack(),
+		a: Stack{},
+		b: Stack{},
 	}
 }
 
@@ -62,32 +62,18 @@ func (this *MyQueue) Empty() bool {
  * param_4 := obj.Empty();
  */
 
-type Stack struct {
-	nums []int
-}
-
-func NewStack() *Stack {
-	return &Stack{nums: make([]int, 0)}
-}
+type Stack []int
 
 func (s *Stack) Push(x int) {
-	s.nums = append(s.nums, x)
+	*s = append(*s, x)
 }
 
 func (s *Stack) Pop() int {
-	if s.IsEmpty() {
-		return 0
-	}
-	n := len(s.nums)
-	res := s.nums[n-1]
-	s.nums = s.nums[:n-1]
-	return res
-}
-
-func (s Stack) Size() int {
-	return len(s.nums)
+	x := (*s)[len(*s)-1]
+	*s = (*s)[:len(*s)-1]
+	return x
 }
 
 func (s Stack) IsEmpty() bool {
-	return s.Size() == 0
+	return len(s) == 0
 }
