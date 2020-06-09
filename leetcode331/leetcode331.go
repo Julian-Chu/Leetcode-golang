@@ -3,22 +3,30 @@ package leetcode331
 import "strings"
 
 func isValidSerialization(preorder string) bool {
-	// non null node: 1 indegree, 2 outdegree
-	// null node: 1 indegree
 
 	parts := strings.Split(preorder, ",")
-	diff := 1
+	return helper(parts, 0) == len(parts)-1
+}
 
-	for _, part := range parts {
-		diff--
-		if diff < 0 {
-			return false // ex. ["#"]
-		}
-
-		if part != "#" {
-			diff += 2
-		}
+func helper(parts []string, i int) int {
+	if i >= len(parts) {
+		return -1
 	}
 
-	return diff == 0
+	if parts[i] == "#" {
+		return i
+	}
+
+	//l
+	next := helper(parts, i+1)
+	if next == -1 {
+		return -1
+	}
+
+	// r
+	next = helper(parts, next+1)
+	if next == -1 {
+		return -1
+	}
+	return next
 }
