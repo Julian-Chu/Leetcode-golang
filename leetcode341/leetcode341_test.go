@@ -38,6 +38,22 @@ func TestConstructor(t *testing.T) {
 				nums: []int{1, 1, 2, 1, 1},
 			},
 		},
+		{
+			name: "[1,[4,[6]]]",
+			args: args{
+				nestedList: []*NestedInteger{
+					{Num: 1},
+					{List: []*NestedInteger{
+						{Num: 4},
+						{List: []*NestedInteger{{Num: 6}}},
+					}},
+				},
+			},
+			want: &NestedIterator{
+				idx:  -1,
+				nums: []int{1, 4, 6},
+			},
+		},
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
