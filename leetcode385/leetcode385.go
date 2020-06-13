@@ -46,73 +46,55 @@ func (n NestedInteger) GetList() []*NestedInteger {
 }
 
 func deserialize(s string) *NestedInteger {
-	if len(s) == 0 {
+	size := len(s)
+	if size == 0 {
 		return nil
 	}
 
-	if s[0] != '[' {
-		return getValue(s)
+	res := &NestedInteger{}
+	if isDigit(s[0]) {
+		num, _ := strconv.Atoi(s)
+		res.SetInteger(num)
+		return res
 	}
 
-	stack := new(stackChars)
+	start := 0
+	stack := 0
 
-	var cur *NestedInteger
-
-	si, ci := 0, 0
-
-	for ; ci < len(s); ci++ {
-		switch s[ci] {
-		case '[':
-			if cur != nil {
-				stack.Push(cur)
+	for i := 1; i < size; i++ {
+		if isDigit(s[i]) {
+			start = i
+			i++
+			for i < size && isDigit(s[i]) {
+				i++
 			}
 
-			cur = new(NestedInteger)
-			si = ci + 1
-		case ']':
-			if ci > si {
-				cur.Add(*getValue(s[si:ci]))
-			}
+			num, _ := strconv.Atoi(s[start:i])
+			tmp := NestedInteger{}
+			tmp.SetInteger(num)
+			res.Add(tmp)
+		}
 
-			if !stack.Empty() {
-				tmp := stack.Pop()
-				tmp.Add(*cur)
-				cur = tmp
-			}
+		if s[i] == '[' {
+			start = i
+			stack++
+			i++
+			for stack > 0 {
+				if s[i] == '[' {
+					stack++
+				}
 
-			si = ci + 1
-		case ',':
-			if s[ci-1] != ']' {
-				cur.Add(*getValue(s[si:ci]))
+				if s[i] == ']' {
+					stack--
+				}
+				i++
 			}
-			si = ci + 1
+			res.Add(*deserialize(s[start:i]))
 		}
 	}
-
-	return cur
+	return res
 }
 
-func getValue(s string) *NestedInteger {
-	val, _ := strconv.Atoi(s)
-	item := new(NestedInteger)
-	item.SetInteger(val)
-	return item
-}
-
-type stackChars struct {
-	chars []*NestedInteger
-}
-
-func (s *stackChars) Pop() *NestedInteger {
-	slen := len(s.chars)
-	rb := s.chars[slen-1]
-	s.chars = s.chars[:slen-1]
-	return rb
-}
-
-func (s *stackChars) Push(nb *NestedInteger) {
-	s.chars = append(s.chars, nb)
-}
-func (s stackChars) Empty() bool {
-	return len(s.chars) == 0
+func isDigit(b byte) bool {
+	return ('0' <= b && b <= '9') || b == '-'
 }
