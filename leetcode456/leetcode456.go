@@ -6,20 +6,22 @@ func find132pattern(nums []int) bool {
 	}
 
 	for i := 0; i < len(nums)-2; i++ {
+		if nums[i+1] < nums[i] {
+			continue
+		}
 		max, min := -1<<31, 1<<31-1
 		if nums[i] < min {
 			min = nums[i]
 		}
 
-		for j := i + 1; j < len(nums)-1; j++ {
+		for j := i + 1; j < len(nums); j++ {
 			if nums[j] > max {
 				max = nums[j]
+				continue
 			}
 
-			for k := j + 1; k < len(nums); k++ {
-				if nums[k] > min && nums[k] < max {
-					return true
-				}
+			if nums[j] > min && nums[j] < max {
+				return true
 			}
 		}
 	}

@@ -12,6 +12,13 @@ func Test_find132pattern(t *testing.T) {
 		want bool
 	}{
 		{
+			name: "[-2,1,2,-2,1,2]",
+			args: args{
+				nums: []int{-2, 1, 2, -2, 1, 2},
+			},
+			want: true,
+		},
+		{
 			name: "[1,2,3,4]",
 			args: args{
 				nums: []int{1, 2, 3, 4},
