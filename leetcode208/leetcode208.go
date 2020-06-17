@@ -1,35 +1,55 @@
 package leetcode208
 
 type Trie struct {
-	fullStr map[string]bool
-	prefix  map[string]bool
+	son [26]*Trie
+	end bool
 }
 
 /** Initialize your data structure here. */
 func Constructor() Trie {
-	return Trie{
-		fullStr: make(map[string]bool),
-		prefix:  make(map[string]bool),
-	}
+	return Trie{}
 }
 
 /** Inserts a word into the trie. */
 func (this *Trie) Insert(word string) {
-	this.fullStr[word] = true
-
-	for i := 0; i < len(word); i++ {
-		this.prefix[word[:i+1]] = true
+	node := this
+	size := len(word)
+	for i := 0; i < size; i++ {
+		idx := word[i] - 'a'
+		if node.son[idx] == nil {
+			node.son[idx] = &Trie{}
+		}
+		node = node.son[idx]
 	}
+	node.end = true
 }
 
 /** Returns if the word is in the trie. */
 func (this *Trie) Search(word string) bool {
-	return this.fullStr[word]
+	node := this
+	size := len(word)
+	for i := 0; i < size; i++ {
+		idx := word[i] - 'a'
+		if node.son[idx] == nil {
+			return false
+		}
+		node = node.son[idx]
+	}
+	return node.end
 }
 
 /** Returns if there is any word in the trie that starts with the given prefix. */
 func (this *Trie) StartsWith(prefix string) bool {
-	return this.prefix[prefix]
+	node := this
+	size := len(prefix)
+	for i := 0; i < size; i++ {
+		idx := prefix[i] - 'a'
+		if node.son[idx] == nil {
+			return false
+		}
+		node = node.son[idx]
+	}
+	return true
 }
 
 /**
