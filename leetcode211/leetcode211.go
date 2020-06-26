@@ -1,96 +1,61 @@
 package leetcode211
 
-type alphabet struct {
-	alphabets [26]*alphabet
-	end       bool
-}
-
 type WordDictionary struct {
-	alphabets [26]*alphabet
-	end       bool
+	sons [26]*WordDictionary
+	end  int
 }
 
 /** Initialize your data structure here. */
 func Constructor() WordDictionary {
-	return WordDictionary{
-		alphabets: [26]*alphabet{},
-	}
+	return WordDictionary{}
 }
 
 /** Adds a word into the data structure. */
 func (this *WordDictionary) AddWord(word string) {
-	nodes := &this.alphabets
-	for i := 0; i < len(word); i++ {
-		end := false
-		if i == len(word)-1 {
-			end = true
+	for _, b := range word {
+		idx := b - 'a'
+		if this.sons[idx] == nil {
+			this.sons[idx] = &WordDictionary{}
 		}
-		idx := word[i] - 'a'
-		if nodes[idx] == nil {
-			nodes[idx] = &alphabet{
-				alphabets: [26]*alphabet{},
-				end:       end,
-			}
-		} else if !nodes[idx].end {
-			nodes[idx].end = end
-		}
-		nodes = &nodes[idx].alphabets
+		this = this.sons[idx]
 	}
+
+	this.end++
 }
 
 /** Returns if the word is in the data structure. A word could contain the dot character '.' to represent any one letter. */
 func (this *WordDictionary) Search(word string) bool {
-	queue := make([]*alphabet, 0)
-	if word[0] == '.' {
-		for _, alphabet := range this.alphabets {
-			if alphabet == nil {
-				continue
+	for i, b := range word {
+		if b != '.' {
+			idx := b - 'a'
+			if this.sons[idx] == nil {
+				return false
 			}
-			if len(word) == 1 && alphabet.end {
-				return true
-			}
-			queue = append(queue, alphabet)
-		}
-	} else {
-		idx := word[0] - 'a'
-		if this.alphabets[idx] == nil {
-			return false
-		} else if len(word) == 1 && this.alphabets[idx].end {
-			return true
-		}
-		queue = append(queue, this.alphabets[idx])
-	}
-	for i := 1; i < len(word); i++ {
-		next_q := make([]*alphabet, 0)
-		if word[i] == '.' {
-			for _, prevAlphabet := range queue {
-				if prevAlphabet == nil {
+			this = this.sons[idx]
+		} else {
+			for _, son := range this.sons {
+				if son == nil {
 					continue
 				}
-				for _, alphabet := range prevAlphabet.alphabets {
-					if alphabet == nil {
-						continue
-					}
-					if i == len(word)-1 && alphabet.end {
+
+				this = son
+				if i == len(word)-1 {
+					if this.end > 0 {
 						return true
 					}
-					next_q = append(next_q, alphabet)
-				}
-			}
-		} else {
-			idx := word[i] - 'a'
-			for _, prevAlphabet := range queue {
-				if prevAlphabet == nil || prevAlphabet.alphabets[idx] == nil {
 					continue
 				}
-				alphabet := prevAlphabet.alphabets[idx]
-				if i == len(word)-1 && alphabet.end == true {
+
+				if this.Search(word[i+1:]) {
 					return true
 				}
-				next_q = append(next_q, alphabet)
 			}
+			return false
 		}
-		queue = next_q
+	}
+
+	if this.end > 0 {
+		return true
 	}
 
 	return false
