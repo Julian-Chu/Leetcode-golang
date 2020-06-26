@@ -1,63 +1,41 @@
 package leetcode211
 
 type WordDictionary struct {
-	sons [26]*WordDictionary
-	end  int
+	items map[int][]string
 }
 
 /** Initialize your data structure here. */
 func Constructor() WordDictionary {
-	return WordDictionary{}
+	return WordDictionary{items: map[int][]string{}}
 }
 
 /** Adds a word into the data structure. */
 func (this *WordDictionary) AddWord(word string) {
-	for _, b := range word {
-		idx := b - 'a'
-		if this.sons[idx] == nil {
-			this.sons[idx] = &WordDictionary{}
-		}
-		this = this.sons[idx]
+	l := len(word)
+	if list, ok := this.items[l]; ok {
+		this.items[l] = append(list, word)
+	} else {
+		this.items[l] = []string{word}
 	}
-
-	this.end++
 }
 
 /** Returns if the word is in the data structure. A word could contain the dot character '.' to represent any one letter. */
 func (this *WordDictionary) Search(word string) bool {
-	for i, b := range word {
-		if b != '.' {
-			idx := b - 'a'
-			if this.sons[idx] == nil {
-				return false
+	l := len(word)
+	if list, ok := this.items[l]; ok {
+		for _, w := range list {
+			i := 0
+			for i < l {
+				if w[i] != word[i] && word[i] != '.' {
+					break
+				}
+				i++
 			}
-			this = this.sons[idx]
-		} else {
-			for _, son := range this.sons {
-				if son == nil {
-					continue
-				}
-
-				this = son
-				if i == len(word)-1 {
-					if this.end > 0 {
-						return true
-					}
-					continue
-				}
-
-				if this.Search(word[i+1:]) {
-					return true
-				}
+			if i == l {
+				return true
 			}
-			return false
 		}
 	}
-
-	if this.end > 0 {
-		return true
-	}
-
 	return false
 }
 
