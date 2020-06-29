@@ -1,53 +1,41 @@
 package leetcode306
 
-import "strconv"
+import (
+	"strconv"
+	"strings"
+)
 
 func isAdditiveNumber(num string) bool {
-	if len(num) < 3 {
-		return false
-	}
-
-	var dfs func(int, int, string) bool
-	dfs = func(n1 int, n2 int, num string) bool {
-		n3 := n1 + n2
-		s3 := strconv.Itoa(n3)
-		if len(s3) > len(num) {
+	for i := 1; i <= len(num)/2; i++ {
+		if byte(num[0]) == '0' && i > 1 {
 			return false
 		}
 
-		if len(s3) == len(num) {
-			if s3 == num {
-				return true
-			}
-			return false
-		}
-
-		if s3 != num[:len(s3)] {
-			return false
-		}
-
-		return dfs(n2, n3, num[len(s3):])
-	}
-
-	var i, j int
-	Jmax := len(num) * 2 / 3
-
-	for i = 1; i <= Jmax-1; i++ {
-		if len(num[:i]) > 1 && num[0] == '0' {
-			return false
-		}
-
-		for j = i + 1; j <= Jmax; j++ {
-			if len(num[i:j]) > 1 && num[i] == '0' {
+		a, _ := strconv.ParseInt(string(num[:i]), 10, 64)
+		for j := 1; max(i, j) <= len(num)-i-j; j++ {
+			if byte(num[i]) == '0' && j > 1 {
 				break
 			}
-			n1, _ := strconv.Atoi(num[:i])
-			n2, _ := strconv.Atoi(num[i:j])
-			if dfs(n1, n2, num[j:]) {
+			b, _ := strconv.ParseInt(string(num[i:i+j]), 10, 64)
+			if isAdtv(a, b, i+j, num) {
 				return true
 			}
 		}
-
 	}
 	return false
+}
+
+func isAdtv(a int64, b int64, start int, num string) bool {
+	if start == len(num) {
+		return true
+	}
+	sum := strconv.FormatInt(a+b, 10)
+	return strings.Contains(num[start:], sum) && isAdtv(b, a+b, start+len(sum), num)
+}
+
+func max(i int, j int) int {
+	if i > j {
+		return i
+	}
+	return j
 }
