@@ -1,31 +1,33 @@
 package leetcode526
 
 func countArrangement(N int) int {
-	arr := make([]bool, N+1)
+	a := make([]int, N+1)
 
 	for i := 1; i < N+1; i++ {
-		arr[i] = true
+		a[i] = i
 	}
 
 	cnt := 0
-	var dfs func(restNums []bool, idx int)
-	dfs = func(restNums []bool, idx int) {
-		if idx == N+1 {
+	var dfs func(idx int)
+	dfs = func(idx int) {
+		if idx == 0 {
 			cnt++
 			return
 		}
-		for i, v := range restNums {
-			if v == false {
-				continue
+
+		for i := idx; i > 0; i-- {
+			a[idx], a[i] = a[i], a[idx]
+			if isBeautiful(a[idx], idx) {
+				dfs(idx - 1)
 			}
-			if i%idx == 0 || idx%i == 0 {
-				rest := append([]bool{}, restNums...)
-				rest[i] = false
-				dfs(rest, idx+1)
-			}
+			a[idx], a[i] = a[i], a[idx]
 		}
 	}
 
-	dfs(arr, 1)
+	dfs(N)
 	return cnt
+}
+
+func isBeautiful(i, j int) bool {
+	return i%j == 0 || j%i == 0
 }
