@@ -1,15 +1,15 @@
 package leetcode526
 
 func countArrangement(N int) int {
-	arr := [16]bool{}
+	arr := make([]bool, N+1)
 
 	for i := 1; i < N+1; i++ {
 		arr[i] = true
 	}
 
 	cnt := 0
-	var dfs func(restNums [16]bool, idx int)
-	dfs = func(restNums [16]bool, idx int) {
+	var dfs func(restNums []bool, idx int)
+	dfs = func(restNums []bool, idx int) {
 		if idx == N+1 {
 			cnt++
 			return
@@ -19,7 +19,7 @@ func countArrangement(N int) int {
 				continue
 			}
 			if i%idx == 0 || idx%i == 0 {
-				rest := restNums
+				rest := append([]bool{}, restNums...)
 				rest[i] = false
 				dfs(rest, idx+1)
 			}
