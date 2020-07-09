@@ -1,22 +1,21 @@
 package leetcode260
 
 func singleNumber(nums []int) []int {
-	set := make(map[int]int)
+
+	xor := 0
+	for _, num := range nums {
+		xor ^= num
+	}
+	diff := xor & -xor
+
+	res := make([]int, 2)
 
 	for _, num := range nums {
-		set[num]++
-	}
-
-	res := make([]int, 0)
-
-	for key, n := range set {
-		if n == 1 {
-			res = append(res, key)
-		}
-		if len(res) == 2 {
-			return res
+		if num&diff != 0 {
+			res[0] ^= num
+		} else {
+			res[1] ^= num
 		}
 	}
-
 	return res
 }
