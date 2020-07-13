@@ -12,7 +12,7 @@ func Test_maxProduct(t *testing.T) {
 		want int
 	}{
 		{
-			name: "abc",
+			name: `"abc"`,
 			args: args{
 				words: []string{"abc"},
 			},

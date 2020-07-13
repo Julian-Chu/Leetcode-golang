@@ -1,34 +1,26 @@
 package leetcode318
 
 func maxProduct(words []string) int {
-	n := len(words)
-	if n <= 0 {
-		return 0
+	bits := make([]int, len(words))
+
+	for i := range words {
+		for _, ch := range words[i] {
+			bits[i] |= 1 << uint32(ch-'a')
+		}
 	}
 
-	count := 0
+	cnt := 0
 
+	n := len(words)
 	for i := 0; i < n-1; i++ {
-		m := make(map[int32]bool)
-		len1 := len(words[i])
-		for _, b := range words[i] {
-			m[b] = true
-		}
-
-	loop:
 		for j := i + 1; j < n; j++ {
-			len2 := len(words[j])
-			if len1*len2 <= count {
-				continue
-			}
-
-			for _, b := range words[j] {
-				if m[b] {
-					continue loop
+			if bits[i]&bits[j] == 0 {
+				product := len(words[i]) * len(words[j])
+				if product > cnt {
+					cnt = product
 				}
 			}
-			count = len1 * len2
 		}
 	}
-	return count
+	return cnt
 }
