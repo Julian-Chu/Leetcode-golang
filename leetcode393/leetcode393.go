@@ -1,16 +1,10 @@
 package leetcode393
 
 func validUtf8(data []int) bool {
-	n := len(data)
-	bytes := make([]byte, n)
-	for i, integer := range data {
-		bytes[i] = byte(integer)
-	}
-
 	byteCnt := 0
-	maskBytes1 := byte(128) //10000000
-	maskBytes2 := byte(64)  //01000000
-	for _, byte := range bytes {
+	maskBytes1 := 128 //10000000
+	maskBytes2 := 64  //01000000
+	for _, byte := range data {
 		if byteCnt == 0 {
 			byteCnt = calcByteCnt(byte)
 			if byteCnt == -1 {
@@ -28,7 +22,7 @@ func validUtf8(data []int) bool {
 	return byteCnt == 0
 }
 
-func calcByteCnt(b byte) int {
+func calcByteCnt(b int) int {
 	switch {
 	case b&128 == 0:
 		return 1
