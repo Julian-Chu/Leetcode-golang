@@ -1,25 +1,27 @@
 package leetcode393
 
 func validUtf8(data []int) bool {
-	cnt := 0
+	var run int
 	for _, d := range data {
-		if cnt == 0 {
+		if run == 0 {
 			switch {
-			case d>>3 == 30:
-				cnt = 3
-			case d>>4 == 14:
-				cnt = 2
-			case d>>5 == 6:
-				cnt = 1
-			case d>>7 > 0:
+			case d&0b10000000 == 0b0:
+			case d&0b11111000 == 0b11110000:
+				run = 3
+			case d&0b11110000 == 0b11100000:
+				run = 2
+			case d&0b11100000 == 0b11000000:
+				run = 1
+			default:
 				return false
 			}
 		} else {
-			if d>>6 != 2 {
+			if d&0b11000000 == 0b10000000 {
+				run--
+			} else {
 				return false
 			}
-			cnt--
 		}
 	}
-	return 0 == cnt
+	return run == 0
 }
