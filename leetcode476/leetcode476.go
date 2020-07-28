@@ -1,15 +1,14 @@
 package leetcode476
 
 func findComplement(num int) int {
-	comp := ^num
 
-	cnt := 0
-	for num != 0 {
-		cnt++
-		num >>= 1
+	temp := num
+	res := 0
+	for temp != 0 {
+		temp >>= 1
+		res <<= 1
+		res++
 	}
 
-	mask := 1<<cnt - 1
-
-	return comp & mask
+	return res ^ num
 }
