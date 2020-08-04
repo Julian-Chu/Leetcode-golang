@@ -18,33 +18,38 @@ func (this *Iterator) next() int {
 //
 
 type PeekingIterator struct {
-	cache *int
-	iter  *Iterator
+	cache        int
+	iter         *Iterator
+	hasNextCache bool
 }
 
 func Constructor(iter *Iterator) *PeekingIterator {
-	next := iter.next()
+	hasNextCache := iter.hasNext()
+	cache := 0
+	if hasNextCache {
+		cache = iter.next()
+	}
 	return &PeekingIterator{
-		cache: &next,
-		iter:  iter,
+		cache:        cache,
+		iter:         iter,
+		hasNextCache: hasNextCache,
 	}
 }
 
 func (this *PeekingIterator) hasNext() bool {
-	return this.cache != nil
+	return this.hasNextCache
 }
 
 func (this *PeekingIterator) next() int {
-	res := *this.cache
-	var next *int
+	res := this.cache
 	if this.iter.hasNext() {
-		tmp := this.iter.next()
-		next = &tmp
+		this.cache = this.iter.next()
+	} else {
+		this.hasNextCache = false
 	}
-	this.cache = next
 	return res
 }
 
 func (this *PeekingIterator) peek() int {
-	return *this.cache
+	return this.cache
 }
