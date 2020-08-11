@@ -18,44 +18,50 @@ func calcEquation(equations [][]string, values []float64, queries [][]string) []
 		edges[end][start] = 1 / val
 	}
 
-	var findPath func(start, end string, route map[string]bool) float64
-	findPath = func(start, end string, route map[string]bool) float64 {
-		nexts, checkStart := edges[start]
-		_, checkEnd := edges[end]
-
-		if !(checkStart && checkEnd) {
-			return -1
+	bfs := func(graph map[string]map[string]float64, a, b string) float64 {
+		if _, ok := graph[a]; !ok {
+			return -1.0
 		}
 
-		if start == end {
-			return 1
+		if _, ok := graph[b]; !ok {
+			return -1.0
 		}
-		for k, v := range nexts {
-			if k == end {
-				return v
+
+		if a == b {
+			return 1.0
+		}
+
+		type entry struct {
+			s string
+			f float64
+		}
+		isVisited := make(map[string]bool)
+		queue := []entry{{a, 1}}
+		for len(queue) > 0 {
+			e := queue[0]
+			queue = queue[1:]
+			if e.s == b {
+				return e.f
 			}
-			if exist := route[k]; exist {
+			if isVisited[e.s] {
 				continue
 			}
 
-			route[k] = true
-			res := findPath(k, end, route)
-			if res != -1 {
-				return v * res
+			isVisited[e.s] = true
+
+			for k, v := range graph[e.s] {
+				queue = append(queue, entry{k, v * e.f})
 			}
-			route[k] = false
 		}
 		return -1
 	}
 
-	res := make([]float64, 0, len(queries))
+	res := make([]float64, len(queries))
 
 	for i := range queries {
 		start := queries[i][0]
 		end := queries[i][1]
-		route := make(map[string]bool)
-		route[start] = true
-		res = append(res, findPath(start, end, route))
+		res[i] = bfs(edges, start, end)
 	}
 	return res
 }
