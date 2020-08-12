@@ -1,60 +1,30 @@
 package leetcode684
 
 func findRedundantConnection(edges [][]int) []int {
-	graph := make(map[int][]int)
+	n := len(edges)
 
-	for _, edge := range edges {
-		if _, ok := graph[edge[0]]; !ok {
-			graph[edge[0]] = make([]int, 0, len(edges)-1)
-		}
-		graph[edge[0]] = append(graph[edge[0]], edge[1])
-
-		if _, ok := graph[edge[1]]; !ok {
-			graph[edge[1]] = make([]int, 0, len(edges)-1)
-		}
-		graph[edge[1]] = append(graph[edge[1]], edge[0])
+	parent := make([]int, n+1)
+	for i := 0; i < n; i++ {
+		parent[i] = i
 	}
 
-	anySingleNode := true
-
-	for anySingleNode {
-		for k := range graph {
-			if len(graph[k]) != 1 {
-				continue
-			}
-			v := graph[k][0]
-			delete(graph, k)
-			for i := range graph[v] {
-				if graph[v][i] == k {
-					graph[v][i], graph[v][len(graph[v])-1] = graph[v][len(graph[v])-1], graph[v][i]
-					graph[v] = graph[v][:len(graph[v])-1]
-					break
-				}
-			}
+	var i int
+	var e []int
+	for i, e = range edges {
+		f, t := e[0], e[1]
+		pf := find(parent, f)
+		pt := find(parent, t)
+		if pf == pt { // last edge will make connected
+			break
 		}
-
-		anySingleNode = false
-		for k := range graph {
-			if len(graph[k]) == 1 {
-				anySingleNode = true
-				break
-			}
-		}
+		parent[pf] = pt
 	}
+	return edges[i]
+}
 
-	loopMap := make(map[int]bool)
-
-	for k, v := range graph {
-		if len(v) != 1 {
-			loopMap[k] = true
-		}
+func find(parent []int, f int) int {
+	for f != parent[f] {
+		f = parent[f]
 	}
-
-	for i := len(edges) - 1; i >= 0; i-- {
-		if loopMap[edges[i][0]] && loopMap[edges[i][1]] {
-			return edges[i]
-		}
-	}
-
-	return nil
+	return f
 }
