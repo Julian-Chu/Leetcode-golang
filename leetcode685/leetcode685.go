@@ -2,32 +2,30 @@ package leetcode685
 
 func findRedundantDirectedConnection(edges [][]int) []int {
 	n := len(edges)
-	parent := make([]int, n+1)
+	parents := make([]int, n+1)
 	var first, last []int
-
-	for k := range edges {
-		p, c := edges[k][0], edges[k][1]
-		if parent[c] == 0 {
-			parent[c] = p
+	for i := range edges {
+		f := edges[i][0]
+		t := edges[i][1]
+		if parents[t] == 0 {
+			parents[t] = f
 		} else {
-			first = []int{parent[c], c}
-			last = edges[k]
-			edges[k] = nil
+			first = []int{parents[t], t}
+			last = edges[i]
+			edges[i] = nil
 			break
 		}
 	}
-
-	root := parent
-
-	for i := 0; i <= n; i++ {
+	root := parents
+	for i := range root {
 		root[i] = i
 	}
 
-	rootOf := func(i int) int {
-		for i != root[i] {
-			i = root[i]
+	rootOf := func(t int) int {
+		for t != root[t] {
+			t = root[t]
 		}
-		return i
+		return t
 	}
 
 	for _, edge := range edges {
@@ -35,17 +33,19 @@ func findRedundantDirectedConnection(edges [][]int) []int {
 			continue
 		}
 
-		p := edge[0]
-		c := edge[1]
-		r := rootOf(p)
-		if r == c {
+		f := edge[0]
+		t := edge[1]
+		r := rootOf(f)
+
+		if r == t {
 			if first == nil {
 				return edge
 			}
 			return first
 		}
-		root[c] = r
-	}
 
+		root[t] = r
+	}
 	return last
+
 }
