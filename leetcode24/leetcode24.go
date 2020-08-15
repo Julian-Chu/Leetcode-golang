@@ -18,23 +18,26 @@ func swapPairs(head *ListNode) *ListNode {
 		return head
 	}
 
-	cur, next, newHead := head, head.Next, head.Next
-	var prev *ListNode
+	preHead := &ListNode{}
+	pre := preHead
+	cur := head
+	next := cur.Next
+	pre.Next = cur
 
-	for cur != nil && next != nil {
-		cur.Next = next.Next
-		next.Next = cur
+	for {
+		tmp := next.Next
 		cur, next = next, cur
-		if prev != nil {
-			prev.Next = cur
-		}
-		if next.Next == nil || next.Next.Next == nil {
+		pre.Next = cur
+		cur.Next = next
+		next.Next = tmp
+
+		pre = next
+		cur = tmp
+		if cur == nil {
 			break
 		}
-		prev = next
-		cur = cur.Next.Next
-		next = next.Next.Next
+		next = cur.Next
 	}
 
-	return newHead
+	return preHead.Next
 }
