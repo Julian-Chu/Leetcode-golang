@@ -5,60 +5,39 @@ import "Leetcode-golang/utils"
 type ListNode = utils.ListNode
 
 func reverseKGroup(head *ListNode, k int) *ListNode {
-	if head == nil || head.Next == nil {
+	if k < 2 || head == nil || head.Next == nil {
 		return head
 	}
 
-	preHead := &ListNode{Next: head}
-	pre := preHead
-	cur := head
-	tail := cur
+	tail, needReverse := getTail(head, k)
 
-	for tail != nil {
-		for i := 0; i < k-1; i++ {
-			tail = tail.Next
-			if tail == nil {
-				pre.Next = cur
-				break
-			}
-		}
-		if tail != nil {
-			tmp := tail.Next
-			tail.Next = nil
-
-			newHead, newTail := reverse(cur)
-
-			pre.Next = newHead
-			pre = newTail
-			cur, tail = tmp, tmp
-		}
+	if needReverse {
+		tailNext := tail.Next
+		tail.Next = nil
+		head, tail = reverse(head, tail)
+		tail.Next = reverseKGroup(tailNext, k)
 
 	}
 
-	return preHead.Next
+	return head
 }
 
-func reverse(head *ListNode) (*ListNode, *ListNode) {
-	if head == nil || head.Next == nil {
-		return head, head
-	}
-
-	if head.Next.Next == nil {
-		tmp := head
-		head = head.Next
-		tmp.Next = nil
-		head.Next = tmp
-		return head, head.Next
-	}
-
-	var pre *ListNode
+func reverse(head *ListNode, tail *ListNode) (*ListNode, *ListNode) {
+	var preCur *ListNode
 	cur := head
-	tail := head
+
 	for cur != nil {
-		tmp := cur.Next
-		cur.Next = pre
-		pre = cur
-		cur = tmp
+		preCur, cur, cur.Next = cur, cur.Next, preCur
 	}
-	return pre, tail
+
+	return tail, head
+}
+
+func getTail(head *ListNode, k int) (*ListNode, bool) {
+	for k > 1 && head != nil {
+		head = head.Next
+		k--
+	}
+
+	return head, k == 1 && head != nil
 }

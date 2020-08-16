@@ -33,7 +33,11 @@ func Test_reverse(t *testing.T) {
 	for _, tt := range tests {
 		head := utils.IntsToListNode(tt.args.head)
 		t.Run(tt.name, func(t *testing.T) {
-			if got, _ := reverse(head); !reflect.DeepEqual(utils.ListNodeToInts(got), tt.want) {
+			tail := head
+			for tail.Next != nil {
+				tail = tail.Next
+			}
+			if got, _ := reverse(head, tail); !reflect.DeepEqual(utils.ListNodeToInts(got), tt.want) {
 				t.Errorf("reverse() = %v, want %v", utils.ListNodeToInts(got), tt.want)
 			}
 		})
