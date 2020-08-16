@@ -12,27 +12,23 @@ import "Leetcode-golang/utils"
 type ListNode = utils.ListNode
 
 func mergeKLists(lists []*ListNode) *ListNode {
-	l := len(lists)
+	n := len(lists)
 
-	switch l {
-	case 0:
+	if n == 0 {
 		return nil
-	case 1:
+	}
+	if n == 1 {
 		return lists[0]
 	}
+	mid := n / 2
 
-	mid := l / 2
-	left := mergeKLists(lists[:mid])
-	right := mergeKLists(lists[mid:])
-
-	return helper(left, right)
+	return helper(mergeKLists(lists[:mid]), mergeKLists(lists[mid:]))
 }
 
-func helper(l1, l2 *ListNode) *ListNode {
+func helper(l1 *ListNode, l2 *ListNode) *ListNode {
 	if l1 == nil {
 		return l2
 	}
-
 	if l2 == nil {
 		return l1
 	}
@@ -40,8 +36,8 @@ func helper(l1, l2 *ListNode) *ListNode {
 	if l1.Val > l2.Val {
 		l2.Next = helper(l1, l2.Next)
 		return l2
+	} else {
+		l1.Next = helper(l1.Next, l2)
+		return l1
 	}
-
-	l1.Next = helper(l1.Next, l2)
-	return l1
 }
