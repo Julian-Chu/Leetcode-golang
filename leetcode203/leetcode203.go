@@ -16,20 +16,15 @@ func removeElements(head *ListNode, val int) *ListNode {
 	if head == nil {
 		return head
 	}
-	preHead := &ListNode{}
-	preHead.Next = head
-	pre := preHead
-	cur := head
+	preHead := &ListNode{Next: head}
+	cur := preHead
 
-	for cur != nil {
-		if cur.Val != val {
-			pre = cur
+	for cur.Next != nil {
+		if cur.Next.Val == val {
+			cur.Next = cur.Next.Next
+		} else {
 			cur = cur.Next
-			continue
 		}
-		tmp := cur.Next
-		pre.Next = tmp
-		cur = tmp
 	}
 	return preHead.Next
 }
