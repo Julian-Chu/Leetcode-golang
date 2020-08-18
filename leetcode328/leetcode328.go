@@ -15,33 +15,18 @@ func oddEvenList(head *ListNode) *ListNode {
 	if head == nil {
 		return head
 	}
-	tail := head
-	length := 1
 
-	for tail.Next != nil {
-		tail = tail.Next
-		length++
-	}
+	oddTail := head
+	evenHead := head.Next
+	evenTail := evenHead
 
-	if length == 1 {
-		return head
-	}
-
-	cur := head
-
-	for length > 1 {
-		if cur.Next == nil {
-			break
-		}
-
-		tail.Next = cur.Next
-		cur.Next = cur.Next.Next
-		cur = cur.Next
-		tail = tail.Next
-		tail.Next = nil
-		length -= 2
+	for evenTail != nil && evenTail.Next != nil {
+		oddTail.Next = evenTail.Next
+		oddTail = oddTail.Next
+		evenTail.Next = oddTail.Next
+		evenTail = evenTail.Next
+		oddTail.Next = evenHead
 	}
 
 	return head
-
 }
