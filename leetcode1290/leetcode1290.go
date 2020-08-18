@@ -13,12 +13,9 @@ type ListNode = utils.ListNode
 
 func getDecimalValue(head *ListNode) int {
 	res := 0
-
 	for head != nil {
-		res <<= 1
-		res += head.Val
+		res = (res << 1) + head.Val
 		head = head.Next
 	}
-
 	return res
 }
