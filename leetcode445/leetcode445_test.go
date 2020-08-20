@@ -38,7 +38,7 @@ func Test_addTwoNumbers(t *testing.T) {
 				l1: []int{9},
 				l2: []int{8},
 			},
-			want: []int{1, 8},
+			want: []int{1, 7},
 		},
 	}
 	for _, tt := range tests {

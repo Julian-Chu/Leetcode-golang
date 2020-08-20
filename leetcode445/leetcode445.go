@@ -12,43 +12,41 @@ import "Leetcode-golang/utils"
 type ListNode = utils.ListNode
 
 func addTwoNumbers(l1 *ListNode, l2 *ListNode) *ListNode {
-	stack1 := make([]*ListNode, 0, 100)
-	stack2 := make([]*ListNode, 0, 100)
-
-	for l1 != nil || l2 != nil {
-		if l1 != nil {
-			stack1 = append(stack1, l1)
-			l1 = l1.Next
-		}
-
-		if l2 != nil {
-			stack2 = append(stack2, l2)
-			l2 = l2.Next
-		}
+	s1 := make([]int, 0, 128)
+	for l1 != nil {
+		s1 = append(s1, l1.Val)
+		l1 = l1.Next
 	}
 
-	var next *ListNode
-	carry := 0
-	for len(stack1) != 0 || len(stack2) != 0 || carry != 0 {
-		val := 0
-		switch {
-		case len(stack1) != 0 && len(stack2) != 0:
-			val = stack1[len(stack1)-1].Val + stack2[len(stack2)-1].Val
-		case len(stack1) != 0:
-			val = stack1[len(stack1)-1].Val
-		case len(stack2) != 0:
-			val = stack2[len(stack2)-1].Val
-		}
-		val += carry
-		val, carry = val%10, val/10
-		node := &ListNode{Val: val, Next: next}
-		next = node
-		if len(stack1) > 0 {
-			stack1 = stack1[:len(stack1)-1]
-		}
-		if len(stack2) > 0 {
-			stack2 = stack2[:len(stack2)-1]
-		}
+	s2 := make([]int, 0, 128)
+	for l2 != nil {
+		s2 = append(s2, l2.Val)
+		l2 = l2.Next
 	}
-	return next
+
+	sum := 0
+	head := &ListNode{}
+
+	for len(s1) > 0 || len(s2) > 0 {
+		if len(s1) > 0 {
+			sum += s1[len(s1)-1]
+			s1 = s1[:len(s1)-1]
+		}
+
+		if len(s2) > 0 {
+			sum += s2[len(s2)-1]
+			s2 = s2[:len(s2)-1]
+		}
+
+		head.Val = sum % 10
+		ln := &ListNode{Next: head, Val: sum / 10}
+		head = ln
+		sum /= 10
+	}
+
+	if head.Val == 0 {
+		return head.Next
+	}
+
+	return head
 }
