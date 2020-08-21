@@ -80,3 +80,10 @@ type ListNode struct {
 	Val  int
 	Next *ListNode
 }
+
+type DoublyLinkedNode struct {
+	Val   int
+	Prev  *DoublyLinkedNode
+	Next  *DoublyLinkedNode
+	Child *DoublyLinkedNode
+}
