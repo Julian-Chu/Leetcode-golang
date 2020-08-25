@@ -12,9 +12,6 @@ import "Leetcode-golang/utils"
 type ListNode = utils.ListNode
 
 func splitListToParts(root *ListNode, k int) []*ListNode {
-	if root == nil {
-		return make([]*ListNode, k)
-	}
 	size := 0
 
 	head := root
@@ -24,33 +21,30 @@ func splitListToParts(root *ListNode, k int) []*ListNode {
 	}
 
 	remainder := size % k
-	length := size / k
-	lenArr := make([]int, 0, k)
+	res := make([]*ListNode, k)
+	i := 0
+	for {
+		res[i] = root
+		i++
+		if i == k {
+			break
+		}
 
-	for i := 0; i < k; i++ {
-		if remainder != 0 {
-			lenArr = append(lenArr, length+1)
+		leng := size / k
+		if remainder > 0 {
+			leng++
 			remainder--
-			continue
 		}
-		lenArr = append(lenArr, length)
-	}
 
-	res := make([]*ListNode, 0, k)
-
-	head = root
-	for _, l := range lenArr {
-		var pre *ListNode
-		res = append(res, head)
-
-		for head != nil && l > 0 {
-			pre = head
-			head = head.Next
-			l--
+		for leng > 1 && root != nil {
+			leng--
+			root = root.Next
 		}
-		if pre != nil {
-			pre.Next = nil
+
+		if root == nil {
+			break
 		}
+		root.Next, root = nil, root.Next
 	}
 
 	return res
