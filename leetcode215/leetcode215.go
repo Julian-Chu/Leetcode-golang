@@ -1,27 +1,43 @@
 package leetcode215
 
-import "sort"
+import (
+	"container/heap"
+)
 
 func findKthLargest(nums []int, k int) int {
-	cnt := make(map[int]int)
-	for _, num := range nums {
-		cnt[num]++
+	temp := maxHeap(nums)
+	h := &temp
+	heap.Init(h)
+	if k == 1 {
+		return nums[0]
 	}
 
-	keys := make([]int, 0, len(cnt))
-
-	for key := range cnt {
-		keys = append(keys, key)
+	for i := 1; i < k; i++ {
+		heap.Remove(h, 0)
 	}
+	return (*h)[0]
+}
 
-	sort.Ints(keys)
+type maxHeap []int
 
-	for i := len(keys) - 1; i >= 0; i-- {
-		k -= cnt[keys[i]]
-		if k <= 0 {
-			return keys[i]
-		}
-	}
+func (m maxHeap) Len() int {
+	return len(m)
+}
 
-	return -1
+func (m maxHeap) Less(i, j int) bool {
+	return m[i] > m[j]
+}
+
+func (m maxHeap) Swap(i, j int) {
+	m[i], m[j] = m[j], m[i]
+}
+
+func (m *maxHeap) Push(x interface{}) {
+	*m = append(*m, x.(int))
+}
+
+func (m *maxHeap) Pop() interface{} {
+	res := (*m)[len(*m)-1]
+	*m = (*m)[0 : len(*m)-1]
+	return res
 }
