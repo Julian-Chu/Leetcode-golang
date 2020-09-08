@@ -1,38 +1,59 @@
 package leetcode373
 
 import (
-	"sort"
+	"container/heap"
 )
 
 func kSmallestPairs(nums1 []int, nums2 []int, k int) [][]int {
 	if len(nums1) == 0 || len(nums2) == 0 {
 		return nil
 	}
-	l1 := k
-	if len(nums1) < k {
-		l1 = len(nums1)
-	}
-	l2 := k
-	if len(nums2) < k {
-		l2 = len(nums2)
-	}
-	nums1 = nums1[:l1]
-	nums2 = nums2[:l2]
 
-	pairs := make([][]int, 0, len(nums1)*len(nums2))
-
-	for i := 0; i < len(nums1); i++ {
-		for j := 0; j < len(nums2); j++ {
-			pairs = append(pairs, []int{nums1[i], nums2[j]})
+	h := minHeap{}
+	for i := 0; i < len(nums1) && i < k; i++ {
+		heap.Push(&h, Item{0, nums1[i], nums2[0]})
+	}
+	var result [][]int
+	for len(h) > 0 {
+		p := heap.Pop(&h).(Item)
+		result = append(result, []int{p.left, p.right})
+		k--
+		if k == 0 {
+			break
+		}
+		if j := p.idx + 1; j < len(nums2) {
+			heap.Push(&h, Item{j, p.left, nums2[j]})
 		}
 	}
+	return result
+}
 
-	sort.Slice(pairs, func(i, j int) bool {
-		return pairs[i][0]+pairs[i][1] < pairs[j][0]+pairs[j][1]
-	})
+type Item struct {
+	idx   int
+	left  int
+	right int
+}
 
-	if len(pairs) < k {
-		return pairs
-	}
-	return pairs[:k]
+type minHeap []Item
+
+func (m minHeap) Len() int {
+	return len(m)
+}
+
+func (m minHeap) Less(i, j int) bool {
+	return m[i].left+m[i].right < m[j].left+m[j].right
+}
+
+func (m minHeap) Swap(i, j int) {
+	m[i], m[j] = m[j], m[i]
+}
+
+func (m *minHeap) Push(x interface{}) {
+	*m = append(*m, x.(Item))
+}
+
+func (m *minHeap) Pop() interface{} {
+	res := (*m)[len(*m)-1]
+	*m = (*m)[0 : len(*m)-1]
+	return res
 }
