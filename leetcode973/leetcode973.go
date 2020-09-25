@@ -1,36 +1,34 @@
 package leetcode973
 
-import "container/heap"
-
 func kClosest(points [][]int, K int) [][]int {
-	h := minHeap(points)
-	heap.Init(&h)
-	for h.Len() > K {
-		heap.Pop(&h)
+	lo, hi := 0, len(points)-1
+
+	for lo < hi {
+		pivot := partition(points, lo, hi)
+		if pivot > K-1 {
+			hi = pivot - 1
+		} else if pivot < K-1 {
+			lo = pivot + 1
+		} else {
+			break
+		}
 	}
-	return h
+	return points[:K]
 }
 
-type minHeap [][]int
-
-func (m minHeap) Len() int {
-	return len(m)
+func partition(points [][]int, lo int, hi int) int {
+	newPivot := lo
+	val := dis(points[hi])
+	for i := lo; i <= hi-1; i++ {
+		if dis(points[i]) <= val {
+			points[i], points[newPivot] = points[newPivot], points[i]
+			newPivot++
+		}
+	}
+	points[newPivot], points[hi] = points[hi], points[newPivot]
+	return newPivot
 }
 
-func (m minHeap) Less(i, j int) bool {
-	return m[i][0]*m[i][0]+m[i][1]*m[i][1] > m[j][0]*m[j][0]+m[j][1]*m[j][1]
-}
-
-func (m minHeap) Swap(i, j int) {
-	m[i], m[j] = m[j], m[i]
-}
-
-func (m *minHeap) Push(x interface{}) {
-	(*m) = append((*m), x.([]int))
-}
-
-func (m *minHeap) Pop() interface{} {
-	res := (*m)[len(*m)-1]
-	*m = (*m)[:len(*m)-1]
-	return res
+func dis(point []int) int {
+	return point[0]*point[0] + point[1]*point[1]
 }
