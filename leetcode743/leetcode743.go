@@ -1,48 +1,42 @@
 package leetcode743
 
 func networkDelayTime(times [][]int, N int, K int) int {
-	maxInt := int(1e4)
-
-	minTime := make([]int, N+1)
-	for i := 1; i <= N; i++ {
-		minTime[i] = maxInt
+	graphs := make([][]int, N+1)
+	values := make([][]int, N+1)
+	for _, time := range times {
+		graphs[time[0]] = append(graphs[time[0]], time[1])
+		values[time[0]] = append(values[time[0]], time[2])
 	}
 
-	minTime[K] = 0
-	cost := make([][]int, N+1)
-	for i := range cost {
-		cost[i] = make([]int, N+1)
-		for j := 0; j <= N; j++ {
-			cost[i][j] = maxInt
-		}
+	queue := []int{K}
+	visited := make([]int, N+1)
+	for i := range visited {
+		visited[i] = -1
 	}
+	visited[K] = 0
 
-	for _, t := range times {
-		cost[t[0]][t[1]] = t[2]
-	}
-
-	queue := make([]int, 1, N+1)
-	queue[0] = K
-	for len(queue) > 0 {
-		u := queue[0]
+	for len(queue) != 0 {
+		curr := queue[0]
 		queue = queue[1:]
-
-		for v := 1; v <= N; v++ {
-			if minTime[v] > minTime[u]+cost[u][v] {
-				minTime[v] = minTime[u] + cost[u][v]
-				queue = append(queue, v)
+		for i, neighbor := range graphs[curr] {
+			if visited[neighbor] == -1 || visited[neighbor] > visited[curr]+values[curr][i] {
+				visited[neighbor] = visited[curr] + values[curr][i]
+				queue = append(queue, neighbor)
 			}
 		}
 	}
+	max := -1
 
-	res := 0
-	for i := 1; i <= N; i++ {
-		res = max(res, minTime[i])
+	for i := 1; i < N+1; i++ {
+		if visited[i] == -1 {
+			return -1
+		}
+
+		if visited[i] > max {
+			max = visited[i]
+		}
 	}
-	if res == maxInt {
-		return -1
-	}
-	return res
+	return max
 }
 
 func max(a, b int) int {
