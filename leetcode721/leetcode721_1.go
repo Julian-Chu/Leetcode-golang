@@ -3,44 +3,48 @@ package leetcode721
 import "sort"
 
 func accountsMerge_1(accounts [][]string) [][]string {
+	n := len(accounts)
+	parent := make([]int, n)
 	emails := make(map[string]int)
-	accts := make([]int, len(accounts))
 
-	for i := 1; i < len(accounts); i++ {
-		accts[i] = i
+	for i := range accounts {
+		parent[i] = i
 	}
-	for acctNum, lst := range accounts {
-		for _, email := range lst[1:] {
-			if v, ok := emails[email]; ok {
-				parent := getParent(acctNum, accts)
-				accts[parent] = getParent(v, accts)
+
+	for acctIdx, account := range accounts {
+		for i := 1; i < len(account); i++ {
+			if v, ok := emails[account[i]]; ok {
+				p := getParent(acctIdx, parent)
+				parent[p] = getParent(v, parent)
 			} else {
-				emails[email] = getParent(acctNum, accts)
+				emails[account[i]] = getParent(acctIdx, parent)
 			}
 		}
 	}
 	mp := make(map[int][]string)
-	for i, v := range accts {
-		if i == getParent(v, accts) {
-			mp[i] = []string{accounts[i][0]}
-		}
+
+	for email, i := range emails {
+		p := getParent(i, parent)
+		mp[p] = append(mp[p], email)
 	}
 
-	for email, acct := range emails {
-		parent := getParent(acct, accts)
-		mp[parent] = append(mp[parent], email)
+	res := make([][]string, 0, len(mp))
+	for idx, emails := range mp {
+
+		t := make([]string, len(emails)+1)
+		t[0] = accounts[idx][0]
+		copy(t[1:], emails)
+		sort.Strings(t)
+		res = append(res, t)
 	}
-	res := [][]string{}
-	for _, v := range mp {
-		sort.Strings(v)
-		res = append(res, v)
-	}
+
 	return res
 }
 
-func getParent(num int, accts []int) int {
-	if accts[num] != num {
-		accts[num] = getParent(accts[num], accts)
+func getParent(idx int, parent []int) int {
+	if idx == parent[idx] {
+		return idx
 	}
-	return accts[num]
+
+	return getParent(parent[idx], parent)
 }
