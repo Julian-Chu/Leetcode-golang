@@ -14,30 +14,29 @@ func smallestStringWithSwaps(s string, pairs [][]int) string {
 		parent[xp] = yp
 	}
 
-	m := make(map[int][]byte)
+	m := make(map[int][]int)
+
+	for i := range s {
+		p := getParent(i, parent)
+		m[p] = append(m[p], i)
+	}
 
 	bs := []byte(s)
-	for i, b := range bs {
-		p := getParent(i, parent)
-		m[p] = append(m[p], b)
-	}
-
-	for k, v := range m {
-		sort.Slice(v, func(i, j int) bool {
-			return v[i] > v[j]
-		})
-		m[k] = v
-	}
-
 	res := make([]byte, n)
+	for _, g := range m {
+		idx := make([]int, len(g))
+		copy(idx, g)
+		sort.Slice(idx, func(i, j int) bool {
+			return bs[idx[i]] < bs[idx[j]]
+		})
 
-	for i := range res {
-		p := getParent(i, parent)
-		v := m[p][len(m[p])-1]
-		m[p] = m[p][:len(m[p])-1]
-		res[i] = v
+		sort.Ints(g)
+		for i := range g {
+			res[g[i]] = bs[idx[i]]
+		}
 	}
 	return string(res)
+
 }
 
 func getParent(i int, parent []int) int {
