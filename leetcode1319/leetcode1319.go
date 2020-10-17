@@ -18,23 +18,20 @@ func makeConnected(n int, connections [][]int) int {
 
 		return findParent(parent[i], parent)
 	}
-
+	cnt := 0
 	for _, connection := range connections {
 		xp := findParent(connection[0], parent)
 		yp := findParent(connection[1], parent)
+		if xp == yp {
+			continue
+		}
 		if xp < yp {
 			parent[yp] = xp
 		} else {
 			parent[xp] = yp
 		}
+		cnt++
 	}
 
-	groups := make(map[int]int)
-
-	for _, i := range parent {
-		p := findParent(i, parent)
-		groups[p]++
-	}
-
-	return len(groups) - 1
+	return n - 1 - cnt
 }
