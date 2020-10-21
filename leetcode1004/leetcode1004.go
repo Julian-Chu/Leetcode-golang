@@ -27,3 +27,17 @@ func max(a int, b int) int {
 	}
 	return b
 }
+
+func longestOnes_2(A []int, K int) int {
+	left, right := 0, 0
+
+	for right = range A {
+		K -= 1 ^ A[right]
+		if K < 0 {
+			K += 1 ^ A[left]
+			left++
+		}
+	}
+
+	return right - left + 1
+}
