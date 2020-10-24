@@ -1,29 +1,24 @@
 package leetcode1052
 
 func maxSatisfied(customers []int, grumpy []int, X int) int {
-	sum, max := 0, 0
+	n := len(customers)
+	satisfied, dis, maxDis := 0, 0, 0
 
-	for i := range customers {
-		sum += customers[i] * (1 - grumpy[i])
-
-	}
-
-	n := len(grumpy)
-	i, j, satisfied := 0, 0, 0
-	for j-i < X {
-		satisfied += customers[j] * grumpy[j]
-		j++
-	}
-	max = satisfied
-	for j < n {
-		satisfied -= customers[i] * grumpy[i]
-		satisfied += customers[j] * grumpy[j]
-		if satisfied > max {
-			max = satisfied
+	for i := 0; i < n; i++ {
+		satisfied += customers[i] * (1 - grumpy[i])
+		dis += customers[i] * grumpy[i]
+		if i-X >= 0 {
+			dis -= customers[i-X] * grumpy[i-X]
 		}
-		i++
-		j++
+		maxDis = max(maxDis, dis)
 	}
 
-	return sum + max
+	return satisfied + maxDis
+}
+
+func max(a int, b int) int {
+	if a > b {
+		return a
+	}
+	return b
 }
