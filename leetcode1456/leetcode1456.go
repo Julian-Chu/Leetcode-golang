@@ -1,27 +1,22 @@
 package leetcode1456
 
 func maxVowels(s string, k int) int {
-	n := len(s)
+	count, max := 0, 0
+	v, vowel := []byte{'a', 'e', 'i', 'o', 'u'}, make([]int, 26)
 
-	l, max := 0, 0
-
-	m := map[uint8]int{
-		'a': 1,
-		'e': 1,
-		'i': 1,
-		'o': 1,
-		'u': 1,
+	for _, c := range v {
+		vowel[c-'a'] = 1
 	}
 
-	for i := 0; i < n; i++ {
-		l += m[s[i]]
-
-		if i-k >= 0 {
-			l -= m[s[i-k]]
+	for i, v := range s {
+		if vowel[v-'a'] == 1 {
+			count++
 		}
-
-		if l > max {
-			max = l
+		if i >= k && vowel[s[i-k]-'a'] == 1 {
+			count--
+		}
+		if count > max {
+			max = count
 		}
 	}
 	return max
