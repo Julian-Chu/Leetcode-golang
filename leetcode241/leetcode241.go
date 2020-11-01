@@ -6,10 +6,10 @@ func diffWaysToCompute(input string) []int {
 	cache := make(map[string][]int)
 	var dfs func(string) []int
 	dfs = func(s string) []int {
-		res := make([]int, 0, len(s))
 		if t, ok := cache[s]; ok {
 			return t
 		}
+		res := make([]int, 0, len(s))
 
 		for i := range s {
 			if s[i] == '+' || s[i] == '-' || s[i] == '*' {
@@ -20,7 +20,6 @@ func diffWaysToCompute(input string) []int {
 				}
 			}
 		}
-
 		if len(res) == 0 {
 			temp, _ := strconv.Atoi(s)
 			res = append(res, temp)
@@ -28,11 +27,10 @@ func diffWaysToCompute(input string) []int {
 		cache[s] = res
 		return res
 	}
-
 	return dfs(input)
 }
 
-func operate(a, b int, opt byte) int {
+func operate(a int, b int, opt byte) int {
 	switch opt {
 	case '+':
 		return a + b
