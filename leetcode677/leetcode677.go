@@ -20,6 +20,9 @@ func (this *MapSum) Insert(key string, val int) {
 func (this *MapSum) Sum(prefix string) int {
 	res := 0
 	for key, val := range this.m {
+		if len(prefix) > len(key) {
+			continue
+		}
 		if strings.HasPrefix(key, prefix) {
 			res += val
 		}
