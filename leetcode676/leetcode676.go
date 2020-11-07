@@ -1,38 +1,35 @@
 package leetcode676
 
 type MagicDictionary struct {
-	lenDic map[int]map[string]bool
+	keys []string
 }
 
 /** Initialize your data structure here. */
 func Constructor() MagicDictionary {
-	return MagicDictionary{lenDic: make(map[int]map[string]bool)}
+	return MagicDictionary{keys: make([]string, 0, 100)}
 }
 
 func (this *MagicDictionary) BuildDict(dictionary []string) {
-	for _, word := range dictionary {
-		if _, ok := this.lenDic[len(word)]; !ok {
-			this.lenDic[len(word)] = make(map[string]bool)
-		}
-		this.lenDic[len(word)][word] = true
+	for _, w := range dictionary {
+		this.keys = append(this.keys, w)
 	}
 }
 
 func (this *MagicDictionary) Search(searchWord string) bool {
-	l := len(searchWord)
-	wordMap, ok := this.lenDic[l]
-	if !ok {
-		return false
-	}
+	n := len(searchWord)
 
-	for word := range wordMap {
-		diff := 0
-		for i := range searchWord {
-			if searchWord[i] != word[i] {
-				diff++
+	for _, w := range this.keys {
+		if len(w) != n || w == searchWord {
+			continue
+		}
+
+		res := 0
+		for i := range w {
+			if w[i] != searchWord[i] {
+				res++
 			}
 		}
-		if diff == 1 {
+		if res == 1 {
 			return true
 		}
 	}
