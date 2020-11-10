@@ -8,12 +8,10 @@ func countSubstrings_1(s string, t string) int {
 		for j := 0; j < nt; j++ {
 			if s[i] != t[j] {
 				l, r := 1, 1
-
 				for i-l >= 0 && j-l >= 0 && s[i-l] == t[j-l] {
 					l++
 				}
-
-				for i+r < ns && j+r < ns && s[i+r] == t[j+r] {
+				for i+r < ns && j+r < nt && s[i+r] == t[j+r] {
 					r++
 				}
 				res += l * r
