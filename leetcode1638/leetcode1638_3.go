@@ -7,7 +7,7 @@ func countSubstrings_3(s string, t string) int {
 
 	var helper func(int, int) int
 	helper = func(i int, j int) int {
-		pre, cur, res := 0, 0, 0
+		cur, pre, res := 0, 0, 0
 		for i < ns && j < nt {
 			cur++
 			if s[i] != t[j] {
