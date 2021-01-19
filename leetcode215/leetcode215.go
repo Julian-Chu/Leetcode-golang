@@ -1,5 +1,7 @@
 package leetcode215
 
+import "sort"
+
 func findKthLargest(nums []int, k int) int {
 	lo, hi := 0, len(nums)-1
 
@@ -28,4 +30,9 @@ func partition(nums []int, lo int, hi int) int {
 	}
 	nums[hi], nums[newPivot] = nums[newPivot], nums[hi]
 	return newPivot
+}
+
+func findKthLargest_1(nums []int, k int) int {
+	sort.Ints(nums)
+	return nums[len(nums)-k]
 }
