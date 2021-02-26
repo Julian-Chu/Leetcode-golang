@@ -1,4 +1,4 @@
-package leetcdoe258
+package leetcode258
 
 func addDigits(num int) int {
 	if num < 10 {

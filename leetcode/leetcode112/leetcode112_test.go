@@ -1,4 +1,4 @@
-package leetcdoe112
+package leetcode112
 
 import (
 	"Leetcode-golang/utils"

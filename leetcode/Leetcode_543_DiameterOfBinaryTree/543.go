@@ -1,9 +1,5 @@
 package Leetcode_543_DiameterOfBinaryTree
 
-import (
-	. "leetcode-golang/helper"
-)
-
 func diameterOfBinaryTree(root *TreeNode) int {
 	if root == nil {
 		return 0

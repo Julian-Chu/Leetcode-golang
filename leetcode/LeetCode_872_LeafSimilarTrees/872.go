@@ -1,7 +1,5 @@
 package leetcode872
 
-import . "LeetCode-golang/helper"
-
 func leafSimilar(root1 *TreeNode, root2 *TreeNode) bool {
 	leafs1 := getLeafs(root1, []int{})
 	leafs2 := getLeafs(root2, []int{})

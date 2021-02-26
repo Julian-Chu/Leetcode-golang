@@ -1,7 +1,6 @@
 package leetcode872
 
 import (
-	. "LeetCode-golang/helper"
 	"testing"
 )
 

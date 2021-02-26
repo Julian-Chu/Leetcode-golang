@@ -1,7 +1,6 @@
 package Leetcode_543_DiameterOfBinaryTree
 
 import (
-	. "leetcode-golang/helper"
 	"testing"
 )
 
