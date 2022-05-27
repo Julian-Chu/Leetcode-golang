@@ -1,8 +1,9 @@
 package leetcode897
 
 import (
-	"Leetcode-golang/utils"
 	"fmt"
+
+	"github.com/Julian-Chu/Leetcode-golang/utils"
 )
 
 type TreeNode = utils.TreeNode

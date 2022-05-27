@@ -1,9 +1,10 @@
 package leetcode144
 
 import (
-	"Leetcode-golang/utils"
 	"reflect"
 	"testing"
+
+	"github.com/Julian-Chu/Leetcode-golang/utils"
 )
 
 func Test_preorderTraversal(t *testing.T) {

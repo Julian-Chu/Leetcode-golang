@@ -1,8 +1,9 @@
 package leetcode337
 
 import (
-	"Leetcode-golang/utils"
 	"testing"
+
+	"github.com/Julian-Chu/Leetcode-golang/utils"
 )
 
 var int2TreeNode = utils.Ints2Tree

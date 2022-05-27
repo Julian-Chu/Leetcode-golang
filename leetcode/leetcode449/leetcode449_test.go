@@ -1,9 +1,10 @@
 package leetcode449
 
 import (
-	"Leetcode-golang/utils"
 	"reflect"
 	"testing"
+
+	"github.com/Julian-Chu/Leetcode-golang/utils"
 )
 
 func TestCodec_serializeAndDeserialize(t *testing.T) {

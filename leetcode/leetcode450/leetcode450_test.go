@@ -1,9 +1,10 @@
 package leetcode450
 
 import (
-	"Leetcode-golang/utils"
 	"reflect"
 	"testing"
+
+	"github.com/Julian-Chu/Leetcode-golang/utils"
 )
 
 var Int2TreeNode = utils.Ints2Tree

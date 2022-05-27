@@ -1,8 +1,9 @@
 package leetcode257
 
 import (
-	"Leetcode-golang/utils"
 	"strconv"
+
+	"github.com/Julian-Chu/Leetcode-golang/utils"
 )
 
 type TreeNode = utils.TreeNode

@@ -1,8 +1,9 @@
 package leetcode129
 
 import (
-	"Leetcode-golang/utils"
 	"testing"
+
+	"github.com/Julian-Chu/Leetcode-golang/utils"
 )
 
 func Test_sumNumbers(t *testing.T) {

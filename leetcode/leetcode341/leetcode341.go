@@ -1,6 +1,6 @@
 package leetcode341
 
-import "Leetcode-golang/utils"
+import "github.com/Julian-Chu/Leetcode-golang/utils"
 
 type NestedInteger = utils.NestedInteger
 

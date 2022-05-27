@@ -1,8 +1,9 @@
 package leetcode437
 
 import (
-	"Leetcode-golang/utils"
 	"testing"
+
+	"github.com/Julian-Chu/Leetcode-golang/utils"
 )
 
 func Test_pathSum(t *testing.T) {

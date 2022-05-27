@@ -1,6 +1,6 @@
 package leetcode173
 
-import "Leetcode-golang/utils"
+import "github.com/Julian-Chu/Leetcode-golang/utils"
 
 type TreeNode = utils.TreeNode
 type BSTIterator struct {

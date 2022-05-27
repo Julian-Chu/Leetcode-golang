@@ -1,8 +1,9 @@
 package leetcode143
 
 import (
-	"Leetcode-golang/utils"
 	"testing"
+
+	"github.com/Julian-Chu/Leetcode-golang/utils"
 )
 
 func Test_reorderList(t *testing.T) {

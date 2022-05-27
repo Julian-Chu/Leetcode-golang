@@ -1,6 +1,6 @@
 package leetcode112
 
-import "Leetcode-golang/utils"
+import "github.com/Julian-Chu/Leetcode-golang/utils"
 
 type TreeNode = utils.TreeNode
 

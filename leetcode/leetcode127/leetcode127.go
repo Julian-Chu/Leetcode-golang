@@ -19,7 +19,7 @@ loop:
 		length++
 		next := make(map[string]bool)
 
-		for word, _ := range q {
+		for word := range q {
 			w := []byte(word)
 			for i := 0; i < len(w); i++ {
 				ch := w[i]

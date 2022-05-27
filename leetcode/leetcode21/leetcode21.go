@@ -1,7 +1,7 @@
 package leetcode21
 
 import (
-	"Leetcode-golang/utils"
+	"github.com/Julian-Chu/Leetcode-golang/utils"
 )
 
 /**

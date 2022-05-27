@@ -1,7 +1,7 @@
 package LeetCode_104_MaxDepthOfBinaryTree
 
 import (
-	"Leetcode-golang/utils"
+	"github.com/Julian-Chu/Leetcode-golang/utils"
 )
 
 func maxDepth(root *utils.TreeNode) int {

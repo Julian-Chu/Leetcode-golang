@@ -1,9 +1,10 @@
 package leetcode21
 
 import (
-	"Leetcode-golang/utils"
 	"reflect"
 	"testing"
+
+	"github.com/Julian-Chu/Leetcode-golang/utils"
 )
 
 func Test_mergeTwoLists(t *testing.T) {

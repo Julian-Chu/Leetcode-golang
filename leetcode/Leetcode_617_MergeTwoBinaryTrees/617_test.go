@@ -1,9 +1,10 @@
 package leetcode617
 
 import (
-	"Leetcode-golang/utils"
 	"fmt"
 	"testing"
+
+	"github.com/Julian-Chu/Leetcode-golang/utils"
 )
 
 func Test_mergeTrees(t *testing.T) {

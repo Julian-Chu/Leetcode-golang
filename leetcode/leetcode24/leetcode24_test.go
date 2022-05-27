@@ -1,9 +1,10 @@
 package leetcode24
 
 import (
-	"Leetcode-golang/utils"
 	"reflect"
 	"testing"
+
+	"github.com/Julian-Chu/Leetcode-golang/utils"
 )
 
 func Test_swapPairs(t *testing.T) {

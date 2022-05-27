@@ -7,13 +7,13 @@ func numIslands(grid [][]byte) int {
 
 	rows, columns := getMatrixSize(grid)
 	visited := make([][]bool, rows)
-	for i, _ := range visited {
+	for i := range visited {
 		visited[i] = make([]bool, columns)
 	}
 
 	var islandCount int
-	for row, _ := range grid {
-		for column, _ := range grid[row] {
+	for row := range grid {
+		for column := range grid[row] {
 			if dfsTriggered(row, column, grid, visited) {
 				islandCount++
 			}

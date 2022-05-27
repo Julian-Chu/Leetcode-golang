@@ -96,17 +96,17 @@ func sort(intervals []Interval) []Interval {
 }
 
 func Test_case1(t *testing.T) {
-	input := []Interval{Interval{1, 4}, Interval{4, 5}}
+	input := []Interval{{1, 4}, {4, 5}}
 	res := merge(input)
-	if !reflect.DeepEqual(res, []Interval{Interval{1, 5}}) {
+	if !reflect.DeepEqual(res, []Interval{{1, 5}}) {
 		t.Error("Failed")
 	}
 }
 
 func Test_case2(t *testing.T) {
-	input := []Interval{Interval{1, 3}, Interval{4, 5}}
+	input := []Interval{{1, 3}, {4, 5}}
 	res := merge(input)
-	if !reflect.DeepEqual(res, []Interval{Interval{1, 3}, Interval{4, 5}}) {
+	if !reflect.DeepEqual(res, []Interval{{1, 3}, {4, 5}}) {
 		t.Error("Failed")
 	}
 }
@@ -121,7 +121,7 @@ func Test_case3(t *testing.T) {
 	}
 }
 func Test_case4(t *testing.T) {
-	input := []Interval{Interval{1, 4}, Interval{0, 0}}
+	input := []Interval{{1, 4}, {0, 0}}
 	res := merge(input)
 	if !reflect.DeepEqual(res, []Interval{{0, 0}, {1, 4}}) {
 		t.Error("Failed")

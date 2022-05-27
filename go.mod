@@ -1,3 +1,3 @@
-module Leetcode-golang
+module github.com/Julian-Chu/Leetcode-golang
 
-go 1.13
+go 1.18

@@ -1,6 +1,6 @@
 package leetcode1290
 
-import "Leetcode-golang/utils"
+import "github.com/Julian-Chu/Leetcode-golang/utils"
 
 /**
  * Definition for singly-linked list.

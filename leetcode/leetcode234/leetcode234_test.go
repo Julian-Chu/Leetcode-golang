@@ -1,8 +1,9 @@
 package leetcode234
 
 import (
-	"Leetcode-golang/utils"
 	"testing"
+
+	"github.com/Julian-Chu/Leetcode-golang/utils"
 )
 
 func Test_isPalindrome(t *testing.T) {

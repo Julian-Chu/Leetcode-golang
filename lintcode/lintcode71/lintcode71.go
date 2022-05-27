@@ -53,7 +53,7 @@ func zigzagLevelOrder(root *TreeNode) [][]int {
 	for len(queue) > 0 {
 		backwards = !backwards
 		level := make([]int, 0, len(queue))
-		for _ = range queue {
+		for range queue {
 			node := queue[0]
 			copy(queue, queue[1:])
 			queue = queue[:len(queue)-1]

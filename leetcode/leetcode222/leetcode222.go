@@ -1,6 +1,6 @@
 package leetcode222
 
-import "Leetcode-golang/utils"
+import "github.com/Julian-Chu/Leetcode-golang/utils"
 
 /**
  * Definition for a binary tree node.

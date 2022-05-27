@@ -1,8 +1,9 @@
 package leetcode617
 
 import (
-	"Leetcode-golang/utils"
 	"fmt"
+
+	"github.com/Julian-Chu/Leetcode-golang/utils"
 )
 
 func mergeTrees(t1 *utils.TreeNode, t2 *utils.TreeNode) *utils.TreeNode {

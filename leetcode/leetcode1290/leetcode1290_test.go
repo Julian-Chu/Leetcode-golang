@@ -1,8 +1,9 @@
 package leetcode1290
 
 import (
-	"Leetcode-golang/utils"
 	"testing"
+
+	"github.com/Julian-Chu/Leetcode-golang/utils"
 )
 
 func Test_getDecimalValue(t *testing.T) {

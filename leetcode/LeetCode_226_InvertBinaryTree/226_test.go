@@ -1,9 +1,10 @@
 package LeetCode_226_InvertBinaryTree
 
 import (
-	"Leetcode-golang/utils"
 	"reflect"
 	"testing"
+
+	"github.com/Julian-Chu/Leetcode-golang/utils"
 )
 
 func Test_invertTree(t *testing.T) {
