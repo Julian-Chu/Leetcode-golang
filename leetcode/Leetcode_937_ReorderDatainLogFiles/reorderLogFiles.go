@@ -3,31 +3,62 @@ package Leetcode_937_ReorderDatainLogFiles
 import (
 	"sort"
 	"strings"
-	"unicode"
 )
 
 func reorderLogFiles(logs []string) []string {
-	sort.SliceStable(logs, func(i, j int) bool {
-		s1 := strings.SplitN(logs[i], " ", 2)
-		s2 := strings.SplitN(logs[j], " ", 2)
-		f1, f2 := "0"+s1[1], "0"+s2[1]
-		if unicode.IsNumber(rune(f1[1])) {
-			f1 = "1"
-		}
-		if unicode.IsNumber(rune(f2[1])) {
-			f2 = "1"
-		}
-		if f1 == f2 {
-			if f1 == "1" {
-				return false
-			}
+	if len(logs) < 2 {
+		return logs
+	}
 
-			return s1[0] < s2[0]
+	var letterLogs []string
+	var digitLogs []string
+	for _, log := range logs {
+		i := strings.Index(log, " ")
+		if log[i+1] >= '0' && log[i+1] <= '9' {
+			digitLogs = append(digitLogs, log)
+		} else {
+			letterLogs = append(letterLogs, log)
 		}
-		return f1 < f2
+	}
+
+	sort.Slice(letterLogs, func(i, j int) bool {
+		iIdx := strings.Index(letterLogs[i], " ")
+		jIdx := strings.Index(letterLogs[j], " ")
+
+		iLog := letterLogs[i][iIdx+1:]
+		jLog := letterLogs[j][jIdx+1:]
+		if iLog == jLog {
+			return letterLogs[i] < letterLogs[j]
+		}
+		return iLog < jLog
 	})
-	return logs
+
+	letterLogs = append(letterLogs, digitLogs...)
+	return letterLogs
 }
+
+//func reorderLogFiles(logs []string) []string {
+//	sort.SliceStable(logs, func(i, j int) bool {
+//		s1 := strings.SplitN(logs[i], " ", 2)
+//		s2 := strings.SplitN(logs[j], " ", 2)
+//		f1, f2 := "0"+s1[1], "0"+s2[1]
+//		if unicode.IsNumber(rune(f1[1])) {
+//			f1 = "1"
+//		}
+//		if unicode.IsNumber(rune(f2[1])) {
+//			f2 = "1"
+//		}
+//		if f1 == f2 {
+//			if f1 == "1" {
+//				return false
+//			}
+//
+//			return s1[0] < s2[0]
+//		}
+//		return f1 < f2
+//	})
+//	return logs
+//}
 
 //func reorderLogFiles(logs []string) []string {
 //	type logStruct struct {
