@@ -34,6 +34,17 @@ func Test_reorderLogFiles(t *testing.T) {
 				"g1 act car", "a8 act zoo", "ab1 off key dog", "a1 9 2 3 1", "zo4 4 7",
 			},
 		},
+		{
+			name: "case 3",
+			args: args{
+				logs: []string{
+					"a1 9 2 3 1", "g1 act car", "zo4 4 7", "ab1 off key dog", "a8 act zoo", "a2 act car",
+				},
+			},
+			want: []string{
+				"a2 act car", "g1 act car", "a8 act zoo", "ab1 off key dog", "a1 9 2 3 1", "zo4 4 7",
+			},
+		},
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
