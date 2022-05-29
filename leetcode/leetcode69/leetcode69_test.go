@@ -23,6 +23,10 @@ func Test_mySqrt(t *testing.T) {
 				x: 8,
 			},
 			want: 2,
+		}, {
+			name: "1",
+			args: args{},
+			want: 1,
 		},
 	}
 	for _, tt := range tests {
