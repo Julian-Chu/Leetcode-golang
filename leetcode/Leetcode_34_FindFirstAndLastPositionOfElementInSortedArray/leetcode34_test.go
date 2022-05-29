@@ -1,4 +1,4 @@
-package leetcode34
+package Leetcode_34_FindFirstAndLastPositionOfElementInSortedArray
 
 import (
 	"reflect"
