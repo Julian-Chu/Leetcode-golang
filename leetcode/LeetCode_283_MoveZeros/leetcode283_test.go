@@ -1,4 +1,4 @@
-package leetcode283
+package LeetCode_283_MoveZeros
 
 import "testing"
 
