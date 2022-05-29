@@ -1,4 +1,4 @@
-package leetcode367
+package LeetCode_367_ValidPerfectSquare
 
 import "testing"
 
