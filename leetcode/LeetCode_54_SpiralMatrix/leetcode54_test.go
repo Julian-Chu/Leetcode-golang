@@ -1,4 +1,4 @@
-package leetcode54
+package LeetCode_54_SpiralMatrix
 
 import (
 	"reflect"

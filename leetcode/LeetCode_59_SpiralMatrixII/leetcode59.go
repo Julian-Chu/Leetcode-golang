@@ -1,5 +1,9 @@
 package LeetCode_59_SpiralMatrixII
 
+/*
+be careful the edge case,  bottom == top, left == right
+*/
+
 func generateMatrix(n int) [][]int {
 	res := make([][]int, n)
 	for i := range res {

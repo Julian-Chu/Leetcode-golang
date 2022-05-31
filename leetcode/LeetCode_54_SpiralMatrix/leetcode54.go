@@ -1,4 +1,4 @@
-package leetcode54
+package LeetCode_54_SpiralMatrix
 
 func spiralOrder(matrix [][]int) []int {
 	if len(matrix) == 0 || len(matrix[0]) == 0 {
