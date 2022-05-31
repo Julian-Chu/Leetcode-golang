@@ -1,4 +1,4 @@
-package leetcode203
+package LeetCode_203_RemoveLinkedListElements
 
 import (
 	"reflect"

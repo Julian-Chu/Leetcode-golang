@@ -1,4 +1,4 @@
-package leetcode203
+package LeetCode_203_RemoveLinkedListElements
 
 import "github.com/Julian-Chu/Leetcode-golang/utils"
 
