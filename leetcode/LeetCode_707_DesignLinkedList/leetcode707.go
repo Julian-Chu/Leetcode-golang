@@ -1,4 +1,4 @@
-package leetcode707
+package LeetCode_707_DesignLinkedList
 
 type node struct {
 	val  int
