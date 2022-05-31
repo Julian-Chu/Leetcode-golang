@@ -13,18 +13,35 @@ import "github.com/Julian-Chu/Leetcode-golang/utils"
 type ListNode = utils.ListNode
 
 func removeElements(head *ListNode, val int) *ListNode {
-	if head == nil {
-		return head
+	p := &head
+	if *p == nil {
+		return nil
 	}
-	preHead := &ListNode{Next: head}
-	cur := preHead
 
-	for cur.Next != nil {
-		if cur.Next.Val == val {
-			cur.Next = cur.Next.Next
+	for *p != nil {
+		if (*p).Val == val {
+			*p = (*p).Next
 		} else {
-			cur = cur.Next
+			p = &(*p).Next
 		}
 	}
-	return preHead.Next
+
+	return head
 }
+
+//func removeElements(head *ListNode, val int) *ListNode {
+//	if head == nil {
+//		return head
+//	}
+//	preHead := &ListNode{Next: head}
+//	cur := preHead
+//
+//	for cur.Next != nil {
+//		if cur.Next.Val == val {
+//			cur.Next = cur.Next.Next
+//		} else {
+//			cur = cur.Next
+//		}
+//	}
+//	return preHead.Next
+//}
