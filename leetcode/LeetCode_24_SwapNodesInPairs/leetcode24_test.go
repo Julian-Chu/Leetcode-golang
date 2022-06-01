@@ -1,4 +1,4 @@
-package leetcode24
+package LeetCode_24_SwapNodesInPairs
 
 import (
 	"reflect"
