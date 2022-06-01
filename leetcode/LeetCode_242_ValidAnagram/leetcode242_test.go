@@ -1,4 +1,4 @@
-package leetcode242
+package LeetCode_242_ValidAnagram
 
 import "testing"
 
