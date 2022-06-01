@@ -11,14 +11,29 @@ import "github.com/Julian-Chu/Leetcode-golang/utils"
  */
 type ListNode = utils.ListNode
 
+//func reverseList(head *ListNode) *ListNode {
+//	var prev *ListNode
+//	cur := head
+//	// alternative:
+//	//prev, cur:= (*ListNode)(nil), head
+//	for cur != nil {
+//		prev, cur, cur.Next = cur, cur.Next, prev
+//	}
+//
+//	return prev
+//}
+
 func reverseList(head *ListNode) *ListNode {
-	var prev *ListNode
-	cur := head
-	// alternative:
-	//prev, cur:= (*ListNode)(nil), head
-	for cur != nil {
-		prev, cur, cur.Next = cur, cur.Next, prev
+	return help(nil, head)
+}
+
+func help(prev, cur *ListNode) *ListNode {
+	if cur == nil {
+		return prev
 	}
 
-	return prev
+	next := cur.Next
+	cur.Next = prev
+
+	return help(cur, next)
 }
