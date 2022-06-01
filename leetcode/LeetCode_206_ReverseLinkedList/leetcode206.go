@@ -1,4 +1,4 @@
-package leetcode206
+package LeetCode_206_ReverseLinkedList
 
 import "github.com/Julian-Chu/Leetcode-golang/utils"
 
@@ -12,11 +12,13 @@ import "github.com/Julian-Chu/Leetcode-golang/utils"
 type ListNode = utils.ListNode
 
 func reverseList(head *ListNode) *ListNode {
-	var pre *ListNode
+	var prev *ListNode
 	cur := head
+	// alternative:
+	//prev, cur:= (*ListNode)(nil), head
 	for cur != nil {
-		pre, cur, cur.Next = cur, cur.Next, pre
+		prev, cur, cur.Next = cur, cur.Next, prev
 	}
 
-	return pre
+	return prev
 }
