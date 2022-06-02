@@ -1,4 +1,4 @@
-package leetcode454
+package LeetCode_454_4SumII
 
 func fourSumCount(A []int, B []int, C []int, D []int) int {
 	n := len(A)
