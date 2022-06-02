@@ -1,4 +1,4 @@
-package leetcode383
+package LeetCode_383_RansomNote
 
 import "testing"
 

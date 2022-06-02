@@ -1,4 +1,4 @@
-package leetcode383
+package LeetCode_383_RansomNote
 
 func canConstruct(ransomNote string, magazine string) bool {
 	if len(ransomNote) > len(magazine) {
@@ -18,4 +18,20 @@ func canConstruct(ransomNote string, magazine string) bool {
 	}
 
 	return true
+}
+
+func canConstruct1(ransomNote string, magazine string) bool {
+	r := [26]byte{}
+
+	for i := range ransomNote {
+		r[ransomNote[i]-'a']++
+	}
+
+	for i := range magazine {
+		if r[magazine[i]-'a'] != 0 {
+			r[magazine[i]-'a']--
+		}
+	}
+
+	return r == [26]byte{}
 }
