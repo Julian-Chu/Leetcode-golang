@@ -1,16 +1,10 @@
-package leetcode18
+package LeetCode_18_4Sum
 
 import "sort"
 
 func fourSum(nums []int, target int) [][]int {
-	if len(nums) < 4 {
-		return [][]int{}
-	}
 	sort.Ints(nums)
 
-	if nums[0]*4 > target || nums[len(nums)-1]*4 < target {
-		return [][]int{}
-	}
 	res := make([][]int, 0)
 	for i := 0; i < len(nums)-3; i++ {
 		if i > 0 && nums[i] == nums[i-1] {

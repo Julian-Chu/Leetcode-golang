@@ -1,4 +1,4 @@
-package leetcode18
+package LeetCode_18_4Sum
 
 import (
 	"reflect"
