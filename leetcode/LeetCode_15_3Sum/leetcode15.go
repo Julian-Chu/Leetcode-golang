@@ -1,12 +1,16 @@
-package leetcode15
+package LeetCode_15_3Sum
 
 import "sort"
 
+// take big space by hashmap
 func threeSum(nums []int) [][]int {
 	sort.Ints(nums)
 	res := make([][]int, 0)
 
-	for i := range nums {
+	for i := 0; i < len(nums)-2; i++ {
+		if nums[i] > 0 {
+			break
+		}
 		if i > 0 && nums[i] == nums[i-1] {
 			continue
 		}
