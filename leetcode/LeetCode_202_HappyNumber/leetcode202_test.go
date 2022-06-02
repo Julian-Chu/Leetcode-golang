@@ -1,4 +1,4 @@
-package leetcode202
+package LeetCode_202_HappyNumber
 
 import "testing"
 
