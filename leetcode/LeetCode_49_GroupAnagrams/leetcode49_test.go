@@ -1,4 +1,4 @@
-package leetcode49
+package LeetCode_49_GroupAnagrams
 
 import (
 	"reflect"
