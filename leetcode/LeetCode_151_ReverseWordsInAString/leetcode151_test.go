@@ -1,4 +1,4 @@
-package leetcode151
+package LeetCode_151_ReverseWordsInAString
 
 import "testing"
 
