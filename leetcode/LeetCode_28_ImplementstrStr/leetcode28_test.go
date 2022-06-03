@@ -1,4 +1,4 @@
-package leetcode28
+package LeetCode_28_ImplementstrStr
 
 import "testing"
 
