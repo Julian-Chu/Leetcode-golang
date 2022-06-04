@@ -4,6 +4,9 @@ import (
 	"container/heap"
 )
 
+// min heap is better than max heap, no need to push all record to heap, maintain k size during
+// pop and push
+
 type Record struct {
 	val  int
 	freq int
