@@ -1,4 +1,4 @@
-package leetcode347
+package maxheap
 
 import (
 	"container/heap"
