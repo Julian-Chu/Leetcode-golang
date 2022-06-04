@@ -1,4 +1,4 @@
-package template
+package kmp
 
 // prefix table by
 func getNext(next []int, s string) {
