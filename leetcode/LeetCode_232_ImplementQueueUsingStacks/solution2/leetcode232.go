@@ -1,4 +1,4 @@
-package leetcode232
+package solution2
 
 type MyQueue struct {
 	a, b Stack
