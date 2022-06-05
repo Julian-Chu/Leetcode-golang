@@ -52,3 +52,28 @@ func invertTree_DFS(root *TreeNode) *TreeNode {
 	}
 	return root
 }
+
+func invertTree_BFS(root *TreeNode) *TreeNode {
+	if root == nil {
+		return nil
+	}
+
+	queue := []*TreeNode{root}
+
+	for len(queue) > 0 {
+		size := len(queue)
+		for i := 0; i < size; i++ {
+			cur := queue[i]
+			cur.Left, cur.Right = cur.Right, cur.Left
+			if cur.Left != nil {
+				queue = append(queue, cur.Left)
+			}
+
+			if cur.Right != nil {
+				queue = append(queue, cur.Right)
+			}
+		}
+		queue = queue[size:]
+	}
+	return root
+}
