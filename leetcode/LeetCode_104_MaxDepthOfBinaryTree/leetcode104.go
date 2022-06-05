@@ -33,3 +33,32 @@ func getMaxDepth(root *utils.TreeNode) int {
 
 	return dep
 }
+
+type TreeNode = utils.TreeNode
+
+func maxDepth_1(root *TreeNode) int {
+	if root == nil {
+		return 0
+	}
+
+	deep := 0
+	queue := []*TreeNode{root}
+
+	for len(queue) > 0 {
+		deep++
+		size := len(queue)
+		for i := 0; i < size; i++ {
+			cur := queue[i]
+			if cur.Left != nil {
+				queue = append(queue, cur.Left)
+			}
+
+			if cur.Right != nil {
+				queue = append(queue, cur.Right)
+			}
+		}
+		queue = queue[size:]
+	}
+
+	return deep
+}
