@@ -1,4 +1,4 @@
-package leetcode111
+package LeetCode_111_MinimumDepthOfBinaryTree
 
 import (
 	"testing"
