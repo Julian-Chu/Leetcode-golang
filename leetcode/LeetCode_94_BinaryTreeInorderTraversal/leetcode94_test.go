@@ -1,4 +1,4 @@
-package leetcode94
+package LeetCode_94_BinaryTreeInorderTraversal
 
 import (
 	"reflect"
