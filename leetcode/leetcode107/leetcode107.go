@@ -39,3 +39,37 @@ func levelOrderBottom(root *TreeNode) [][]int {
 	}
 	return res
 }
+
+func levelOrderBottom_1(root *TreeNode) [][]int {
+	res := make([][]int, 0)
+	if root == nil {
+		return res
+	}
+
+	queue := []*TreeNode{root}
+
+	for len(queue) > 0 {
+		size := len(queue)
+		tmp := make([]int, 0, size)
+		for i := 0; i < size; i++ {
+			cur := queue[i]
+			tmp = append(tmp, cur.Val)
+			if cur.Left != nil {
+				queue = append(queue, cur.Left)
+			}
+			if cur.Right != nil {
+				queue = append(queue, cur.Right)
+			}
+		}
+		queue = queue[size:]
+		res = append(res, tmp)
+	}
+
+	i, j := 0, len(res)-1
+	for i < j {
+		res[i], res[j] = res[j], res[i]
+		i++
+		j--
+	}
+	return res
+}
