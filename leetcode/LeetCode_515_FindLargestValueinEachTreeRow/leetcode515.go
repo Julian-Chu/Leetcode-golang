@@ -1,4 +1,4 @@
-package leetcode515
+package LeetCode_515_FindLargestValueinEachTreeRow
 
 import (
 	"github.com/Julian-Chu/Leetcode-golang/utils"
@@ -43,4 +43,32 @@ func max(a, b int) int {
 		return a
 	}
 	return b
+}
+
+func largestValues_BFS(root *TreeNode) []int {
+	var res []int
+	if root == nil {
+		return res
+	}
+
+	queue := []*TreeNode{root}
+	for len(queue) > 0 {
+		size := len(queue)
+		max := -1 << 31
+		for i := 0; i < size; i++ {
+			cur := queue[i]
+			if cur.Left != nil {
+				queue = append(queue, cur.Left)
+			}
+			if cur.Right != nil {
+				queue = append(queue, cur.Right)
+			}
+			if max < cur.Val {
+				max = cur.Val
+			}
+		}
+		queue = queue[size:]
+		res = append(res, max)
+	}
+	return res
 }

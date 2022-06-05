@@ -1,4 +1,4 @@
-package leetcode515
+package LeetCode_515_FindLargestValueinEachTreeRow
 
 import (
 	"reflect"
