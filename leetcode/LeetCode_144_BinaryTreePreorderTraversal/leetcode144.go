@@ -1,4 +1,4 @@
-package leetcode144
+package LeetCode_144_BinaryTreePreorderTraversal
 
 import "github.com/Julian-Chu/Leetcode-golang/utils"
 
@@ -13,7 +13,7 @@ import "github.com/Julian-Chu/Leetcode-golang/utils"
 
 type TreeNode = utils.TreeNode
 
-func preorderTraversal(root *TreeNode) []int {
+func preorderTraversal_stack(root *TreeNode) []int {
 	var rightStack []*TreeNode
 	var res []int
 
@@ -37,5 +37,21 @@ func preorderTraversal(root *TreeNode) []int {
 			}
 		}
 	}
+	return res
+}
+
+func preorderTraversal(root *TreeNode) []int {
+	res := make([]int, 0)
+	var traverse func(node *TreeNode)
+	traverse = func(node *TreeNode) {
+		if node == nil {
+			return
+		}
+		res = append(res, node.Val)
+		traverse(node.Left)
+		traverse(node.Right)
+	}
+
+	traverse(root)
 	return res
 }
