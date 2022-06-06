@@ -1,4 +1,4 @@
-package leetcode106
+package LeetCode_106_ConstructBinaryTreeFromInorderAndPostorderTraversal
 
 import (
 	"reflect"
