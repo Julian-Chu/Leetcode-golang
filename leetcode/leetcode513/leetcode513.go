@@ -31,3 +31,29 @@ func findBottomLeftValue(root *TreeNode) int {
 	}
 	return root.Val
 }
+
+func findBottomLeftValue_DFS(root *TreeNode) int {
+	if root == nil {
+		return 0
+	}
+
+	maxDepth := 0
+	ans := root.Val
+	var traverse func(node *TreeNode, depth int)
+	traverse = func(node *TreeNode, depth int) {
+		if node == nil {
+			return
+		}
+		if node.Left == nil && node.Right == nil {
+			if depth > maxDepth {
+				maxDepth = depth
+				ans = node.Val
+			}
+			return
+		}
+		traverse(node.Left, depth+1)
+		traverse(node.Right, depth+1)
+	}
+	traverse(root, 0)
+	return ans
+}
