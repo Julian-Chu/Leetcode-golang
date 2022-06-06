@@ -4,6 +4,7 @@ import "github.com/Julian-Chu/Leetcode-golang/utils"
 
 type TreeNode = utils.TreeNode
 
+// hint: condition: one child node is nil but another nother
 func minDepth(root *TreeNode) int {
 	if root == nil {
 		return 0
