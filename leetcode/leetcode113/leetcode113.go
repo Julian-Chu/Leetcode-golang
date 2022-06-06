@@ -35,3 +35,33 @@ func recur(node *TreeNode, sum int, res [][]int, path []int) [][]int {
 	}
 	return res
 }
+
+func pathSum_DFS(root *TreeNode, targetSum int) [][]int {
+	var res [][]int
+	if root == nil {
+		return res
+	}
+
+	var dfs func(*TreeNode, int, []int)
+	dfs = func(node *TreeNode, sum int, path []int) {
+		if node == nil {
+			return
+		}
+
+		sum += node.Val
+		path = append(path[:], node.Val)
+		if node.Left == nil && node.Right == nil {
+			if sum == targetSum {
+				// be careful to create new slice here, to avoid data change by append
+				path = append([]int{}, path...)
+				res = append(res, path)
+			}
+			return
+		}
+
+		dfs(node.Left, sum, path)
+		dfs(node.Right, sum, path)
+	}
+	dfs(root, 0, []int{})
+	return res
+}
