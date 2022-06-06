@@ -22,3 +22,19 @@ func sumOfLeftLeaves(root *TreeNode) int {
 	}
 	return sumOfLeftLeaves(root.Left) + r
 }
+
+func sumOfLeftLeaves_1(root *TreeNode) int {
+	if root == nil {
+		return 0
+	}
+
+	lsum := sumOfLeftLeaves(root.Left)
+	rsum := sumOfLeftLeaves(root.Right)
+
+	midsum := 0
+	if root.Left != nil && root.Left.Left == nil && root.Left.Right == nil {
+		midsum = root.Left.Val
+	}
+
+	return lsum + rsum + midsum
+}
