@@ -1,4 +1,4 @@
-package leetcode257
+package LeetCode_257_BinaryTreePaths
 
 import (
 	"testing"
