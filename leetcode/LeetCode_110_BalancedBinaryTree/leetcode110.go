@@ -30,3 +30,34 @@ func getHeightAndIsBalanced(root *TreeNode) (int, bool) {
 	return h, diff <= 1 && leftB && rightB
 
 }
+
+func isBalanced_2(root *TreeNode) bool {
+	if root == nil {
+		return true
+	}
+
+	l := maxdepth(root.Left)
+	r := maxdepth(root.Right)
+
+	if l-r > 1 || l-r < -1 {
+		return false
+	}
+
+	return isBalanced(root.Left) && isBalanced(root.Right)
+
+}
+
+func maxdepth(node *TreeNode) int {
+	if node == nil {
+		return 0
+	}
+
+	return max(maxdepth(node.Left), maxdepth(node.Right)) + 1
+}
+
+func max(a, b int) int {
+	if a > b {
+		return a
+	}
+	return b
+}
