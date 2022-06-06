@@ -38,3 +38,31 @@ type TreeNode struct {
 	Left  *TreeNode
 	Right *TreeNode
 }
+
+// better
+func isSubtree_1(root *TreeNode, subRoot *TreeNode) bool {
+	if root == nil {
+		return false
+	}
+
+	if isSameTree(root, subRoot) {
+		return true
+	}
+	return isSubtree(root.Left, subRoot) || isSubtree(root.Right, subRoot)
+}
+
+func isSameTree(node1, node2 *TreeNode) bool {
+	if node1 == nil && node2 == nil {
+		return true
+	}
+
+	if node1 == nil || node2 == nil {
+		return false
+	}
+
+	if node1.Val != node2.Val {
+		return false
+	}
+	return isSameTree(node1.Left, node2.Left) && isSameTree(node1.Right, node2.Right)
+
+}
