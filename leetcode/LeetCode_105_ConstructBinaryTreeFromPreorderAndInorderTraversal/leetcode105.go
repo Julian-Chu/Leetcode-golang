@@ -1,4 +1,4 @@
-package leetcode105
+package LeetCode_105_ConstructBinaryTreeFromPreorderAndInorderTraversal
 
 type TreeNode struct {
 	Val   int
