@@ -67,3 +67,32 @@ func binaryTreePaths_stqck(root *TreeNode) []string {
 	}
 	return res
 }
+
+func binaryTreePaths_backtrace(root *TreeNode) []string {
+	var result []string
+	var path []int
+	traversal(root, &result, &path)
+	return result
+}
+
+func traversal(root *TreeNode, result *[]string, path *[]int) {
+	*path = append(*path, root.Val)
+	if root.Left == nil && root.Right == nil {
+		pathStr := strconv.Itoa((*path)[0])
+		for i := 1; i < len(*path); i++ {
+			pathStr = pathStr + "->" + strconv.Itoa((*path)[i])
+		}
+		*result = append(*result, pathStr)
+		return
+	}
+
+	if root.Left != nil {
+		traversal(root.Left, result, path)
+		*path = (*path)[:len(*path)-1]
+	}
+
+	if root.Right != nil {
+		traversal(root.Right, result, path)
+		*path = (*path)[:len(*path)-1]
+	}
+}
