@@ -1,4 +1,4 @@
-package leetcode235
+package LeetCode_235_LowestCommonAncestorOfABinarySearchTree
 
 import (
 	"testing"
