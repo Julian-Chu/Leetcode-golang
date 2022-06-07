@@ -1,4 +1,4 @@
-package leetcode530
+package LeetCode_530_MinimumAbsoluteDifferenceInBST
 
 import "math"
 
