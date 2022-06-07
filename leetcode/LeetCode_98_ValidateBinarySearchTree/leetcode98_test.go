@@ -1,4 +1,4 @@
-package leetcode98
+package LeetCode_98_ValidateBinarySearchTree
 
 import "testing"
 
