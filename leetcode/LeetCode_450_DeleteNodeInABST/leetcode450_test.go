@@ -1,4 +1,4 @@
-package leetcode450
+package LeetCode_450_DeleteNodeInABST
 
 import (
 	"reflect"

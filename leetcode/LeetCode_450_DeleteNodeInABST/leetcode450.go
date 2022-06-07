@@ -1,4 +1,4 @@
-package leetcode450
+package LeetCode_450_DeleteNodeInABST
 
 import "github.com/Julian-Chu/Leetcode-golang/utils"
 
@@ -47,5 +47,36 @@ func preorder(root *TreeNode, key int, found *bool) *TreeNode {
 			root.Left = preorder(root.Left, key, found)
 		}
 	}
+	return root
+}
+
+func deleteNode_1(root *TreeNode, key int) *TreeNode {
+	if root == nil {
+		return nil
+	}
+
+	if root.Val < key {
+		root.Right = deleteNode(root.Right, key)
+		return root
+	} else if root.Val > key {
+		root.Left = deleteNode(root.Left, key)
+		return root
+	}
+
+	if root.Right == nil {
+		return root.Left
+	}
+
+	if root.Left == nil {
+		return root.Right
+	}
+
+	minnode := root.Right
+	for minnode.Left != nil {
+		minnode = minnode.Left
+	}
+	minnode.Left = root.Left
+
+	root = root.Right
 	return root
 }
