@@ -36,3 +36,31 @@ func combinationSum(candidates []int, target int) [][]int {
 
 	return res
 }
+
+func combinationSum_1(candidates []int, target int) [][]int {
+	var res [][]int
+	sort.Ints(candidates)
+	var dfs func(subset []int, start, sum int)
+	dfs = func(subset []int, start, sum int) {
+		if sum > target {
+			return
+		}
+		if sum == target {
+			res = append(res, append([]int{}, subset...))
+			return
+		}
+
+		for i := start; i < len(candidates); i++ {
+			if sum+candidates[i] > target {
+				return
+			}
+
+			subset = append(subset, candidates[i])
+			dfs(subset, i, sum+candidates[i])
+			subset = subset[:len(subset)-1]
+		}
+	}
+
+	dfs(nil, 0, 0)
+	return res
+}
