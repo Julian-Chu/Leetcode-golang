@@ -1,4 +1,4 @@
-package leetcode17
+package LeetCode_17_LetterCombinationsOfAPhoneNumber
 
 import (
 	"reflect"
