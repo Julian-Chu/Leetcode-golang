@@ -1,4 +1,4 @@
-package leetcode47
+package LeetCode_47_PermutationsII
 
 import (
 	"reflect"
