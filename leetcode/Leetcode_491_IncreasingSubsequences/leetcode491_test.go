@@ -1,4 +1,4 @@
-package leetcode491
+package Leetcode_491_IncreasingSubsequences
 
 import (
 	"reflect"
