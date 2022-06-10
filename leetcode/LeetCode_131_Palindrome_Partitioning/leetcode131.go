@@ -1,4 +1,4 @@
-package leetcode131
+package LeetCode_131_Palindrome_Partitioning
 
 func partition(s string) [][]string {
 	res := make([][]string, 0)
