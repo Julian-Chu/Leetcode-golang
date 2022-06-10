@@ -41,3 +41,42 @@ func isPalidrome(s string) bool {
 	}
 	return true
 }
+
+func partition_1(s string) [][]string {
+	if s == "" {
+		return nil
+	}
+
+	var res [][]string
+	tmps := make([]string, 0, len(s))
+	var dfs func(s string, start int, tmps []string)
+	dfs = func(s string, start int, tmps []string) {
+		if start == len(s) {
+			res = append(res, append([]string{}, tmps...))
+			return
+		}
+
+		for i := start; i < len(s); i++ {
+			if isPalindrome_1(s, start, i) {
+				tmps = append(tmps, string(s[start:i+1]))
+				dfs(s, i+1, tmps)
+				tmps = tmps[:len(tmps)-1]
+			}
+		}
+	}
+	dfs(s, 0, tmps)
+	return res
+}
+
+func isPalindrome_1(s string, start, end int) bool {
+	i, j := start, end
+	for i <= j {
+		if s[i] != s[j] {
+			return false
+		}
+		i++
+		j--
+	}
+
+	return true
+}
