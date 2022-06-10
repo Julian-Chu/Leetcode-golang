@@ -1,4 +1,4 @@
-package leetcode93
+package LeetCode_93_RestoreIPAddresses
 
 import (
 	"reflect"
