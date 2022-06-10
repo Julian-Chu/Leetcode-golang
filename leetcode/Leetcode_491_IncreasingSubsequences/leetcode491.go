@@ -19,11 +19,15 @@ func findSubsequences(nums []int) [][]int {
 
 		set := make(map[int]bool)
 		for i := start; i < len(nums); i++ {
+			// if used on the same level, skip
+			// this is not strict increasing sequence,
+			// and can't be sorted because of subsequence
 			if len(tmp) > 0 && nums[i] < tmp[len(tmp)-1] || set[nums[i]] {
 				continue
 			}
 
 			tmp = append(tmp, nums[i])
+			// nums[i] on the same level has been used
 			set[nums[i]] = true
 			dfs(nums, tmp, i+1)
 			tmp = tmp[:len(tmp)-1]
