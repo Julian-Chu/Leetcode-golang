@@ -1,4 +1,4 @@
-package leetcode78
+package LeetCode_78_Subset
 
 func subsets(nums []int) [][]int {
 	res := make([][]int, 1, 1024)

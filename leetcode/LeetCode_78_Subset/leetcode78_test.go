@@ -1,4 +1,4 @@
-package leetcode78
+package LeetCode_78_Subset
 
 import (
 	"reflect"
