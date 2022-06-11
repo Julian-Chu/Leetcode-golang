@@ -1,4 +1,4 @@
-package leetcode332
+package LeetCode_332_ReconstructItinerary
 
 import (
 	"reflect"
