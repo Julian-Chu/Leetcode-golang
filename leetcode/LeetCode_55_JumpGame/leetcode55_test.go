@@ -1,4 +1,4 @@
-package leetcode55
+package LeetCode_55_JumpGame
 
 import "testing"
 
