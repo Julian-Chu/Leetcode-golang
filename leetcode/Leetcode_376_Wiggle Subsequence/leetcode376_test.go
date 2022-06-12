@@ -1,4 +1,4 @@
-package leetcode376
+package Leetcode_376_Wiggle_Subsequence
 
 import "testing"
 
