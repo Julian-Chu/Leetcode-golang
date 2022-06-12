@@ -1,4 +1,4 @@
-package leetcode134
+package LeetCode_134_GasStation
 
 import "testing"
 
