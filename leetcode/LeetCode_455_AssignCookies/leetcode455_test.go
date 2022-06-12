@@ -1,4 +1,4 @@
-package leetcode455
+package LeetCode_455_AssignCookies
 
 import "testing"
 
