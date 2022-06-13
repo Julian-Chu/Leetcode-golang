@@ -1,4 +1,4 @@
-package leetcode406
+package Leetcode406_QueueReconstructionByHeight
 
 import (
 	"reflect"
