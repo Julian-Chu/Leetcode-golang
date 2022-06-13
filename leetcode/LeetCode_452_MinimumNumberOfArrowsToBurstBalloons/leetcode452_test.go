@@ -1,4 +1,4 @@
-package leetcode452
+package LeetCode_452_MinimumNumberOfArrowsToBurstBalloons
 
 import "testing"
 
