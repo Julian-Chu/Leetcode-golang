@@ -1,4 +1,4 @@
-package leetcode343
+package LeetCode_343_IntegerBreak
 
 import "testing"
 
