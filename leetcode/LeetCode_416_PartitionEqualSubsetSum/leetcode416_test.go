@@ -1,4 +1,4 @@
-package leetcode416
+package LeetCode_416_PartitionEqualSubsetSum
 
 import "testing"
 
