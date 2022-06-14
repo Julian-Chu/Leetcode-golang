@@ -1,4 +1,4 @@
-package leetcode62
+package LeetCode_62_UniquePaths
 
 import "testing"
 
