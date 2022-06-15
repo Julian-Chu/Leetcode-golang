@@ -1,4 +1,4 @@
-package leetcode494
+package LeetCode_494_TargetSum
 
 import "testing"
 
