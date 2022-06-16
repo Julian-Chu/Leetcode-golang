@@ -1,4 +1,4 @@
-package leetcode377
+package LeetCode_377_CombinationSumIV
 
 import "testing"
 
