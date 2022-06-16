@@ -1,4 +1,4 @@
-package leetcode322
+package LeetCode_322_CoinChange
 
 import "testing"
 
