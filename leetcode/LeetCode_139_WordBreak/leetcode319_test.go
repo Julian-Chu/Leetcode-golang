@@ -1,4 +1,4 @@
-package leetcode139
+package LeetCode_139_WordBreak
 
 import "testing"
 
