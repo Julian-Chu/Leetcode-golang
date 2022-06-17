@@ -1,4 +1,4 @@
-package leetcode198
+package Leetcode_198_HouseRobber
 
 import "testing"
 
