@@ -1,4 +1,4 @@
-package leetcode121
+package LeetCode_121_BestTimeToBuyAndSellStock
 
 import "testing"
 
