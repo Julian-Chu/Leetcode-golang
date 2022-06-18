@@ -1,4 +1,4 @@
-package leetcode309
+package LeetCode_309_BestTimeToBuyAndSellStockWithCooldown
 
 import "testing"
 
