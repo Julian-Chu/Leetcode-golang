@@ -1,4 +1,4 @@
-package LeetCode_647PalindromicSubstrings
+package LeetCode_647_PalindromicSubstrings
 
 import (
 	"testing"
