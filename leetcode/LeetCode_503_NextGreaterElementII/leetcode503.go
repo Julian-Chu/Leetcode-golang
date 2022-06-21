@@ -1,4 +1,4 @@
-package leetcode503
+package LeetCode_503_NextGreaterElementII
 
 func nextGreaterElements(nums []int) []int {
 	var stack Stack
@@ -41,4 +41,25 @@ func (s *Stack) pop() int {
 
 func (s *Stack) top() int {
 	return (*s)[len(*s)-1]
+}
+
+func nextGreaterElements_1(nums []int) []int {
+	var stack []int
+	n := len(nums)
+
+	res := make([]int, n)
+	for i := range nums {
+		res[i] = -1
+	}
+	for i := 0; i < n*2; i++ {
+		for len(stack) > 0 && nums[i%n] > nums[stack[len(stack)-1]] {
+			top := stack[len(stack)-1]
+			stack = stack[:len(stack)-1]
+			res[top] = nums[i%n]
+		}
+
+		stack = append(stack, i%n)
+	}
+
+	return res
 }
