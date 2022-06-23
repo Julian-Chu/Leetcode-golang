@@ -15,22 +15,15 @@ func moveZeroes(nums []int) {
 	}
 }
 
-//func moveZeroes(nums []int)  {
-//	if len(nums)<=1 {
-//		return
-//	}
-//	fast, slow:= 0, 0
-//
-//	for fast <len(nums){
-//		if nums[fast] != 0{
-//			nums[slow] = nums[fast]
-//			slow++
-//		}
-//		fast++
-//	}
-//
-//	for slow<len(nums){
-//		nums[slow] = 0
-//		slow++
-//	}
-//}
+func moveZeroes_1(nums []int) {
+	slow := 0
+
+	for i := range nums {
+		if nums[i] == 0 {
+			continue
+		}
+
+		nums[slow], nums[i] = nums[i], nums[slow]
+		slow++
+	}
+}
