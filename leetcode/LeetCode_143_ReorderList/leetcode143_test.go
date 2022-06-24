@@ -1,4 +1,4 @@
-package leetcode143
+package LeetCode_143_ReorderList
 
 import (
 	"testing"
