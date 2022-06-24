@@ -1,4 +1,4 @@
-package leetcode141
+package LeetCode_141_LinkedListCycle
 
 import (
 	"github.com/Julian-Chu/Leetcode-golang/utils"
@@ -21,5 +21,23 @@ func hasCycle(head *ListNode) bool {
 		fast = fast.Next.Next
 	}
 
+	return false
+}
+
+func hasCycle_1(head *ListNode) bool {
+	if head == nil {
+		return false
+	}
+
+	slow, fast := head, head
+
+	for fast != nil && fast.Next != nil {
+		fast = fast.Next.Next
+		slow = slow.Next
+
+		if fast == slow {
+			return true
+		}
+	}
 	return false
 }
