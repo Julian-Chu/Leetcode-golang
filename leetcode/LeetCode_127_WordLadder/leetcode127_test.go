@@ -1,4 +1,4 @@
-package leetcode127
+package LeetCode_127_WordLadder
 
 import "testing"
 
