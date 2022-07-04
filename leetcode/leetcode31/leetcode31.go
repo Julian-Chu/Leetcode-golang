@@ -1,28 +1,33 @@
 package leetcode31
 
 import (
-	"fmt"
 	"sort"
 )
 
 func nextPermutation(nums []int) {
-	end := len(nums) - 1
-	for i := end; i >= 0; i-- {
-		if i > 0 && nums[i] > nums[i-1] {
-			if i == end {
-				nums[end], nums[end-1] = nums[end-1], nums[end]
-			} else {
-				getNextPremutation(nums, i)
-			}
-			break
-		} else if i == 0 {
-			sort.Ints(nums)
-		}
+	n := len(nums)
+	if n <= 1 {
+		return
 	}
-	fmt.Println(nums)
+
+	i := n - 1
+	// find peak
+	for i > 0 && nums[i] <= nums[i-1] {
+		i--
+	}
+
+	if i != 0 {
+		j := n - 1
+		// i-1: next smaller
+		for j > i && nums[j] <= nums[i-1] {
+			j--
+		}
+		nums[j], nums[i-1] = nums[i-1], nums[j]
+	}
+	sort.Ints(nums[i:])
 }
 
-func getNextPremutation(nums []int, i int) {
+func getNextPermutation(nums []int, i int) {
 	end := len(nums) - 1
 	idx := i
 	for j := end; j >= i; j-- {
@@ -38,4 +43,18 @@ func getNextPremutation(nums []int, i int) {
 		l++
 		r--
 	}
+}
+
+func nextPermutation_1(nums []int) {
+	for i := len(nums) - 1; i >= 0; i-- {
+		for j := len(nums) - 1; j > i; j-- {
+			if nums[j] > nums[i] {
+				nums[i], nums[j] = nums[j], nums[i]
+				sort.Ints(nums[i+1:])
+				return
+			}
+		}
+	}
+
+	sort.Ints(nums)
 }
