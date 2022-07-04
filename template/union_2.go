@@ -14,27 +14,39 @@ func initialize() {
 
 // find the root
 func find_1(u int) int {
-	if u == parent[u] {
-		return u
+	//if u == parent[u] {
+	//	return u
+	//}
+	//parent[u] = find_1(parent[u])
+	//return parent[u]
+
+	root := parent[u]
+	for root != parent[root] {
+		root = parent[root]
 	}
-	parent[u] = find_1(parent[u])
-	return parent[u]
+	return root
 }
 
 // add u->u into union
 func join(u, v int) {
-	u = find_1(u)
-	v = find_1(v)
-	if u == v {
-		return
+	//u = find_1(u)
+	//v = find_1(v)
+	//if u == v {
+	//	return
+	//}
+	//parent[v] = u
+
+	if find_1(u) != find_1(v) {
+		// build relationship between roots of u and v
+		parent[find_1(v)] = find_1(u)
 	}
-	parent[v] = u
 }
 
 func isSameRoot(u, v int) bool {
-	u = find_1(u)
-	v = find_1(v)
-	return u == v
+	//u = find_1(u)
+	//v = find_1(v)
+	//return u == v
+	return find_1(u) == find_1(v)
 }
 
 func findRedundantConnection_1(edges [][]int) []int {
