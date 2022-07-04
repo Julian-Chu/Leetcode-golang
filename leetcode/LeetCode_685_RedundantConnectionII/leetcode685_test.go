@@ -1,4 +1,4 @@
-package leetcode685
+package LeetCode_685_RedundantConnectionII
 
 import (
 	"reflect"
