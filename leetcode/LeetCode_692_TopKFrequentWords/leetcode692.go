@@ -1,6 +1,9 @@
-package leetcode692
+package LeetCode_692_TopKFrequentWords
 
-import "container/heap"
+import (
+	"container/heap"
+	"sort"
+)
 
 func topKFrequent(words []string, k int) []string {
 	m := make(map[string]int)
@@ -59,4 +62,22 @@ func (m *maxHeap) Pop() interface{} {
 	res := (*m)[len(*m)-1]
 	*m = (*m)[0 : len(*m)-1]
 	return res
+}
+
+func topKFrequent_1(words []string, k int) []string {
+	m := make(map[string]int)
+
+	for _, w := range words {
+		m[w]++
+	}
+
+	set := make([]string, 0, len(m))
+	for k := range m {
+		set = append(set, k)
+	}
+	sort.Slice(set, func(i, j int) bool {
+		return m[set[i]] > m[set[j]] || m[set[i]] == m[set[j]] && set[i] < set[j]
+	})
+
+	return set[:k]
 }

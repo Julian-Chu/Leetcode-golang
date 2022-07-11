@@ -1,4 +1,4 @@
-package leetcode692
+package LeetCode_692_TopKFrequentWords
 
 import (
 	"reflect"
