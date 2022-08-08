@@ -17,6 +17,8 @@ func spiralOrder(matrix [][]int) []int {
 
 		if x == top && y < r {
 			y++
+			// additional check top+1 != bottom
+			//  example edge case if only 2 rows
 			if y == r && top+1 != bottom {
 				top++
 			}
@@ -25,6 +27,7 @@ func spiralOrder(matrix [][]int) []int {
 
 		if y == r && x < bottom {
 			x++
+			// additional check r-1 != l
 			if x == bottom && r-1 != l {
 				r--
 			}
