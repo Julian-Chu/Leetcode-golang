@@ -19,14 +19,35 @@ func intersection(nums1 []int, nums2 []int) []int {
 		if _, ok := m[key]; ok {
 			res = append(res, key)
 			delete(m, key)
-			continue
 		}
 	}
 
 	return res
 }
 
-func intersection1(nums1 []int, nums2 []int) []int {
+func intersection_1(nums1 []int, nums2 []int) []int {
+	if len(nums1) > len(nums2) {
+		nums1, nums2 = nums2, nums1
+	}
+
+	m := map[int]bool{}
+
+	for _, num := range nums1 {
+		m[num] = true
+	}
+
+	var res []int
+	for _, num := range nums2 {
+		if m[num] {
+			res = append(res, num)
+			m[num] = false
+		}
+	}
+
+	return res
+}
+
+func intersection_2(nums1 []int, nums2 []int) []int {
 	n1 := [1001]int{}
 	n2 := [1001]int{}
 
@@ -47,5 +68,21 @@ func intersection1(nums1 []int, nums2 []int) []int {
 		res = append(res, i)
 	}
 	return res
+}
 
+func intersection_3(nums1 []int, nums2 []int) []int {
+	set := [1001]int{}
+
+	for _, num := range nums1 {
+		set[num]++
+	}
+
+	var res []int
+	for _, num := range nums2 {
+		if set[num] != 0 {
+			res = append(res, num)
+			set[num] = 0
+		}
+	}
+	return res
 }
