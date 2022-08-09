@@ -28,3 +28,26 @@ func intersect(nums1 []int, nums2 []int) []int {
 
 	return res
 }
+
+func intersect_array(nums1 []int, nums2 []int) []int {
+	if len(nums1) > len(nums2) {
+		nums1, nums2 = nums2, nums1
+	}
+
+	counts := [1001]int{}
+
+	for _, num := range nums1 {
+		counts[num]++
+	}
+
+	var res []int
+
+	for _, num := range nums2 {
+		if counts[num] > 0 {
+			res = append(res, num)
+			counts[num]--
+		}
+	}
+
+	return res
+}
