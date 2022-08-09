@@ -90,3 +90,26 @@ func reverse(b []byte) {
 		r--
 	}
 }
+
+func reverseWords_3(s string) string {
+	s = strings.TrimSpace(s)
+	words := strings.Split(s, " ")
+
+	l, r := 0, len(words)-1
+	for l <= r {
+		words[l], words[r] = words[r], words[l]
+		l++
+		r--
+	}
+
+	slow := 0
+
+	for i := range words {
+		if words[i] != "" {
+			words[slow] = words[i]
+			slow++
+		}
+	}
+
+	return strings.Join(words[:slow], " ")
+}
