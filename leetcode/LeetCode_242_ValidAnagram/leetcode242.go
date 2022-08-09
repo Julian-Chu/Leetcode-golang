@@ -20,7 +20,7 @@ func isAnagram1(s string, t string) bool {
 		return false
 	}
 
-	sArr := [128]int{}
+	sArr := [128]int{} //ASCII table has 128 numbers
 	tArr := [128]int{}
 
 	for i := range s {
