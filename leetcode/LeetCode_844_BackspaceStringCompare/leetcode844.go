@@ -72,6 +72,7 @@ func backspaceCompare_2(s string, t string) bool {
 			}
 		}
 
+		// important to check i and j >= 0
 		if i >= 0 && j >= 0 && s[i] != t[j] {
 			return false
 		}
